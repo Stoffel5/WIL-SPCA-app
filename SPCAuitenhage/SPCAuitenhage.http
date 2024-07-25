@@ -1,0 +1,6 @@
+@SPCAuitenhage_HostAddress = http://localhost:5125
+
+GET {{SPCAuitenhage_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
