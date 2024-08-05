@@ -1,6 +1,6 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-image: url("background.png");
+    background-image: url("background2.jpg");
 }
 
 h1:focus {
@@ -103,7 +103,7 @@ code {
     color: #c02d76;
 }
 
-form {
+.cust-form {
     background-color: #151f30;
     width: 300px;
     height: 43px;
@@ -112,7 +112,7 @@ form {
     align-items: center;
 }
 
-input {
+.cust-input {
     font: 15px system-ui;
     color: black;
     border-radius: 20px;
