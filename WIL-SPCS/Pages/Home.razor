@@ -6,12 +6,18 @@
 
 <div class="background-image">
 
-    <h1>Hello, world!</h1>
-    <p>Welcome to your new app.</p>
-    <td>
-        <button class="btn btn-block btn-primary" @onclick="NavigateToRegister">Register</button>
-        <button class="btn btn-block btn-primary" @onclick="NavigateToLogin">Login</button>
-    </td>
+    <div class="top-right">
+        <button class="btn btn-outline-secondary" @onclick="NavigateToBrowsing">Just Browsing</button>
+    </div>
+
+    <div class="centered-content">
+        <img src="css/SPCALOGO.jpg" alt="SPCA LOGO" class="centered-image" />
+        <div class="button-container">
+            <button class="btn btn-block btn-dark" @onclick="NavigateToRegister">Sign Up</button>
+            <button class="btn btn-block btn-light" @onclick="NavigateToLogin">Login</button>
+            <button class="btn btn-block btn-light" @onclick="NavigateToAdmin">Admin</button>
+        </div>
+    </div>
 </div>
 
 @code {
@@ -24,4 +30,60 @@
     {
         Navigation.NavigateTo("/login");
     }
+
+    private void NavigateToBrowsing()
+    {
+        Navigation.NavigateTo("/browsing");
+    }
+    private void NavigateToAdmin()
+    {
+        Navigation.NavigateTo("/desktophome");
+    }
 }
+
+<style>
+    .background-image {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+        text-align: center;
+        position: relative;
+    }
+
+    .top-right {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .centered-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .button-container {
+        margin-bottom: 20px;
+    }
+
+    .btn-dark {
+        background-color: black;
+        border-color: black;
+        color: white;
+    }
+
+    .btn-light {
+        background-color: white;
+        border-color: white;
+        color: black;
+    }
+
+    .centered-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+</style>

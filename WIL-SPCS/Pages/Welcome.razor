@@ -1,7 +1,75 @@
 ﻿@page "/welcome"
 
-<h3>Welcome</h3>
+<div class="welcome-container">
+    <h3 class="centered-text">Welcome</h3>
+    <p class="message-text">Catch a glimpse of our adorable pets as they introduce themselves in this charming video.</p>
+</div>
+
+<div class="bottom-navbar">
+    <a href="/" class="nav-item">
+        <img src="css/home.jpg" alt="Home" class="nav-icon" />
+    </a>
+    <a href="/search" class="nav-item">
+        <img src="css/search.jpg" alt="Search" class="nav-icon" />
+    </a>
+    <a href="/chat" class="nav-item">
+        <img src="css/chat.jpg" alt="Chat" class="nav-icon" />
+    </a>
+</div>
 
 @code {
 
 }
+
+<style>
+    .welcome-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: calc(100vh - 50px); /* Adjusted height to account for the bottom navbar */
+        text-align: center;
+    }
+
+    .centered-text {
+        font-weight: bold;
+    }
+
+    .message-text {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+    }
+
+    .bottom-navbar {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        background-color: #f8f9fa;
+        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 33.33%; /* Evenly space the icons */
+        text-decoration: none;
+    }
+
+    .nav-icon {
+        height: 24px;
+        width: 24px;
+        filter: grayscale(100%);
+        transition: filter 0.3s;
+    }
+
+        .nav-icon:hover {
+            filter: none;
+        }
+</style>
