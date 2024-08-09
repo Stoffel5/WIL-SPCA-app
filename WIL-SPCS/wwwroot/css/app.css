@@ -137,8 +137,10 @@ code {
 
 .column {
     float: left;
-    width: 25%;
+    width: 15%;
     padding: 10px 10px;
+    word-wrap: break-word;
+    padding: 15px 15px;
 }
 
 .card-messages {
@@ -173,6 +175,14 @@ code {
     color: black;
 }
 
+.desktop-input {
+    flex: 1;
+    margin: 0 20px; /* Adjust spacing between search bar and images */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .card-events {
     border-radius: 19px;
     padding: 15px;
@@ -181,7 +191,76 @@ code {
     color: black;
 }
 
-.card-events, card-inventory, card-volunteers, card-reports, card-messages {
+.desktop-form {
+    background-color: #151f30;
+    width: 300px;
+    height: 43px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+}
+
+.card-events, .card-inventory, .card-volunteers, .card-reports, .card-messages {
+    float: left;
+    margin: 10px;
+    width: 170px;
+    height: fit-content;
+}
+
+.topnav img {
+    max-width: 10%;
+    height: auto;
+}
+
+
+.navbar-desktop-home {
+    height: 30%;
+    width: max-content;
+}
+
+.top-search{
+    max-height: 40%;
     width: auto;
+}
+
+.topnav {
+    overflow: hidden;
+    padding: 10px;
+}
+
+.desktop-btns {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    padding: 20px; 
     max-width: 100%;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+
+.desktop-container {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 10px;
+}
+
+.home-image {
+    width: 80px;
+    height: auto;
+}
+
+.desktop-search-bar {
+    margin: 0 20px; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
