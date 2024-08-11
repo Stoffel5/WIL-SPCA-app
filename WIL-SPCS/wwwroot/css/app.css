@@ -264,3 +264,216 @@ code {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
+/* Login form styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+    background-size: cover;
+    background-position: center;
+}
+
+.login-form {
+    background-color: rgba(255, 255, 255, 0.9); /* White with slight transparency */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.rounded-input {
+    border-radius: 15px;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.rounded-button {
+    border-radius: 15px;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+
+/* Registration page styles */
+.registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+    background-size: cover;
+    background-position: center;
+}
+
+.registration-form {
+    background-color: rgba(255, 255, 255, 0.9); /* White with slight transparency */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.rounded-input {
+    border-radius: 15px;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.rounded-button {
+    border-radius: 15px;
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.bold-text {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+/* Welcome page styles */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 50px); /* Adjusted height to account for the bottom navbar */
+    text-align: center;
+     /* Optional: Set background image */
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.text-box {
+    background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency */
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px; /* Space between text box and image gallery */
+}
+
+.centered-text {
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 0;
+}
+
+.message-text {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Four columns */
+    gap: 10px; /* Space between images */
+    width: 100%;
+    max-width: 1200px; /* Optional: Limit max width */
+    margin-top: 20px;
+}
+
+.adopt-link {
+    display: block;
+    text-decoration: none;
+}
+
+.adopt-image {
+    border-radius: 10px; /* Slightly smaller border radius */
+    max-width: 200px; /* Adjust maximum width */
+    max-height: 150px; /* Adjust maximum height */
+    width: auto; /* Maintain aspect ratio */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .adopt-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+.bottom-navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #f8f9fa;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 33.33%; /* Evenly space the icons */
+    text-decoration: none;
+}
+
+.nav-icon {
+    height: 24px;
+    width: 24px;
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+}
+
+    .nav-icon:hover {
+        filter: none;
+    }
+

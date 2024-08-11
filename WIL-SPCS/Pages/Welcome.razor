@@ -1,8 +1,35 @@
 ﻿@page "/welcome"
 
 <div class="welcome-container">
-    <h3 class="centered-text">Welcome</h3>
-    <p class="message-text">Catch a glimpse of our adorable pets as they introduce themselves in this charming video.</p>
+    <div class="text-box">
+        <h3 class="centered-text">Welcome</h3>
+        <p class="message-text">Catch a glimpse of our adorable pets as they introduce themselves in this charming video.</p>
+    </div>
+
+    <div class="image-gallery">
+        <a href="/adopt" class="adopt-link">
+            <img src="css/adpot.jpg" alt="Adopt a Pet" class="adopt-image" />
+        </a>
+        <a href="/adopt" class="adopt-link">
+            <img src="css/cruelty.webp" alt="Awareness" class="adopt-image" />
+        </a>
+        <a href="/adopt" class="adopt-link">
+            <img src="css/donations.jpg" alt="Donations and sponsors" class="adopt-image" />
+        </a>
+        <a href="/adopt" class="adopt-link">
+            <img src="css/volunteer.jpg" alt="Volunteer" class="adopt-image" />
+        </a>
+        <a href="/adopt" class="adopt-link">
+            <img src="css/gallery.webp" alt="Gallery" class="adopt-image" />
+        </a>
+        <a href="/adopt" class="adopt-link">
+            <img src="css/animalboarding.jpg" alt="Animal Boarding" class="adopt-image" />
+        </a>
+        <a href="/adopt" class="adopt-link">
+            <img src="css/events.jpg" alt="Events" class="adopt-image" />
+        </a>
+        <!-- Add more images here as needed -->
+    </div>
 </div>
 
 <div class="bottom-navbar">
@@ -16,60 +43,3 @@
         <img src="css/chat.jpg" alt="Chat" class="nav-icon" />
     </a>
 </div>
-
-@code {
-
-}
-
-<style>
-    .welcome-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: calc(100vh - 50px); /* Adjusted height to account for the bottom navbar */
-        text-align: center;
-    }
-
-    .centered-text {
-        font-weight: bold;
-    }
-
-    .message-text {
-        margin-top: 1rem;
-        font-size: 1.2rem;
-    }
-
-    .bottom-navbar {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 50px;
-        background-color: #f8f9fa;
-        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .nav-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 33.33%; /* Evenly space the icons */
-        text-decoration: none;
-    }
-
-    .nav-icon {
-        height: 24px;
-        width: 24px;
-        filter: grayscale(100%);
-        transition: filter 0.3s;
-    }
-
-        .nav-icon:hover {
-            filter: none;
-        }
-</style>
