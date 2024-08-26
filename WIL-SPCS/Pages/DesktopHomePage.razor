@@ -1,4 +1,5 @@
 ﻿@page "/desktophome"
+@inject NavigationManager Navigation
 
 <PageTitle>Home</PageTitle>
 
@@ -15,28 +16,31 @@
 <div style="padding-left: 16px"></div>
 
 <div class="desktop-btns">
-    <div class="card-messages">
+    <button class="card-messages">
         <center><img src="#" class="thumbnail"></center>
         <h3>Messages</h3>
-    </div>
-    <div class="card-reports">
+    </button>
+    <button class="card-reports" @onclick=NavigateToReport>
         <center><img src="#" class="thumbnail"></center>
         <h3>Reports</h3>
-    </div>
-    <div class="card-volunteers">
+    </button>
+    <dibuttonv class="card-volunteers">
         <center><img src="#" class="thumbnail"></center>
         <h3>Volunteers</h3>
-    </div>
-    <div class="card-inventory">
+    </dibuttonv>
+    <button class="card-inventory">
         <center><img src="#" class="thumbnail"></center>
         <h3>Inventory</h3>
-    </div>
-    <div class="card-events">
+    </button>
+    <button class="card-events">
         <center><img src="#" class="thumbnail"></center>
         <h3>Events</h3>
-    </div>
+    </button>
 </div>
 
 @code {
-
+    private void NavigateToReport()
+    {
+        Navigation.NavigateTo("/Report");
+    }
 }
