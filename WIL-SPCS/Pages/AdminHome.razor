@@ -1,0 +1,28 @@
+﻿@page "/"
+
+@inject NavigationManager Navigation
+
+<PageTitle>Home</PageTitle>
+
+<div class="background-image">
+
+    <h1>Hello, world!</h1>
+    <p>Welcome to your new app.</p>
+    <td>
+        <button class="btn btn-block btn-primary" @onclick="NavigateToRegister">Register</button>
+        <button class="btn btn-block btn-primary" @onclick="NavigateToLogin">Login</button>
+    </td>
+</div>
+
+
+@code {
+    private void NavigateToRegister()
+    {
+        Navigation.NavigateTo("/register");
+    }
+
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo("/login");
+    }
+}
