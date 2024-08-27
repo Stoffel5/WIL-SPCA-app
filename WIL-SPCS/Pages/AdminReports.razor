@@ -1,0 +1,78 @@
+﻿<h3>adpot</h3>
+@page "/adopt"
+<h3>adpot</h3>
+@code {
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .table-container {
+            flex: 1;
+            padding: 10px;
+            border-right: 1px solid #ddd;
+        }
+        .listbox-container {
+            flex: 1;
+            padding: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        #details {
+            width: 100%;
+            height: 150px;
+        }
+        #done-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="table-container">
+        <table id="reportTable">
+            <thead>
+                <tr>
+                    <th>Report ID</th>
+                    <th>Report Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <div class="listbox-container">
+        <select id="details" disabled>
+            <option>Select a report to see details</option>
+        </select>
+        <button id="done-button">Done</button>
+    </div>
+</div>
+
+<script>
+
+}
