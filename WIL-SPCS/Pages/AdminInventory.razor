@@ -1,48 +1,163 @@
 ﻿@page "/AdminInventory"
 
 @inject NavigationManager Navigation
+@using System.ComponentModel.DataAnnotations
 
 <PageTitle>Inventory</PageTitle>
 
-<div class="top">
-    <div>
-        <center><h3>Inventory</h3></center>
-        <center><input type="text" placeholder="Search..." class="desktop-search-bar"></center>
-        <center><button style="margin-top: 10px;">Add Pet</button></center>
+@if (AddPetHtml)
+{
+    <div class="login-container">
+        <div class="login-form">
+            <h3 class="bold-text">Add Pet</h3>
+            <div class="form-group">
+                <label for="breed" class="bold-text">Pet Breed</label>
+                <input id="breed" class="form-control rounded-input" />
+            </div>
+
+            <div class="form-group">
+                <label for="health" class="bold-text">Pet Health</label>
+                <input id="health" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="height" class="bold-text">Pet Height</label>
+                <input id="height" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="weight" class="bold-text">Pet Weight</label>
+                <input id="weight" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="status" class="bold-text">Pet Adpotion Status</label>
+                <input id="status" class="form-control rounded-input" />
+            </div>
+
+            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button>
+        </div>
     </div>
-</div>
+}
+@if (EditPetHtml && !AddPetHtml)
+{
+    <div class="login-container">
+        <div class="login-form">
+            <h3 class="bold-text">Edit Pet</h3>
+            <div class="form-group">
+                <label for="editbreed" class="bold-text">Pet Breed</label>
+                <input id="editbreed" class="form-control rounded-input" />
+            </div>
 
-<div style="padding-left: 16px"></div>
+            <div class="form-group">
+                <label for="edithealth" class="bold-text">Pet Health</label>
+                <input id="edithealth" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="editheight" class="bold-text">Pet Height</label>
+                <input id="editheight" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="editweight" class="bold-text">Pet Weight</label>
+                <input id="editweight" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="editstatus" class="bold-text">Pet Adpotion Status</label>
+                <input id="editeditstatusheight" class="form-control rounded-input" />
+            </div>
 
-<div class="tbl-pets">
-    <table>
-        <tr>
-            <th>Pet ID</th>
-            <th>Breed</th>
-            <th>Health</th>
-            <th>Heigh</th>
-            <th>Weight</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>1001</td>
-            <td>German Shepard</td>
-            <td>Healthy</td>
-            <td>80cm</td>
-            <td>50kg</td>
-            <td>Pending Adoption</td>
-            <td>
-                <center>
-                    <button>Delete</button>
-                    <button>Edit</button>
-                </center>
-            </td>
-        </tr>
-    </table>
-</div>
+            <button type="submit" @onclick="EditPet" class="btn btn-primary rounded-button bold-text">Edit</button>
+        </div>
+    </div>
+}
+@if (DeletePetHtml && !AddPetHtml)
+{
+    <div class="login-container">
+        <div class="login-form">
+            <h3 class="bold-text">Delete Pet</h3>
+            <p><b>Are you sure you want to delete this pet?</b></p>
+
+            <button type="submit" @onclick="DeletePet" class="btn btn-primary rounded-button bold-text">Delete</button>
+        </div>
+    </div>
+}
+@if (!AddPetHtml && !EditPetHtml && !DeletePetHtml)
+{
+    <div class="top">
+        <div>
+            <center><h3 style="color: white;">Inventory</h3></center>
+            <center><input type="text" placeholder="Search..." class="desktop-search-bar"></center>
+            <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddPetForm">Add Pet</button></center>
+        </div>
+    </div>
+
+    <div style="padding-left: 16px"></div>
+
+    <div class="tbl-pets">
+        <table>
+            <tr>
+                <th>Pet ID</th>
+                <th>Breed</th>
+                <th>Health</th>
+                <th>Heigh</th>
+                <th>Weight</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>1001</td>
+                <td>German Shepard</td>
+                <td>Healthy</td>
+                <td>80cm</td>
+                <td>50kg</td>
+                <td>Pending Adoption</td>
+                <td>
+                    <center>
+                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="DeletePetForm">Delete</button>
+                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="EditPetForm">Edit</button>
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
 
 @code {
+    bool AddPetHtml = false;
+    bool EditPetHtml = false;
+    bool DeletePetHtml = false;
+    private void AddPetForm(MouseEventArgs e)
+    {
+        AddPetHtml = true;
+        StateHasChanged();
+    }
+    private void EditPetForm(MouseEventArgs e)
+    {
+        EditPetHtml = true;
+        StateHasChanged();
+    }
+    private void DeletePetForm(MouseEventArgs e)
+    {
+        DeletePetHtml = true;
+        StateHasChanged();
+    }
+
+    private void HandleValidSubmit()
+    {
+        Navigation.NavigateTo("/welcome");
+    }
+    private void AddPet(MouseEventArgs e)
+    {
+        AddPetHtml = false;
+        StateHasChanged();
+    }
+    private void EditPet(MouseEventArgs e)
+    {
+        EditPetHtml = false;
+        StateHasChanged();
+    }
+    private void DeletePet(MouseEventArgs e)
+    {
+        DeletePetHtml = false;
+        StateHasChanged();
+    }
 }
 
 <style>
@@ -58,5 +173,60 @@
         border: 1px solid black;
         border-collapse: collapse;
         background-color: white;
+    }
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    .rounded-input {
+        border-radius: 15px;
+        width: 100%;
+    }
+
+    .rounded-button {
+        border-radius: 15px;
+        width: 100%;
+    }
+
+    .bold-text {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    .btnx {
+        width: fit-content;
+        margin-top: 10px;
     }
 </style>
