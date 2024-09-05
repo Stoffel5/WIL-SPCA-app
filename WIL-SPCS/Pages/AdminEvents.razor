@@ -1,4 +1,4 @@
-﻿@page "/adminevents"
+﻿@page "/AdminEvents"
 
 <!-- Calendar and Date Picker -->
 <div class="calendar-container">
@@ -14,11 +14,11 @@
 
                 <div class="form-group">
                     <label for="eventname" class="bold-text">Event Name</label>
-                    <input id="eventname" class="form-control rounded-input" />
+                    <input id="eventname" @bind="evName" class="form-control rounded-input" />
                 </div>
                 <div class="form-group">
                     <label for="eventdescription" class="bold-text">Event Description</label>
-                    <input id="eventdescription" class="form-control rounded-input" />
+                    <input id="eventdescription" @bind="evDescription" class="form-control rounded-input" />
                 </div>
 
                 <button type="submit" @onclick="AddEvent" class="btn btn-primary rounded-button bold-text">Add</button>
@@ -67,6 +67,8 @@
 
 @code {
     private DateTime selectedDate = DateTime.Now;
+    private string evName = string.Empty;
+    private string evDescription = string.Empty;
     private List<Event> events = new List<Event>();
     public bool addEvent = false;
 
@@ -109,6 +111,10 @@
     }
     private void AddEvent(MouseEventArgs e)
     {
+        Event ev= new Event();
+        ev.Title = evName;
+        ev.Description = evDescription;
+        events.Add(ev);
         addEvent = false;
     }
     private void AddEventForm(MouseEventArgs e)

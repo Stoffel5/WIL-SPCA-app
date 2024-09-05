@@ -6,29 +6,24 @@
 
 <div class="messages-page">
     <div class="messages-inbox">
-        <table class="messages-table">
-            <tr>
-                <th class="messages-inbox-items"><h2><center>Inbox</center></h2></th>
-            </tr>
+        <h2 class="message-title"><center><b>Inbox</b></center></h2>
+        <div class="messages-users">
             @foreach (User users in users)
             {
-                <tr>
-                    <td>
-                        <div class="message" @onclick="() => changeChat(users.Username)">
-                            <div class="message-header">
-                                <img class="message-avatar" src="@users.UserImage" alt="Avatar" />
-                                <div class="message-info">
-                                    <h4 class="message-sender">@users.Username</h4>
-                                </div>
-                            </div>
+                <div class="message" @onclick="() => changeChat(users.Username)">
+                    <div class="message-header">
+                        <img class="message-avatar" src="@users.UserImage" alt="Avatar" />
+                        <div class="message-info">
+                            <h4 class="message-sender">@users.Username</h4>
                         </div>
-                    </td>
-                </tr>
+                    </div>
+                    <p class="message-content">Test</p>
+                </div>
             }
-        </table>
+        </div>
     </div>
     <div class="messages-chat">
-        <h2 class="message-title"><center>@currentUserChat</center></h2>
+        <h2 class="message-title"><center><b>@currentUserChat</b></center></h2>
         <div class="chat-window">
             <div class="messages" id="messages">
                 @foreach (UserMessage message in UserMessages)
@@ -76,11 +71,6 @@
         return new List<UserMessage>
         {
             new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
-            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
-            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
-            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
-            new UserMessage { User = users[1], Message = "Description of Sample Message 1", Time = "12:00" },
-            new UserMessage { User = users[1], Message = "Description of Sample Message 1", Time = "12:00" },
             new UserMessage { User = users[1], Message = "Description of Sample Message 2", Time = "12:00"  }
         };
     }
@@ -137,22 +127,32 @@
 }
 <style>
     body{
-        color: white;
+        color: black;
     }
     .messages-page{
         width: 100%;
-        height: 100%;
+        height: 600px;
         display: flex;
+        background-color: rgba(128, 128, 128, 0.7);
     }
-    .messages-inbox{
-        width: 40%;
-        border: 1px solid black;
+
+    .messages-users {
+        flex: 1;
+        height: 90%;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        overflow-y: auto;
     }
     .message {
         width: 100%;
     }
     .messages-chat{
         width: 60%;
+        border: 1px solid black;
+    }
+
+    .messages-inbox {
+        width: 40%;
         border: 1px solid black;
     }
     .messages-table{
@@ -236,7 +236,7 @@
 
     .message-timestamp {
         font-size: 0.8em;
-        color: #666;
+        color: #A1A1A1;
     }
 
     .message-content {
