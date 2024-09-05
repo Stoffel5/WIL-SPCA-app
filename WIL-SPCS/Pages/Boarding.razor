@@ -1,0 +1,171 @@
+﻿@page "/boarding"
+
+<h2 class="centered-text">Boarding</h2>
+
+<!-- Side Navigation Bar -->
+<div id="sideNavbar" class="side-navbar">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+    <a href="/adopt" class="nav-link">Adopt a Pet</a>
+    <a href="/awareness" class="nav-link">Awareness</a>
+    <a href="/donations" class="nav-link">Donations and Sponsors</a>
+    <a href="/volunteer" class="nav-link">Volunteer</a>
+    <a href="/gallery" class="nav-link">Gallery</a>
+    <a href="/boarding" class="nav-link">Animal Boarding</a>
+    <a href="/events" class="nav-link">Events</a>
+</div>
+
+<!-- Main content -->
+<div class="main-content">
+    <button class="open-btn" onclick="openNav()">☰</button>
+
+    <div class="boarding-container">
+        <h3 class="centered-text">Available Boarding Schedules</h3>
+
+        <div class="schedule-grid">
+            @foreach (var schedule in boardingSchedules)
+            {
+                <div class="schedule-card">
+                    <div class="schedule-header">
+                        <h4>@schedule.Date</h4>
+                        <img src="css/dog_kennel.jpg" alt="Dog Kennel" class="schedule-image" />
+                    </div>
+                    <p>Kennels Available: @schedule.AvailableKennels</p>
+                    <p>Time Slots:</p>
+                    <ul>
+                        @foreach (var timeSlot in schedule.TimeSlots)
+                        {
+                            <li>@timeSlot</li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").style.width = "0";
+    }
+</script>
+
+@code {
+    private List<BoardingSchedule> boardingSchedules = new List<BoardingSchedule>
+    {
+        new BoardingSchedule
+        {
+            Date = "September 10, 2024",
+            AvailableKennels = 5,
+            TimeSlots = new List<string> { "8:00 AM - 10:00 AM", "12:00 PM - 2:00 PM", "4:00 PM - 6:00 PM" }
+        },
+        new BoardingSchedule
+        {
+            Date = "September 11, 2024",
+            AvailableKennels = 3,
+            TimeSlots = new List<string> { "9:00 AM - 11:00 AM", "1:00 PM - 3:00 PM" }
+        }
+        // Add more schedules as needed
+    };
+
+    public class BoardingSchedule
+    {
+        public string Date { get; set; }
+        public int AvailableKennels { get; set; }
+        public List<string> TimeSlots { get; set; }
+    }
+}
+
+<style>
+    .centered-text {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        color: #333;
+    }
+
+    .boarding-container {
+        padding: 20px;
+    }
+
+    .schedule-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center;
+    }
+
+    .schedule-card {
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        position: relative;
+    }
+
+    .schedule-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .schedule-image {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+
+    .side-navbar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #0056b3;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 1;
+    }
+
+        .side-navbar .nav-link {
+            padding: 8px 8px 8px 32px;
+            font-size: 25px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #003f7f;
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 36px;
+        }
+
+    .open-btn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+    }
+
+    .main-content {
+        margin-left: 250px;
+    }
+</style>

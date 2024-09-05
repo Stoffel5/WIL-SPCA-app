@@ -1,0 +1,191 @@
+﻿@page "/awareness"
+<h2 class="centered-text">Raise Awareness</h2>
+
+<!-- Side Navigation Bar -->
+<div id="sideNavbar" class="side-navbar">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+    <a href="/adopt" class="nav-link">Adopt a Pet</a>
+    <a href="/awareness" class="nav-link">Awareness</a>
+    <a href="/donations" class="nav-link">Donations and Sponsors</a>
+    <a href="/volunteer" class="nav-link">Volunteer</a>
+    <a href="/gallery" class="nav-link">Gallery</a>
+    <a href="/boarding" class="nav-link">Animal Boarding</a>
+    <a href="/events" class="nav-link">Events</a>
+</div>
+
+<!-- Main content -->
+<div class="main-content">
+    <button class="open-btn" onclick="openNav()">☰</button>
+
+    <div class="awareness-container">
+        <!-- Awareness Section -->
+        <div class="awareness-intro">
+            <h3>Animal Welfare Awareness</h3>
+            <p>We strive to raise awareness about animal welfare and the importance of responsible pet ownership. By spreading the message, we hope to create a community that cares for and respects animals.</p>
+        </div>
+
+        <!-- Image grid with awareness topics -->
+        <div class="awareness-grid">
+            <div class="awareness-card">
+                <img src="css/awareness1.jpg" alt="Adopt Don't Shop" class="awareness-image" />
+                <h4>Adopt, Don't Shop</h4>
+                <p>Learn why adopting animals is better than purchasing from breeders or pet stores.</p>
+            </div>
+            <div class="awareness-card">
+                <img src="css/awareness2.jpg" alt="Spay and Neuter" class="awareness-image" />
+                <h4>Spay & Neuter</h4>
+                <p>Understand the importance of spaying and neutering pets to control overpopulation.</p>
+            </div>
+            <div class="awareness-card">
+                <img src="css/awareness3.jpg" alt="Animal Rights" class="awareness-image" />
+                <h4>Animal Rights</h4>
+                <p>Discover the laws and regulations that protect animals from cruelty and abuse.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").style.width = "0";
+    }
+</script>
+
+<style>
+    html, body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #4682B4; /* Coral blue color */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .centered-text {
+        text-align: center;
+        font-size: 2em;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    .awareness-container {
+        padding: 20px;
+        margin: auto;
+        max-width: 1200px;
+    }
+
+    .awareness-intro {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .awareness-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
+        justify-items: center;
+        padding: 10px;
+    }
+
+    .awareness-card {
+        background-color: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 20px;
+        transition: transform 0.3s ease;
+        position: relative;
+    }
+
+        .awareness-card:hover {
+            transform: scale(1.05);
+        }
+
+    .awareness-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        object-fit: cover;
+    }
+
+    .awareness-card h4 {
+        margin: 10px 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .awareness-card p {
+        font-size: 0.95em;
+        color: #777;
+    }
+
+    /* Side Navbar Styles */
+    .side-navbar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #343a40;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 100;
+    }
+
+        .side-navbar .nav-link {
+            padding: 10px 15px;
+            font-size: 1.1em;
+            color: white;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #495057;
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            color: white;
+        }
+
+    .open-btn {
+        font-size: 22px;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 30px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 101;
+        transition: background-color 0.3s ease;
+    }
+
+        .open-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .main-content {
+        padding: 40px;
+    }
+</style>
+
+@code {
+    // Any Razor C# logic for the awareness page can go here.
+}

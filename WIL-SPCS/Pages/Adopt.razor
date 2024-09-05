@@ -1,5 +1,5 @@
 ﻿@page "/adopt"
-<h2 class="centered-text">Adoption</h2>
+<h2 class="centered-text">Adopt a Pet</h2>
 
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
@@ -10,8 +10,7 @@
     <a href="/volunteer" class="nav-link">Volunteer</a>
     <a href="/gallery" class="nav-link">Gallery</a>
     <a href="/boarding" class="nav-link">Animal Boarding</a>
-    <a href="/Events" class="nav-link">Events</a>
-    <!-- Add more links here as needed -->
+    <a href="/events" class="nav-link">Events</a>
 </div>
 
 <!-- Main content -->
@@ -24,7 +23,7 @@
             <input type="text" placeholder="Search for a dog..." @bind="searchQuery" class="search-input" />
             <button @onclick="SearchDogs" class="search-button">Search</button>
         </div>
-        <h2 class="centered-text">View our gallery</h2>
+        
         <!-- Grid of dog pictures -->
         <div class="dog-grid">
             @foreach (var dog in filteredDogs)
@@ -39,6 +38,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function openNav() {
         document.getElementById("sideNavbar").style.width = "250px";
@@ -48,6 +48,7 @@
         document.getElementById("sideNavbar").style.width = "0";
     }
 </script>
+
 @code {
     private string searchQuery = "";
     private List<Dog> dogs = new List<Dog>
@@ -55,7 +56,6 @@
         new Dog { Name = "Buddy", ImageUrl = "css/dog1.jpg" },
         new Dog { Name = "Max", ImageUrl = "css/dog2.jpg" },
         new Dog { Name = "Bella", ImageUrl = "css/dog3.jpg" },
-        // Add more dog objects here
     };
     private List<Dog> filteredDogs;
 
@@ -63,7 +63,6 @@
     {
         filteredDogs = dogs;
     }
-
 
     private void SearchDogs()
     {
@@ -85,12 +84,24 @@
 }
 
 <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        
+        margin: 0;
+        padding: 0;
+    }
+
     .centered-text {
         text-align: center;
+        font-size: 2em;
+        color: #333;
+        margin-top: 20px;
     }
 
     .adopt-container {
         padding: 20px;
+        margin: auto;
+        max-width: 1200px;
     }
 
     .search-bar {
@@ -101,116 +112,138 @@
     }
 
     .search-input {
-        padding: 10px;
+        padding: 12px;
         width: 300px;
-        border-radius: 5px;
+        border-radius: 30px;
         border: 1px solid #ccc;
         margin-right: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .search-button {
-        padding: 10px 20px;
-        background-color: #007BFF;
+        padding: 12px 20px;
+        background-color: #28a745;
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 30px;
         cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+        background-color: #218838;
     }
 
     .dog-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 30px;
         justify-items: center;
+        padding: 10px;
     }
 
     .dog-card {
-        background-color: #f4f4f4;
-        border-radius: 10px;
+        background-color: white;
+        border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
         text-align: center;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        padding: 20px;
+        transition: transform 0.3s ease;
         position: relative;
+    }
+
+    .dog-card:hover {
+        transform: scale(1.05);
     }
 
     .dog-image {
         max-width: 100%;
         height: auto;
-        border-radius: 10px;
+        border-radius: 15px;
+        margin-bottom: 15px;
         object-fit: cover;
     }
 
     .dog-card h4 {
-        margin: 10px 0 0 0;
+        margin: 10px 0;
+        font-size: 1.2em;
+        color: #555;
     }
 
-    /* Side Navigation Bar Styles */
+    .dog-sticker {
+        width: 50px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        animation: bounce 2s infinite;
+    }
+
+    html, body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #4682B4; /* Coral blue color */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Side Navbar Styles */
     .side-navbar {
         height: 100%;
         width: 0;
         position: fixed;
         top: 0;
         left: 0;
-        background-color: #111;
+        background-color: #343a40;
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
-        z-index: 1;
+        z-index: 100;
     }
 
     .side-navbar .nav-link {
-        padding: 8px 8px 8px 32px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
+        padding: 10px 15px;
+        font-size: 1.1em;
+        color: white;
         display: block;
-        transition: 0.3s;
+        transition: background-color 0.3s ease;
     }
 
     .side-navbar .nav-link:hover {
-        color: #f1f1f1;
+        background-color: #495057;
     }
 
     .side-navbar .close-btn {
         position: absolute;
-        top: 20px;
+        top: 15px;
         right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
+        font-size: 30px;
+        color: white;
     }
 
     .open-btn {
-        font-size: 20px;
+        font-size: 22px;
         cursor: pointer;
         background-color: #007BFF;
         color: white;
         border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
+        padding: 12px 20px;
+        border-radius: 30px;
         position: fixed;
         top: 20px;
         left: 20px;
-        z-index: 2;
+        z-index: 101;
+        transition: background-color 0.3s ease;
+    }
+
+    .open-btn:hover {
+        background-color: #0056b3;
     }
 
     .main-content {
-        margin-left: 250px; /* Adjust to account for the width of the side navbar */
+        padding: 40px;
     }
-
-    .dog-sticker {
-        width: 50px; /* Adjust size as needed */
-        height: auto;
-        position: absolute; /* Position it relative to the card */
-        bottom: 10px; /* Adjust positioning */
-        right: 10px; /* Adjust positioning */
-        animation: bounce 2s infinite; /* Optional: add animation effect */
-    }
-
-    /* Example of a bounce animation */
-    
 </style>

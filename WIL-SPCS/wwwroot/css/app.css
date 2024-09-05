@@ -1,9 +1,11 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-image: url(bluepage.jpg);
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    background-size: cover; /* Ensures the image covers the entire background */
-    background-position: center; /* Centers the image on the screen */
+    background-color: #4682B4; /* Coral blue color */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
 }
 
 h1:focus {
