@@ -8,63 +8,45 @@
     <div class="messages-inbox">
         <table class="messages-table">
             <tr>
-                <th class="messages-inbox-items"><h2>Inbox</h2></th>
+                <th class="messages-inbox-items"><h2><center>Inbox</center></h2></th>
             </tr>
-            <tr>
-                <td>
-                    <div class="message">
-                        <div class="message-header">
-                            <img class="message-avatar" src="./css/dog1.jpg" alt="Avatar" />
-                            <div class="message-info">
-                                <h4 class="message-sender">Kimberly</h4>
+            @foreach (User users in users)
+            {
+                <tr>
+                    <td>
+                        <div class="message" @onclick="() => changeChat(users.Username)">
+                            <div class="message-header">
+                                <img class="message-avatar" src="@users.UserImage" alt="Avatar" />
+                                <div class="message-info">
+                                    <h4 class="message-sender">@users.Username</h4>
+                                </div>
                             </div>
                         </div>
-                        <p class="message-content">What pets do you have?</p>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="message">
-                        <div class="message-header">
-                            <img class="message-avatar" src="./css/dog2.jpg" alt="Avatar" />
-                            <div class="message-info">
-                                <h4 class="message-sender">Jada</h4>
-                            </div>
-                        </div>
-                        <p class="message-content">When can I come in?</p>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            }
         </table>
     </div>
     <div class="messages-chat">
-        <h2 class="message-title"><center>Kimberly</center></h2>
+        <h2 class="message-title"><center>@currentUserChat</center></h2>
         <div class="chat-window">
             <div class="messages" id="messages">
-                <div class="message">
-                    <div class="message-header">
-                        <img class="message-avatar" src="./css/dog1.jpg" alt="Avatar" />
-                        <div class="message-info">
-                            <h4 class="message-sender">Kimberly</h4>
-                            <span class="message-timestamp">12:34 PM</span>
+                @foreach (UserMessage message in UserMessages)
+                {
+                    <div class="message">
+                        <div class="message-header">
+                            <img class="message-avatar" src="@message.User.UserImage" alt="Avatar" />
+                            <div class="message-info">
+                                <h4 class="message-sender">@message.User.Username</h4>
+                                <span class="message-timestamp">@message.Time</span>
+                            </div>
                         </div>
+                        <p class="message-content">@message.Message</p>
                     </div>
-                    <p class="message-content">What pets do you have?</p>
-                </div>
-                <div class="message">
-                    <div class="message-header">
-                        <img class="message-avatar" src="./css/SPCALOGO.jpg" alt="Avatar" />
-                        <div class="message-info">
-                            <h4 class="message-sender">SPCA</h4>
-                            <span class="message-timestamp">12:44 PM</span>
-                        </div>
-                    </div>
-                    <p class="message-content">We have dogs and cats.</p>
-                </div>
+                }
             </div>
             <div class="input-container">
-                <textarea id="messageInput" placeholder="Type a message..."></textarea>
+                <input id="messageInput" placeholder="Type a message..."/>
                 <button id="sendButton">Send</button>
             </div>
         </div>
@@ -72,6 +54,12 @@
 </div>
 
 @code {
+
+    private List<UserMessage> messages = new List<UserMessage>();
+    private List<User> users = new List<User>();
+    private List<UserMessage> UserMessages = new List<UserMessage>();
+    private string currentUserChat;
+
     private void NavigateToRegister()
     {
         Navigation.NavigateTo("/register");
@@ -80,6 +68,71 @@
     private void NavigateToLogin()
     {
         Navigation.NavigateTo("/login");
+    }
+    private List<UserMessage> getUserMessages()
+    {
+        // Placeholder logic for event fetching
+        // Replace with actual data fetching from database or API
+        return new List<UserMessage>
+        {
+            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
+            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
+            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
+            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
+            new UserMessage { User = users[1], Message = "Description of Sample Message 1", Time = "12:00" },
+            new UserMessage { User = users[1], Message = "Description of Sample Message 1", Time = "12:00" },
+            new UserMessage { User = users[1], Message = "Description of Sample Message 2", Time = "12:00"  }
+        };
+    }
+
+    public class UserMessage
+    {
+        public User User { get; set; }
+        public string Message { get; set; }
+        public string Time { get; set; }
+    }
+    private List<User> getUsers()
+    {
+        // Placeholder logic for event fetching
+        // Replace with actual data fetching from database or API
+        return new List<User>
+        {
+            new User { Username = "Kimberly", UserImage = "./css/SPCALOGO.jpg" },
+            new User { Username = "Jada", UserImage = "./css/SPCALOGO.jpg" }
+        };
+    }
+
+    protected override void OnInitialized()
+    {
+        // Initial load of events based on the default date
+        LoadUsers();
+    }
+
+    private void LoadUsers()
+    {
+        users = getUsers();
+        messages = getUserMessages();
+        UserMessages.Clear();
+        changeChat(users[0].Username);
+        currentUserChat = users[0].Username;
+    }
+
+    public class User
+    {
+        public string Username { get; set; }
+        public string UserImage { get; set; }
+    }
+    private void changeChat(string username)
+    {
+        UserMessages.Clear();
+        currentUserChat = username;
+        foreach (UserMessage message in messages)
+        {
+            if(message.User.Username == username)
+            {
+                UserMessages.Add(message);
+            }
+        }
     }
 }
 <style>
@@ -134,7 +187,7 @@
         border: 1px solid black;
     }
 
-    textarea {
+    input {
         width: 80%;
         height: 30px;
         margin: 10px;
