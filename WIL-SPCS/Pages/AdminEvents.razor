@@ -1,28 +1,224 @@
-﻿@page "/AdminEvents"
+﻿@page "/adminevents"
 
-@inject NavigationManager Navigation
+<!-- Calendar and Date Picker -->
+<div class="calendar-container">
+    @if (addEvent)
+    {
+        <div class="login-container">
+            <div class="login-form">
+                <h3 class="bold-text">Add Event</h3>
+                <div class="form-group">
+                    <label for="date" class="bold-text">Date</label>
+                    <input type="date" @bind="selectedDate" class="date-picker form-control rounded-input" />
+                </div>
 
-<PageTitle>Home</PageTitle>
+                <div class="form-group">
+                    <label for="eventname" class="bold-text">Event Name</label>
+                    <input id="eventname" class="form-control rounded-input" />
+                </div>
+                <div class="form-group">
+                    <label for="eventdescription" class="bold-text">Event Description</label>
+                    <input id="eventdescription" class="form-control rounded-input" />
+                </div>
 
-<div class="background-image">
-
-    <h1>Hello, world!</h1>
-    <p>Welcome to your new app.</p>
-    <td>
-        <button class="btn btn-block btn-primary" @onclick="NavigateToRegister">Register</button>
-        <button class="btn btn-block btn-primary" @onclick="NavigateToLogin">Login</button>
-    </td>
+                <button type="submit" @onclick="AddEvent" class="btn btn-primary rounded-button bold-text">Add</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h2 class="centered-text">Events</h2>
+        <button class="open-nav-btn" onclick="openNav()">☰ </button>
+        <!-- Side Navigation Bar -->
+        <div id="sideNavbar" class="side-navbar">
+            <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+            <a href="/adopt" class="nav-link">Adopt a Pet</a>
+            <a href="/awareness" class="nav-link">Awareness</a>
+            <a href="/donations" class="nav-link">Donations and Sponsors</a>
+            <a href="/volunteer" class="nav-link">Volunteer</a>
+            <a href="/gallery" class="nav-link">Gallery</a>
+            <a href="/boarding" class="nav-link">Animal Boarding</a>
+            <a href="/events" class="nav-link">Events</a>
+            <!-- Add more links here as needed -->
+        </div>
+        <h3>Select a Date to See Events</h3>
+        <input type="date" @bind="selectedDate" class="date-picker" /><br />
+        <button class="btn btn-primary rounded-button bold-text" @onclick="AddEventForm">Add Event</button>
+        <div class="calendar">
+            <!-- Include the custom calendar component -->
+            <CustomCalendar />
+        </div>
+        <!-- Events List -->
+        <div class="events-container">
+            <h3 class="centered-text">Events on @selectedDate.ToShortDateString()</h3>
+            <ul>
+                @foreach (var ev in events)
+                {
+                    <li class="event-item">
+                        <strong>@ev.Title</strong>
+                        <p>@ev.Description</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
 </div>
 
 
 @code {
-    private void NavigateToRegister()
+    private DateTime selectedDate = DateTime.Now;
+    private List<Event> events = new List<Event>();
+    public bool addEvent = false;
+
+    protected override void OnInitialized()
     {
-        Navigation.NavigateTo("/register");
+        // Initial load of events based on the default date
+        LoadEvents();
     }
 
-    private void NavigateToLogin()
+    private void OnDateChanged(ChangeEventArgs e)
     {
-        Navigation.NavigateTo("/login");
+        if (DateTime.TryParse(e.Value.ToString(), out var date))
+        {
+            selectedDate = date;
+            LoadEvents();
+        }
+    }
+
+    private void LoadEvents()
+    {
+        // Load events based on the selected date (placeholder logic)
+        events = GetEventsForDate(selectedDate);
+    }
+
+    private List<Event> GetEventsForDate(DateTime date)
+    {
+        // Placeholder logic for event fetching
+        // Replace with actual data fetching from database or API
+        return new List<Event>
+        {
+            new Event { Title = "Sample Event 1", Description = "Description of Sample Event 1" },
+            new Event { Title = "Sample Event 2", Description = "Description of Sample Event 2" }
+        };
+    }
+
+    public class Event
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+    }
+    private void AddEvent(MouseEventArgs e)
+    {
+        addEvent = false;
+    }
+    private void AddEventForm(MouseEventArgs e)
+    {
+        addEvent = true;
     }
 }
+
+<style>
+    .centered-text {
+        text-align: center;
+    }
+
+    .calendar-container {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .date-picker {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin: 10px 0;
+    }
+
+    .calendar {
+        margin: 20px auto;
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .rounded-button{
+        width:max-content;
+    }
+
+    .events-container {
+        padding: 20px;
+    }
+
+    .event-item {
+        background-color: #e6f7ff; /* Light blue background */
+        border: 1px solid #007BFF; /* Blue border */
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        color: #007BFF; /* Blue text color */
+    }
+
+        .event-item strong {
+            display: block;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .event-item p {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+    /* Side Navbar Styles */
+    .side-navbar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden */
+        background-color: #007BFF; /* Blue background for navbar */
+        color: white;
+        overflow-x: hidden;
+        transition: 0.3s; /* Smooth transition for opening and closing */
+        padding-top: 60px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+        .side-navbar .nav-link {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #0056b3; /* Darker blue for hover effect */
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Show the side navbar when it is active */
+        .side-navbar.active {
+            left: 0;
+        }
+</style>
+
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").classList.add("active");
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").classList.remove("active");
+    }
+</script>
