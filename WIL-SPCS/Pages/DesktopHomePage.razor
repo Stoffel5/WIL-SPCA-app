@@ -16,7 +16,7 @@
 <div style="padding-left: 16px"></div>
 
 <div class="desktop-btns">
-    <button class="card-messages">
+    <button class="card-messages" @onclick=NavigateToMessages>
         <center><img src="#" class="thumbnail"></center>
         <h3>Messages</h3>
     </button>
@@ -24,15 +24,15 @@
         <center><img src="#" class="thumbnail"></center>
         <h3>Reports</h3>
     </button>
-    <dibuttonv class="card-volunteers">
+    <button class="card-volunteers" @onclick=NavigateToVolunteers>
         <center><img src="#" class="thumbnail"></center>
         <h3>Volunteers</h3>
-    </dibuttonv>
-    <button class="card-inventory">
+    </button>
+    <button class="card-inventory" @onclick=NavigateToInventory>
         <center><img src="#" class="thumbnail"></center>
         <h3>Inventory</h3>
     </button>
-    <button class="card-events">
+    <button class="card-events" @onclick=NavigateToEvents>
         <center><img src="#" class="thumbnail"></center>
         <h3>Events</h3>
     </button>
@@ -41,6 +41,22 @@
 @code {
     private void NavigateToReport()
     {
-        Navigation.NavigateTo("/Report");
+        Navigation.NavigateTo("/AdminReport");
+    }
+    private void NavigateToEvents()
+    {
+        Navigation.NavigateTo("/AdminEvents");
+    }
+    private void NavigateToInventory()
+    {
+        Navigation.NavigateTo("/AdminInventory");
+    }
+    private void NavigateToVolunteers()
+    {
+        Navigation.NavigateTo("/AdminVolunteers");
+    }
+    private void NavigateToMessages()
+    {
+        Navigation.NavigateTo("/AdminMessages");
     }
 }

@@ -1,0 +1,62 @@
+﻿@page "/AdminInventory"
+
+@inject NavigationManager Navigation
+
+<PageTitle>Inventory</PageTitle>
+
+<div class="top">
+    <div>
+        <center><h3>Inventory</h3></center>
+        <center><input type="text" placeholder="Search..." class="desktop-search-bar"></center>
+        <center><button style="margin-top: 10px;">Add Pet</button></center>
+    </div>
+</div>
+
+<div style="padding-left: 16px"></div>
+
+<div class="tbl-pets">
+    <table>
+        <tr>
+            <th>Pet ID</th>
+            <th>Breed</th>
+            <th>Health</th>
+            <th>Heigh</th>
+            <th>Weight</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>1001</td>
+            <td>German Shepard</td>
+            <td>Healthy</td>
+            <td>80cm</td>
+            <td>50kg</td>
+            <td>Pending Adoption</td>
+            <td>
+                <center>
+                    <button>Delete</button>
+                    <button>Edit</button>
+                </center>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+}
+
+<style>
+    .top {
+        margin: 30px;
+    }
+
+    table{
+        width: 100%;
+    }
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        background-color: white;
+    }
+</style>
