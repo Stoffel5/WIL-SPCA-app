@@ -1,0 +1,136 @@
+﻿@page "/calendar"
+
+<h2 class="centered-text">Custom Calendar</h2>
+
+<div class="calendar-container">
+    <div class="calendar-header">
+        <button @onclick="PreviousMonth">&lt;</button>
+        <h3>@CurrentMonth.ToString("MMMM yyyy")</h3>
+        <button @onclick="NextMonth">&gt;</button>
+    </div>
+    <div class="calendar-grid">
+        <!-- Weekday headers -->
+        <div class="calendar-header-day">Sun</div>
+        <div class="calendar-header-day">Mon</div>
+        <div class="calendar-header-day">Tue</div>
+        <div class="calendar-header-day">Wed</div>
+        <div class="calendar-header-day">Thu</div>
+        <div class="calendar-header-day">Fri</div>
+        <div class="calendar-header-day">Sat</div>
+
+        @foreach (var day in CalendarDays)
+        {
+            <div class="calendar-day">
+                @day
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private DateTime CurrentMonth = DateTime.Now;
+    private List<string> CalendarDays = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        GenerateCalendarDays();
+    }
+
+    private void PreviousMonth()
+    {
+        CurrentMonth = CurrentMonth.AddMonths(-1);
+        GenerateCalendarDays();
+    }
+
+    private void NextMonth()
+    {
+        CurrentMonth = CurrentMonth.AddMonths(1);
+        GenerateCalendarDays();
+    }
+
+    private void GenerateCalendarDays()
+    {
+        CalendarDays.Clear();
+
+        var firstDayOfMonth = new DateTime(CurrentMonth.Year, CurrentMonth.Month, 1);
+        var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+        for (var day = firstDayOfMonth; day <= lastDayOfMonth; day = day.AddDays(1))
+        {
+            CalendarDays.Add(day.Day.ToString());
+        }
+
+        // Fill empty slots for days before the first day of the month
+        var startOfWeek = (int)firstDayOfMonth.DayOfWeek;
+        for (int i = 0; i < startOfWeek; i++)
+        {
+            CalendarDays.Insert(0, "");
+        }
+
+        // Fill empty slots for days after the last day of the month
+        var endOfWeek = (int)lastDayOfMonth.DayOfWeek;
+        for (int i = endOfWeek + 1; i < 7; i++)
+        {
+            CalendarDays.Add("");
+        }
+    }
+}
+
+<style>
+    .centered-text {
+        text-align: center;
+    }
+
+    .calendar-container {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+        .calendar-header button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .calendar-header h3 {
+            margin: 0;
+        }
+
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        background-color: #c0c0c0; /* Silver background for the grid */
+    }
+
+    .calendar-header-day {
+        background-color: #007BFF; /* Blue background for weekday headers */
+        color: white; /* White text color for weekday headers */
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .calendar-day {
+        background-color: #ffffff; /* White background for days */
+        border: 1px solid #007BFF; /* Blue border for days */
+        padding: 10px;
+        text-align: center;
+        font-size: 1.2em;
+        color: #007BFF; /* Blue text for the days */
+    }
+
+        .calendar-day:nth-child(7n+1) {
+            color: #FF0000; /* Red text for Sundays */
+        }
+</style>

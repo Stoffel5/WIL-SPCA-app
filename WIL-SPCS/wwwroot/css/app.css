@@ -1,6 +1,9 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-image: url("moredogs.jpg");
+    background-image: url(bluepage.jpg);
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-position: center; /* Centers the image on the screen */
 }
 
 h1:focus {
@@ -476,4 +479,5 @@ code {
     .nav-icon:hover {
         filter: none;
     }
+
 

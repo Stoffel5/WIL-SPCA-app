@@ -1,0 +1,142 @@
+﻿@page "/donations"
+<button class="open-nav-btn" onclick="openNav()">☰ </button>
+<!-- Side Navigation Bar -->
+<div id="sideNavbar" class="side-navbar">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+    <a href="/adopt" class="nav-link">Adopt a Pet</a>
+    <a href="/awareness" class="nav-link">Awareness</a>
+    <a href="/donations" class="nav-link">Donations</a>
+    <a href="/volunteer" class="nav-link">Volunteer</a>
+    <a href="/gallery" class="nav-link">Gallery</a>
+    <a href="/boarding" class="nav-link">Animal Boarding</a>
+    <a href="/events" class="nav-link">Events</a>
+    <!-- Add more links here as needed -->
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Donations Page Content -->
+    <div class="donations-container">
+        <h1 class="centered-heading">Support Our SPCA</h1>
+        <p class="intro-paragraph">
+            The SPCA is always in need of supplies to care for the animals. Currently, we are in urgent need of the following items:
+        </p>
+        <ul class="donation-list">
+            <li>Blankets</li>
+            <li>Dog Food</li>
+            <li>Cat Food</li>
+            <li>Toys for Dogs and Cats</li>
+            <li>Cleaning Supplies</li>
+        </ul>
+        <p class="intro-paragraph">
+            Your generous donations help us provide a safe and comfortable environment for the animals. Thank you for your support!
+        </p>
+    </div>
+</div>
+
+<style>
+    .side-navbar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden */
+        background-color: #007BFF; /* Blue background for navbar */
+        color: white;
+        overflow-x: hidden;
+        transition: 0.3s; /* Smooth transition for opening and closing */
+        padding-top: 60px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+        .side-navbar .nav-link {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #0056b3; /* Darker blue for hover effect */
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        .side-navbar.active {
+            left: 0;
+        }
+
+    .main-content {
+        margin-left: 250px; /* Adjust to account for the width of the side navbar */
+        padding: 20px; /* Padding for the content area */
+    }
+
+    .donations-container {
+        padding: 20px;
+        text-align: center;
+        background-color: #f9f9f9; /* Light background for the container */
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        max-width: 800px; /* Limits width for better readability */
+    }
+
+    .centered-heading {
+        font-size: 2.5em;
+        color: #007BFF; /* Blue color for the heading */
+        margin-bottom: 20px;
+    }
+
+    .intro-paragraph {
+        font-size: 1.2em;
+        color: #333; /* Darker text color for contrast */
+        margin-bottom: 20px;
+    }
+
+    .donation-list {
+        list-style-type: none; /* Removes default bullet points */
+        padding: 0;
+        font-size: 1.1em;
+        color: #555; /* Slightly lighter text color */
+        margin-bottom: 20px;
+    }
+
+        .donation-list li {
+            margin-bottom: 10px; /* Space between list items */
+        }
+
+    .open-nav-btn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+    }
+</style>
+
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").classList.add("active");
+        document.querySelector(".main-content").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").classList.remove("active");
+        document.querySelector(".main-content").style.marginLeft = "0";
+    }
+</script>

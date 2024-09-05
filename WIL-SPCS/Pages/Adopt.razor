@@ -1,6 +1,216 @@
-﻿<h3>adpot</h3>
-@page "/adopt"
-<h3>adpot</h3>
-@code {
+﻿@page "/adopt"
+<h2 class="centered-text">Adoption</h2>
 
+<!-- Side Navigation Bar -->
+<div id="sideNavbar" class="side-navbar">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+    <a href="/adopt" class="nav-link">Adopt a Pet</a>
+    <a href="/awareness" class="nav-link">Awareness</a>
+    <a href="/donations" class="nav-link">Donations and Sponsors</a>
+    <a href="/volunteer" class="nav-link">Volunteer</a>
+    <a href="/gallery" class="nav-link">Gallery</a>
+    <a href="/boarding" class="nav-link">Animal Boarding</a>
+    <a href="/Events" class="nav-link">Events</a>
+    <!-- Add more links here as needed -->
+</div>
+
+<!-- Main content -->
+<div class="main-content">
+    <button class="open-btn" onclick="openNav()">☰ </button>
+
+    <div class="adopt-container">
+        <!-- Search bar -->
+        <div class="search-bar">
+            <input type="text" placeholder="Search for a dog..." @bind="searchQuery" class="search-input" />
+            <button @onclick="SearchDogs" class="search-button">Search</button>
+        </div>
+        <h2 class="centered-text">View our gallery</h2>
+        <!-- Grid of dog pictures -->
+        <div class="dog-grid">
+            @foreach (var dog in filteredDogs)
+            {
+                <div class="dog-card">
+                    <img src="@dog.ImageUrl" alt="@dog.Name" class="dog-image" />
+                    <h4>@dog.Name</h4>
+                    <!-- Adding an animated sticker -->
+                    <img src="css/dogsticker.jpg" alt="Cute Sticker" class="dog-sticker" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").style.width = "0";
+    }
+</script>
+@code {
+    private string searchQuery = "";
+    private List<Dog> dogs = new List<Dog>
+    {
+        new Dog { Name = "Buddy", ImageUrl = "css/dog1.jpg" },
+        new Dog { Name = "Max", ImageUrl = "css/dog2.jpg" },
+        new Dog { Name = "Bella", ImageUrl = "css/dog3.jpg" },
+        // Add more dog objects here
+    };
+    private List<Dog> filteredDogs;
+
+    protected override void OnInitialized()
+    {
+        filteredDogs = dogs;
+    }
+
+
+    private void SearchDogs()
+    {
+        if (!string.IsNullOrEmpty(searchQuery))
+        {
+            filteredDogs = dogs.Where(d => d.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+        else
+        {
+            filteredDogs = dogs;
+        }
+    }
+
+    public class Dog
+    {
+        public string Name { get; set; }
+        public string ImageUrl { get; set; }
+    }
 }
+
+<style>
+    .centered-text {
+        text-align: center;
+    }
+
+    .adopt-container {
+        padding: 20px;
+    }
+
+    .search-bar {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .search-input {
+        padding: 10px;
+        width: 300px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+    }
+
+    .search-button {
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .dog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        justify-items: center;
+    }
+
+    .dog-card {
+        background-color: #f4f4f4;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .dog-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        object-fit: cover;
+    }
+
+    .dog-card h4 {
+        margin: 10px 0 0 0;
+    }
+
+    /* Side Navigation Bar Styles */
+    .side-navbar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 1;
+    }
+
+    .side-navbar .nav-link {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .side-navbar .nav-link:hover {
+        color: #f1f1f1;
+    }
+
+    .side-navbar .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .open-btn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+    }
+
+    .main-content {
+        margin-left: 250px; /* Adjust to account for the width of the side navbar */
+    }
+
+    .dog-sticker {
+        width: 50px; /* Adjust size as needed */
+        height: auto;
+        position: absolute; /* Position it relative to the card */
+        bottom: 10px; /* Adjust positioning */
+        right: 10px; /* Adjust positioning */
+        animation: bounce 2s infinite; /* Optional: add animation effect */
+    }
+
+    /* Example of a bounce animation */
+    
+</style>

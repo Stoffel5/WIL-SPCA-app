@@ -2,44 +2,254 @@
 
 <div class="welcome-container">
     <div class="text-box">
-        <h3 class="centered-text">Welcome</h3>
-        <p class="message-text">Catch a glimpse of our adorable pets as they introduce themselves in this charming video.</p>
+        <h3 class="centered-text">Information</h3>
+    </div>
+    <!-- Button to open the side navbar -->
+    <button class="open-nav-btn" onclick="openNav()">☰ </button>
+
+    <!-- Side Navigation Bar -->
+    <div id="sideNavbar" class="side-navbar">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+        <a href="/adopt" class="nav-link">Adopt a Pet</a>
+        <a href="/awareness" class="nav-link">Awareness</a>
+        <a href="/donations" class="nav-link">Donations and Sponsors</a>
+        <a href="/volunteer" class="nav-link">Volunteer</a>
+        <a href="/gallery" class="nav-link">Gallery</a>
+        <a href="/boarding" class="nav-link">Animal Boarding</a>
+        <a href="/Events" class="nav-link">Events</a>
+        <!-- Add more links here as needed -->
     </div>
 
-    <div class="image-gallery">
-        <a href="/adopt" class="adopt-link">
-            <img src="css/adpot.jpg" alt="Adopt a Pet" class="adopt-image" />
-        </a>
-        <a href="/adopt" class="adopt-link">
-            <img src="css/cruelty.webp" alt="Awareness" class="adopt-image" />
-        </a>
-        <a href="/adopt" class="adopt-link">
-            <img src="css/donations.jpg" alt="Donations and sponsors" class="adopt-image" />
-        </a>
-        <a href="/adopt" class="adopt-link">
-            <img src="css/volunteer.jpg" alt="Volunteer" class="adopt-image" />
-        </a>
-        <a href="/adopt" class="adopt-link">
-            <img src="css/gallery.webp" alt="Gallery" class="adopt-image" />
-        </a>
-        <a href="/adopt" class="adopt-link">
-            <img src="css/animalboarding.jpg" alt="Animal Boarding" class="adopt-image" />
-        </a>
-        <a href="/adopt" class="adopt-link">
-            <img src="css/events.jpg" alt="Events" class="adopt-image" />
-        </a>
-        <!-- Add more images here as needed -->
+
+    <!-- Container for sections -->
+    <div class="slider-container">
+        <div class="grid-container">
+            <!-- Repeat these sections as needed -->
+            <div class="adoption-section">
+                <h2 class="centered-text">Adoption</h2>
+                <p class="adoption-text">Hi there! Woof woof! I'm here to spread some love and joy.</p>
+                <img src="css/adpot.jpg" alt="Adopt a Pet" class="adopt-image" />
+            </div>
+            <div class="adoption-section">
+                <h2 class="centered-text">We are a PBO</h2>
+                <p class="adoption-text">We're dedicated to caring for animals and finding them loving homes.</p>
+                <img src="css/dogsimage.jpg" alt="PBO Info" class="adopt-image" />
+            </div>
+            <div class="adoption-section">
+                <h2 class="centered-text">Education Program</h2>
+                <p class="adoption-text">Join our program to learn more about responsible pet ownership.</p>
+                <img src="css/adpot.jpg" alt="Education Program" class="adopt-image" />
+            </div>
+            <div class="adoption-section">
+                <h2 class="centered-text">Pet Boarding</h2>
+                <p class="adoption-text">We offer safe and caring boarding for your pets while you're away.</p>
+                <img src="css/dog2.jpg" alt="Pet Boarding" class="adopt-image" />
+            </div>
+            <div class="adoption-section">
+                <h2 class="centered-text">Volunteers</h2>
+                <p class="adoption-text">Join our volunteer program and help us care for animals in need.</p>
+                <img src="css/volunteer.jpg" alt="Volunteers" class="adopt-image" />
+            </div>
+            <div class="adoption-section">
+                <h2 class="centered-text">Contact Info</h2>
+                <p class="adoption-text">Address: Schonland St, Cape Road Industrial Kariega, 6021</p>
+                <p class="adoption-text">Phone: 041 992 3016</p>
+                <p class="adoption-class">EMERGENCY: 082 905 4716</p>
+                <p class="adoption-class">Email: info@uitenhagespca.co.za</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button id="prevBtn">&#9664; Previous</button>
+        <button id="nextBtn">Next &#9654;</button>
     </div>
 </div>
 
+<!-- Optional Bottom Navbar -->
 <div class="bottom-navbar">
     <a href="/" class="nav-item">
         <img src="css/home.jpg" alt="Home" class="nav-icon" />
     </a>
+    
     <a href="/search" class="nav-item">
         <img src="css/search.jpg" alt="Search" class="nav-icon" />
     </a>
     <a href="/chat" class="nav-item">
         <img src="css/chat.jpg" alt="Chat" class="nav-icon" />
     </a>
+    <a href="/chat" class="nav-item">
+        <img src="css/chat.jpg" alt="Profile" class="nav-icon" />
+    </a>
 </div>
+
+<style>
+    .welcome-container {
+        padding: 20px;
+    }
+
+    .slider-container {
+        overflow: hidden; /* Hide the overflowing sections */
+        width: 640px; /* Width for displaying two sections */
+    }
+
+    .grid-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+    }
+
+    .adoption-section {
+        background-color: #f4f4f4;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        color: #333;
+        width: 300px;
+        flex-shrink: 0;
+    }
+
+    .adopt-image {
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+        border-radius: 8px;
+    }
+
+    .adoption-text {
+        font-size: 0.9em;
+        margin: 0 0 10px 0;
+    }
+
+    .adoption-class {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .nav-arrows {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+        .nav-arrows button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+            .nav-arrows button:hover {
+                background-color: #0056b3;
+            }
+
+    .bottom-navbar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #f4f4f4;
+        padding: 10px 0;
+        box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .nav-item {
+        flex: 1;
+        text-align: center;
+    }
+
+    .nav-icon {
+        width: 40px;
+        height: auto;
+    }
+    /* Side Navbar */
+    .side-navbar {
+        height: 100%; /* Full height */
+        width: 0; /* Start with 0 width */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Stay on top */
+        top: 0;
+        left: 0;
+        background-color: #111; /* Black background color */
+        overflow-x: hidden; /* Disable horizontal scroll */
+        transition: 0.5s; /* 0.5 second transition effect to slide in the navbar */
+        padding-top: 60px; /* Place content 60px from the top */
+    }
+
+        .side-navbar .nav-link {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .side-navbar .nav-link:hover {
+                color: #f1f1f1;
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+    /* Button to open the side navbar */
+    .open-nav-btn {
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+    }
+
+        .open-nav-btn:hover {
+            background-color: #444;
+        }
+
+</style>
+
+<script>
+    let currentIndex = 0;
+    const sections = document.querySelectorAll('.adoption-section');
+    const totalSections = sections.length;
+
+    document.getElementById('nextBtn').addEventListener('click', function () {
+        if (currentIndex < totalSections - 2) {
+            currentIndex += 2;
+            updateSlider();
+        }
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', function () {
+        if (currentIndex > 0) {
+            currentIndex -= 2;
+            updateSlider();
+        }
+    });
+    function openNav() {
+        document.getElementById("sideNavbar").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").style.width = "0";
+    }
+
+    function updateSlider() {
+        const gridContainer = document.querySelector('.grid-container');
+        gridContainer.style.transform = `translateX(-${currentIndex * 320}px)`;
+    }
+</script>
