@@ -2,18 +2,74 @@
 
 @inject NavigationManager Navigation
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Messages</PageTitle>
 
-<div class="background-image">
-
-    <h1>Hello, world!</h1>
-    <p>Welcome to your new app.</p>
-    <td>
-        <button class="btn btn-block btn-primary" @onclick="NavigateToRegister">Register</button>
-        <button class="btn btn-block btn-primary" @onclick="NavigateToLogin">Login</button>
-    </td>
+<div class="messages-page">
+    <div class="messages-inbox">
+        <table class="messages-table">
+            <tr>
+                <th class="messages-inbox-items"><h2>Inbox</h2></th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="message">
+                        <div class="message-header">
+                            <img class="message-avatar" src="./css/dog1.jpg" alt="Avatar" />
+                            <div class="message-info">
+                                <h4 class="message-sender">Kimberly</h4>
+                            </div>
+                        </div>
+                        <p class="message-content">What pets do you have?</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="message">
+                        <div class="message-header">
+                            <img class="message-avatar" src="./css/dog2.jpg" alt="Avatar" />
+                            <div class="message-info">
+                                <h4 class="message-sender">Jada</h4>
+                            </div>
+                        </div>
+                        <p class="message-content">When can I come in?</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="messages-chat">
+        <h2 class="message-title"><center>Kimberly</center></h2>
+        <div class="chat-window">
+            <div class="messages" id="messages">
+                <div class="message">
+                    <div class="message-header">
+                        <img class="message-avatar" src="./css/dog1.jpg" alt="Avatar" />
+                        <div class="message-info">
+                            <h4 class="message-sender">Kimberly</h4>
+                            <span class="message-timestamp">12:34 PM</span>
+                        </div>
+                    </div>
+                    <p class="message-content">What pets do you have?</p>
+                </div>
+                <div class="message">
+                    <div class="message-header">
+                        <img class="message-avatar" src="./css/SPCALOGO.jpg" alt="Avatar" />
+                        <div class="message-info">
+                            <h4 class="message-sender">SPCA</h4>
+                            <span class="message-timestamp">12:44 PM</span>
+                        </div>
+                    </div>
+                    <p class="message-content">We have dogs and cats.</p>
+                </div>
+            </div>
+            <div class="input-container">
+                <textarea id="messageInput" placeholder="Type a message..."></textarea>
+                <button id="sendButton">Send</button>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 @code {
     private void NavigateToRegister()
@@ -26,3 +82,111 @@
         Navigation.NavigateTo("/login");
     }
 }
+<style>
+    body{
+        color: white;
+    }
+    .messages-page{
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+    .messages-inbox{
+        width: 40%;
+        border: 1px solid black;
+    }
+    .message {
+        width: 100%;
+    }
+    .messages-chat{
+        width: 60%;
+        border: 1px solid black;
+    }
+    .messages-table{
+        width: 100%;
+    }
+
+    .messages-inbox-items{
+        width: 40%;
+        border-bottom: 1px solid black;
+    }
+
+    .messages-chat-heading{
+        border-bottom: 1px solid black;
+    }
+
+    .chat-window {
+        height: 550px;
+        padding: 10px;
+        flex-direction: column;
+    }
+
+    .message-title{
+        padding:5px;
+        border-bottom: 1px solid black;
+    }
+    .messages {
+        flex: 1;
+        height: 90%;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        overflow-y: auto;
+        border: 1px solid black;
+    }
+
+    textarea {
+        width: 80%;
+        height: 30px;
+        margin: 10px;
+    }
+
+    button {
+        margin: 10px;
+        width: 15%;
+    }
+
+    .input-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .message {
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .message-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message-sender {
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .message-timestamp {
+        font-size: 0.8em;
+        color: #666;
+    }
+
+    .message-content {
+        margin: 0;
+    }
+</style>
