@@ -11,26 +11,15 @@
         <div class="login-form">
             <h3 class="bold-text">Add Volunteer</h3>
             <div class="form-group">
-                <label for="breed" class="bold-text">Pet Breed</label>
-                <input id="breed" class="form-control rounded-input" />
+                <label for="name" class="bold-text">Name</label>
+                <input id="name" class="form-control rounded-input" />
             </div>
 
             <div class="form-group">
-                <label for="health" class="bold-text">Pet Health</label>
-                <input id="health" class="form-control rounded-input" />
+                <label for="surname" class="bold-text">Surname</label>
+                <input id="surname" class="form-control rounded-input" />
             </div>
-            <div class="form-group">
-                <label for="height" class="bold-text">Pet Height</label>
-                <input id="height" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="weight" class="bold-text">Pet Weight</label>
-                <input id="weight" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="status" class="bold-text">Pet Adpotion Status</label>
-                <input id="status" class="form-control rounded-input" />
-            </div>
+            
 
             <button type="submit" @onclick="AddVolunteer" class="btn btn-primary rounded-button bold-text">Add</button>
         </div>
@@ -40,27 +29,15 @@
 {
     <div class="login-container">
         <div class="login-form">
-            <h3 class="bold-text">Edit Pet</h3>
+            <h3 class="bold-text">Add Volunteer</h3>
             <div class="form-group">
-                <label for="editbreed" class="bold-text">Pet Breed</label>
-                <input id="editbreed" class="form-control rounded-input" />
+                <label for="name" class="bold-text">Name</label>
+                <input id="name" class="form-control rounded-input" />
             </div>
 
             <div class="form-group">
-                <label for="edithealth" class="bold-text">Pet Health</label>
-                <input id="edithealth" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editheight" class="bold-text">Pet Height</label>
-                <input id="editheight" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editweight" class="bold-text">Pet Weight</label>
-                <input id="editweight" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editstatus" class="bold-text">Pet Adpotion Status</label>
-                <input id="editeditstatusheight" class="form-control rounded-input" />
+                <label for="surname" class="bold-text">Surname</label>
+                <input id="surname" class="form-control rounded-input" />
             </div>
 
             <button type="submit" @onclick="EditVolunteer" class="btn btn-primary rounded-button bold-text">Edit</button>
@@ -71,10 +48,10 @@
 {
     <div class="login-container">
         <div class="login-form">
-            <h3 class="bold-text">Delete Pet</h3>
-            <p><b>Are you sure you want to delete this pet?</b></p>
+            <h3 class="bold-text">Delete Volunteer</h3>
+            <p><b>Are you sure you want to delete this Volunteer?</b></p>
 
-            <button type="submit" @onclick="DeletePet" class="btn btn-primary rounded-button bold-text">Delete</button>
+            <button type="submit" @onclick="DeleteVolunteer" class="btn btn-primary rounded-button bold-text">Delete</button>
         </div>
     </div>
 }
@@ -82,9 +59,9 @@
 {
     <div class="top">
         <div>
-            <center><h3 style="color: white;">Inventory</h3></center>
+            <center><h3 style="color: white;">Volunteers</h3></center>
             <center><input type="text" placeholder="Search..." class="desktop-search-bar"></center>
-            <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddVolunteerForm">Add Pet</button></center>
+            <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddVolunteerForm">Add Volunteer</button></center>
         </div>
     </div>
 
@@ -149,7 +126,7 @@
         EditVolunteerHtml = false;
         StateHasChanged();
     }
-    private void DeletePet(MouseEventArgs e)
+    private void DeleteVolunteer(MouseEventArgs e)
     {
         DeleteVolunteerHtml = false;
         StateHasChanged();
