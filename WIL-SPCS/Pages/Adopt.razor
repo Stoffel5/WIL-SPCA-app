@@ -1,4 +1,6 @@
 ﻿@page "/adopt"
+@inject IJSRuntime JS
+
 <h2 class="centered-text">Adopt a Pet</h2>
 
 <!-- Side Navigation Bar -->
@@ -23,18 +25,32 @@
             <input type="text" placeholder="Search for a dog..." @bind="searchQuery" class="search-input" />
             <button @onclick="SearchDogs" class="search-button">Search</button>
         </div>
-        
-        <!-- Grid of dog pictures -->
-        <div class="dog-grid">
-            @foreach (var dog in filteredDogs)
-            {
-                <div class="dog-card">
-                    <img src="@dog.ImageUrl" alt="@dog.Name" class="dog-image" />
-                    <h4>@dog.Name</h4>
-                    <!-- Adding an animated sticker -->
-                    <img src="css/dogsticker.jpg" alt="Cute Sticker" class="dog-sticker" />
-                </div>
-            }
+
+        <!-- Carousel for dog pictures -->
+        <div id="dogCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                @for (int i = 0; i < filteredDogs.Count; i++)
+                {
+                    var dog = filteredDogs[i];
+                    <div class="carousel-item @(i == 0 ? "active" : "")" @key="dog.Name">
+                        <img src="@dog.ImageUrl" class="d-block w-100 carousel-img" alt="@dog.Name">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>@dog.Name</h5>
+                            <p>@dog.Description</p> 
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#dogCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#dogCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
     </div>
 </div>
@@ -47,15 +63,36 @@
     function closeNav() {
         document.getElementById("sideNavbar").style.width = "0";
     }
+
+    function initializeCarousel() {
+        var carouselElement = document.querySelector('#dogCarousel');
+        if (carouselElement) {
+            var carouselInstance = bootstrap.Carousel.getInstance(carouselElement);
+            if (carouselInstance) {
+                carouselInstance.dispose(); 
+            }
+            new bootstrap.Carousel(carouselElement); 
+        }
+    }
+
+    window.addEventListener('load', function () {
+        initializeCarousel();
+    });
 </script>
 
 @code {
     private string searchQuery = "";
     private List<Dog> dogs = new List<Dog>
     {
-        new Dog { Name = "Buddy", ImageUrl = "css/dog1.jpg" },
-        new Dog { Name = "Max", ImageUrl = "css/dog2.jpg" },
-        new Dog { Name = "Bella", ImageUrl = "css/dog3.jpg" },
+        new Dog { Name = "Buddy", ImageUrl = "css/doggie1.jpg", Description = "Friendly and playful." },
+        new Dog { Name = "Max", ImageUrl = "css/doggie2.jpg", Description = "Energetic and loves to run." },
+        new Dog { Name = "Bella", ImageUrl = "css/doggie3.jpg", Description = "Gentle and affectionate." },
+        new Dog { Name = "Jock", ImageUrl = "css/doggie4.jpg", Description = "Loyal and protective." },
+        new Dog { Name = "Blaster", ImageUrl = "css/doggie5.jpg", Description = "Curious and intelligent." },
+        new Dog { Name = "Bomber", ImageUrl = "css/doggie6.jpg", Description = "Brave and adventurous." },
+        new Dog { Name = "Rocky", ImageUrl = "css/doggie7.jpg", Description = "Playful and outgoing." },
+        new Dog { Name = "Angie", ImageUrl = "css/doggie8.jpg", Description = "Calm and easygoing." },
+        new Dog { Name = "Bobby", ImageUrl = "css/doggie9.jpg", Description = "Affectionate and loyal." },
     };
     private List<Dog> filteredDogs;
 
@@ -64,7 +101,7 @@
         filteredDogs = dogs;
     }
 
-    private void SearchDogs()
+    private async Task SearchDogs()
     {
         if (!string.IsNullOrEmpty(searchQuery))
         {
@@ -74,19 +111,22 @@
         {
             filteredDogs = dogs;
         }
+
+        
+        await JS.InvokeVoidAsync("initializeCarousel");
     }
 
     public class Dog
     {
         public string Name { get; set; }
         public string ImageUrl { get; set; }
+        public string Description { get; set; } 
     }
 }
 
 <style>
     body {
         font-family: 'Arial', sans-serif;
-        
         margin: 0;
         padding: 0;
     }
@@ -101,7 +141,7 @@
     .adopt-container {
         padding: 20px;
         margin: auto;
-        max-width: 1200px;
+        max-width: 400px; 
     }
 
     .search-bar {
@@ -131,58 +171,33 @@
         transition: background-color 0.3s ease;
     }
 
-    .search-button:hover {
-        background-color: #218838;
-    }
+        .search-button:hover {
+            background-color: #218838;
+        }
 
-    .dog-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 30px;
-        justify-items: center;
-        padding: 10px;
-    }
-
-    .dog-card {
-        background-color: white;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        padding: 20px;
-        transition: transform 0.3s ease;
-        position: relative;
-    }
-
-    .dog-card:hover {
-        transform: scale(1.05);
-    }
-
-    .dog-image {
-        max-width: 100%;
-        height: auto;
-        border-radius: 15px;
-        margin-bottom: 15px;
+    /* Carousel image size adjustments */
+    .carousel-item img.carousel-img {
+        max-height: 400px;
         object-fit: cover;
+        border-radius: 15px;
     }
 
-    .dog-card h4 {
-        margin: 10px 0;
-        font-size: 1.2em;
-        color: #555;
+    .carousel-caption {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        padding: 10px;
+        color: #fff;
     }
 
-    .dog-sticker {
-        width: 50px;
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        animation: bounce 2s infinite;
-    }
+        .carousel-caption p {
+            margin: 0;
+            font-size: 1em;
+            font-weight: 300;
+        }
 
     html, body {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        background-color: #4682B4; /* Coral blue color */
+        background-color: #4682B4;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -204,25 +219,25 @@
         z-index: 100;
     }
 
-    .side-navbar .nav-link {
-        padding: 10px 15px;
-        font-size: 1.1em;
-        color: white;
-        display: block;
-        transition: background-color 0.3s ease;
-    }
+        .side-navbar .nav-link {
+            padding: 10px 15px;
+            font-size: 1.1em;
+            color: white;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
 
-    .side-navbar .nav-link:hover {
-        background-color: #495057;
-    }
+            .side-navbar .nav-link:hover {
+                background-color: #495057;
+            }
 
-    .side-navbar .close-btn {
-        position: absolute;
-        top: 15px;
-        right: 25px;
-        font-size: 30px;
-        color: white;
-    }
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            color: white;
+        }
 
     .open-btn {
         font-size: 22px;
@@ -239,11 +254,16 @@
         transition: background-color 0.3s ease;
     }
 
-    .open-btn:hover {
-        background-color: #0056b3;
-    }
+        .open-btn:hover {
+            background-color: #0056b3;
+        }
 
     .main-content {
         padding: 40px;
     }
 </style>
+
+<!-- Bootstrap CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+

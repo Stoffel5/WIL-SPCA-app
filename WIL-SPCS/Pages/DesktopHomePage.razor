@@ -18,7 +18,7 @@
     </button>
     <button class="desktop-cards" @onclick=NavigateToReport>
         <center><img src="#" class="thumbnail"></center>
-        <h3>Reports</h3>
+        <h3>Boardings</h3>
     </button>
     <button class="desktop-cards" @onclick=NavigateToVolunteers>
         <center><img src="#" class="thumbnail"></center>
@@ -32,6 +32,7 @@
         <center><img src="#" class="thumbnail"></center>
         <h3>Events</h3>
     </button>
+    
 </div>
 
 @code {
@@ -56,15 +57,3 @@
         Navigation.NavigateTo("/AdminMessages");
     }
 }
-
-<style>
-    .heading{
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        align-items: center;
-    }
-
-</style>
