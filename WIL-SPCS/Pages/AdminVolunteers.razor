@@ -5,6 +5,18 @@
 
 <PageTitle>Inventory</PageTitle>
 
+<button class="open-nav-btn" onclick="openNav()">☰ </button>
+<!-- Side Navigation Bar -->
+<div id="sideNavbar" class="side-navbar">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+    <a href="/adminmessages" class="nav-link">Messages</a>
+    <a href="/adminboardings" class="nav-link">Boardings</a>
+    <a href="/adminvolunteers" class="nav-link">Volunteers</a>
+    <a href="/admininventory" class="nav-link">Inventory</a>
+    <a href="/adminevents" class="nav-link">Events</a>
+    <!-- Add more links here as needed -->
+</div>
+
 @if (AddVolunteerHtml)
 {
     <div class="login-container">
@@ -202,5 +214,55 @@
         width: fit-content;
         margin-top: 10px;
     }
+    /* Side Navbar Styles */
+    .side-navbar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden */
+        background-color: #007BFF; /* Blue background for navbar */
+        color: white;
+        overflow-x: hidden;
+        transition: 0.3s; /* Smooth transition for opening and closing */
+        padding-top: 60px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+        .side-navbar .nav-link {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.2em;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #0056b3; /* Darker blue for hover effect */
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Show the side navbar when it is active */
+        .side-navbar.active {
+            left: 0;
+        }
 </style>
+
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").classList.add("active");
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").classList.remove("active");
+    }
+</script>
 

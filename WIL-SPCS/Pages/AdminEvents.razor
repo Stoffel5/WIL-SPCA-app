@@ -1,5 +1,17 @@
 ﻿@page "/AdminEvents"
 
+<button class="open-nav-btn" onclick="openNav()">☰ </button>
+<!-- Side Navigation Bar -->
+<div id="sideNavbar" class="side-navbar">
+    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+    <a href="/adminmessages" class="nav-link">Messages</a>
+    <a href="/adminboardings" class="nav-link">Boardings</a>
+    <a href="/adminvolunteers" class="nav-link">Volunteers</a>
+    <a href="/admininventory" class="nav-link">Inventory</a>
+    <a href="/adminevents" class="nav-link">Events</a>
+    <!-- Add more links here as needed -->
+</div>
+
 <!-- Calendar and Date Picker -->
 <div class="calendar-container">
     @if (addEvent)
