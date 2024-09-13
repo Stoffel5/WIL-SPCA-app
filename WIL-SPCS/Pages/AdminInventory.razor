@@ -12,27 +12,24 @@
             <h3 class="bold-text">Add Pet</h3>
             <div class="form-group">
                 <label for="breed" class="bold-text">Pet Breed</label>
-                <input id="breed" class="form-control rounded-input" />
+                <input id="breed" @bind="addBreed" class="form-control rounded-input" />
             </div>
 
             <div class="form-group">
                 <label for="health" class="bold-text">Pet Health</label>
-                <input id="health" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="height" class="bold-text">Pet Height</label>
-                <input id="height" class="form-control rounded-input" />
+                <input id="health" @bind="addHealth" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="weight" class="bold-text">Pet Weight</label>
-                <input id="weight" class="form-control rounded-input" />
+                <input id="weight" type="number" @bind="addWeight" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="status" class="bold-text">Pet Adpotion Status</label>
-                <input id="status" class="form-control rounded-input" />
+                <input id="status" @bind="addAdoption" class="form-control rounded-input" />
             </div>
 
-            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button>
+            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button><br />
+            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -82,7 +79,7 @@
 {
     <div class="top">
         <div>
-            <center><h3 style="color: white;">Inventory</h3></center>
+            <center><h3 class="heading centered-text">Inventory</h3></center>
             <center><input type="text" placeholder="Search..." class="desktop-search-bar"></center>
             <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddPetForm">Add Pet</button></center>
         </div>
@@ -96,25 +93,26 @@
                 <th>Pet ID</th>
                 <th>Breed</th>
                 <th>Health</th>
-                <th>Heigh</th>
                 <th>Weight</th>
                 <th>Status</th>
                 <th></th>
             </tr>
-            <tr>
-                <td>1001</td>
-                <td>German Shepard</td>
-                <td>Healthy</td>
-                <td>80cm</td>
-                <td>50kg</td>
-                <td>Pending Adoption</td>
-                <td>
-                    <center>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="DeletePetForm">Delete</button>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="EditPetForm">Edit</button>
-                    </center>
-                </td>
-            </tr>
+            @foreach(var pet in pets)
+            {
+                <tr>
+                    <td>@pet.petId</td>
+                    <td>@pet.breed</td>
+                    <td>@pet.health</td>
+                    <td>@pet.weight</td>
+                    <td>@pet.adoptionStatus</td>
+                    <td>
+                        <center>
+                            <button class="btn btnx btn-primary rounded-button bold-text" @onclick="DeletePetForm">Delete</button>
+                            <button class="btn btnx btn-primary rounded-button bold-text" @onclick="EditPetForm">Edit</button>
+                        </center>
+                    </td>
+                </tr>
+            }
         </table>
     </div>
 }
@@ -123,6 +121,36 @@
     bool AddPetHtml = false;
     bool EditPetHtml = false;
     bool DeletePetHtml = false;
+    string addBreed = string.Empty;
+    string addHealth = string.Empty;
+    int addWeight = 0;
+    string addAdoption = string.Empty;
+    List<Pet> pets = new List<Pet>();
+
+    protected override void OnInitialized()
+    {
+        // Initial load of events based on the default date
+        LoadPets();
+    }
+
+    private void LoadPets()
+    {
+        // Load events based on the selected date (placeholder logic)
+        pets = GetPets();
+    }
+
+    private List<Pet> GetPets()
+    {
+        // Placeholder logic for event fetching
+        // Replace with actual data fetching from database or API
+        return new List<Pet>
+        {
+            new Pet { petId = 1, breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
+            new Pet { petId = 2, breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
+            new Pet { petId = 3, breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" }
+        };
+    }
+
     private void AddPetForm(MouseEventArgs e)
     {
         AddPetHtml = true;
@@ -145,6 +173,17 @@
     }
     private void AddPet(MouseEventArgs e)
     {
+        Pet pet = new Pet();
+        pet.petId = 1;
+        pet.breed = addBreed;
+        pet.health = addHealth;
+        pet.weight = addWeight;
+        pet.adoptionStatus = addAdoption;
+        addBreed = string.Empty;
+        addHealth = string.Empty;
+        addWeight = 0;
+        addAdoption = string.Empty;
+        pets.Add(pet);
         AddPetHtml = false;
         StateHasChanged();
     }
@@ -157,6 +196,19 @@
     {
         DeletePetHtml = false;
         StateHasChanged();
+    }
+    private void Cancel(MouseEventArgs e)
+    {
+        AddPetHtml = false;
+        StateHasChanged();
+    }
+    public class Pet
+    {
+        public int petId { get; set; }
+        public string breed { get; set; }
+        public string health { get; set; }
+        public int weight { get; set; }
+        public string adoptionStatus { get; set; }
     }
 }
 
@@ -223,6 +275,17 @@
         padding: 0.375rem 0.75rem;
         font-size: 1rem;
         line-height: 1.5;
+    }
+
+    .heading {
+        width: fit-content;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        align-items: center;
+        margin-bottom: 10px;
     }
 
     .btnx {

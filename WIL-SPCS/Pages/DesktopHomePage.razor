@@ -5,34 +5,30 @@
 
 <div class="desktop-container">
     <img src="./css/SPCALOGO.jpg" alt="Left Image" class="home-image">
-    <div>
-        <center><h3>Home</h3></center>
-        
-        <input type="text" placeholder="Search..." class="desktop-search-bar">
-    </div>
+    <h3 class="heading centered-text">Home</h3>
     <img src="./css/SPCALOGO.jpg" alt="Right Image" class="home-image">
 </div>
 
 <div style="padding-left: 16px"></div>
 
 <div class="desktop-btns">
-    <button class="card-messages" @onclick=NavigateToMessages>
+    <button class="desktop-cards" @onclick=NavigateToMessages>
         <center><img src="#" class="thumbnail"></center>
         <h3>Messages</h3>
     </button>
-    <button class="card-reports" @onclick=NavigateToReport>
+    <button class="desktop-cards" @onclick=NavigateToReport>
         <center><img src="#" class="thumbnail"></center>
         <h3>Reports</h3>
     </button>
-    <button class="card-volunteers" @onclick=NavigateToVolunteers>
+    <button class="desktop-cards" @onclick=NavigateToVolunteers>
         <center><img src="#" class="thumbnail"></center>
         <h3>Volunteers</h3>
     </button>
-    <button class="card-inventory" @onclick=NavigateToInventory>
+    <button class="desktop-cards" @onclick=NavigateToInventory>
         <center><img src="#" class="thumbnail"></center>
         <h3>Inventory</h3>
     </button>
-    <button class="card-events" @onclick=NavigateToEvents>
+    <button class="desktop-cards" @onclick=NavigateToEvents>
         <center><img src="#" class="thumbnail"></center>
         <h3>Events</h3>
     </button>
@@ -60,3 +56,15 @@
         Navigation.NavigateTo("/AdminMessages");
     }
 }
+
+<style>
+    .heading{
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        align-items: center;
+    }
+
+</style>
