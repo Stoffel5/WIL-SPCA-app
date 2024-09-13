@@ -20,9 +20,9 @@
         <center><img src="#" class="thumbnail"></center>
         <h3>Messages</h3>
     </button>
-    <button class="card-reports" @onclick=NavigateToReport>
+    <button class="card-reports" @onclick=NavigateToBoardings>
         <center><img src="#" class="thumbnail"></center>
-        <h3>Reports</h3>
+        <h3>Boardings</h3>
     </button>
     <button class="card-volunteers" @onclick=NavigateToVolunteers>
         <center><img src="#" class="thumbnail"></center>
@@ -36,6 +36,7 @@
         <center><img src="#" class="thumbnail"></center>
         <h3>Events</h3>
     </button>
+    
 </div>
 
 @code {
@@ -58,5 +59,9 @@
     private void NavigateToMessages()
     {
         Navigation.NavigateTo("/AdminMessages");
+    }
+    private void NavigateToBoardings()
+    {
+        Navigation.NavigateTo("/AdminBoardings");
     }
 }
