@@ -28,19 +28,6 @@
     else
     {
         <h2 class="centered-text">Events</h2>
-        <button class="open-nav-btn" onclick="openNav()">☰ </button>
-        <!-- Side Navigation Bar -->
-        <div id="sideNavbar" class="side-navbar">
-            <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-            <a href="/adopt" class="nav-link">Adopt a Pet</a>
-            <a href="/awareness" class="nav-link">Awareness</a>
-            <a href="/donations" class="nav-link">Donations and Sponsors</a>
-            <a href="/volunteer" class="nav-link">Volunteer</a>
-            <a href="/gallery" class="nav-link">Gallery</a>
-            <a href="/boarding" class="nav-link">Animal Boarding</a>
-            <a href="/events" class="nav-link">Events</a>
-            <!-- Add more links here as needed -->
-        </div>
         <h3>Select a Date to See Events</h3>
         <input type="date" @bind="selectedDate" class="date-picker" /><br />
         <button class="btn btn-primary rounded-button bold-text" @onclick="AddEventForm">Add Event</button>
