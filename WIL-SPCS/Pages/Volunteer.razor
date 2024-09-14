@@ -166,8 +166,9 @@
             transition: box-shadow 0.3s ease-in-out; /* Smooth transition for the glowing effect */
         }
 
+            /* Glow effect on hover */
             .sticker-image:hover {
-                box-shadow: 0 0 10px #FF0081, 0 0 20px #FF0081, 0 0 30px #FF0081; /* Glow effect on hover */
+                box-shadow: 0 0 10px #FF0081, 0 0 20px #FF0081, 0 0 30px #FF0081; 
             }
     </style>
 </head>
@@ -177,14 +178,16 @@
     <!-- Side Navigation Bar -->
     <div id="sideNavbar" class="side-navbar">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-        <a href="/adopt" class="nav-link">Adopt a Pet</a>
-        <a href="/awareness" class="nav-link">Awareness</a>
-        <a href="/donations" class="nav-link">Donations and Sponsors</a>
-        <a href="/volunteer" class="nav-link">Volunteer</a>
-        <a href="/gallery" class="nav-link">Gallery</a>
-        <a href="/boarding" class="nav-link">Animal Boarding</a>
-        <a href="/events" class="nav-link">Events</a>
+        <a href="/adopt" class="nav-link" aria-label="Navigate to Adopt a Pet">Adopt a Pet</a>
+        <a href="/awareness" class="nav-link" aria-label="Navigate to Awareness Page">Awareness</a>
+        <a href="/donations" class="nav-link" aria-label="Navigate to Donations and Sponsors">Donations and Sponsors</a>
+        <a href="/volunteer" class="nav-link" aria-label="Navigate to Volunteer Page">Volunteer</a>
+        <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">Gallery</a>
+        <a href="/boarding" class="nav-link" aria-label="Navigate to Animal Boarding Page">Animal Boarding</a>
+        <a href="/events" class="nav-link" aria-label="Navigate to Events">Events</a>
+        <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a> 
     </div>
+
 
     <!-- Main Content -->
     <div class="main-content">
