@@ -16,7 +16,7 @@
         <center><img src="/css/Message circle.png" class="thumbnail"></center>
         <h3>Messages</h3>
     </button>
-    <button class="desktop-cards" @onclick=NavigateToReport>
+    <button class="desktop-cards" @onclick=NavigateToBoardings>
         <center><img src="/css/boarding.jpg" class="thumbnail"></center>
         <h3>Boardings</h3>
     </button>
@@ -36,9 +36,9 @@
 </div>
 
 @code {
-    private void NavigateToReport()
+    private void NavigateToBoardings()
     {
-        Navigation.NavigateTo("/AdminReport");
+        Navigation.NavigateTo("/AdminBoardings");
     }
     private void NavigateToEvents()
     {
