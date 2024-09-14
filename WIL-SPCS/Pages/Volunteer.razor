@@ -1,142 +1,210 @@
 ﻿@page "/volunteer"
-<button class="open-nav-btn" onclick="openNav()">☰ </button>
+@layout MainLayout
+
+<button class="open-btn" onclick="openNav()">☰</button>
+
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
     <a href="/adopt" class="nav-link">Adopt a Pet</a>
     <a href="/awareness" class="nav-link">Awareness</a>
-    <a href="/donations" class="nav-link">Donations</a>
+    <a href="/donations" class="nav-link">Donations and Sponsors</a>
     <a href="/volunteer" class="nav-link">Volunteer</a>
     <a href="/gallery" class="nav-link">Gallery</a>
     <a href="/boarding" class="nav-link">Animal Boarding</a>
     <a href="/events" class="nav-link">Events</a>
-    <!-- Add more links here as needed -->
+    <!-- Link to Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 </div>
 
 <!-- Main Content -->
 <div class="main-content">
-    <!-- Volunteer Page Content -->
     <div class="volunteer-container">
-        <h1 class="centered-heading">Join Our Volunteer Team</h1>
-        <p class="intro-paragraph">
-            We are always looking for dedicated volunteers to help us make a difference. If you have a passion for animals and want to support the SPCA, consider volunteering with us. Here are some of the areas where we need help:
-        </p>
-        <ul class="volunteer-list">
-            <li>Animal Care: Feeding, grooming, and exercising the animals.</li>
-            <li>Event Assistance: Helping organize and manage SPCA events.</li>
-            <li>Administrative Support: Assisting with office tasks and paperwork.</li>
-            <li>Fundraising: Participating in and supporting fundraising activities.</li>
-            <li>Community Outreach: Engaging with the community and spreading awareness.</li>
-        </ul>
-        <p class="intro-paragraph">
-            Your time and effort make a significant impact. Thank you for considering joining our team!
-        </p>
+        <h2 class="centered-text">Join Our Volunteer Team</h2>
+        <div class="volunteer-intro">
+            <p> The SPCA welcomes volunteers with open paws? Yup, they're always on the lookout for big-hearted humans who want to lend a paw in making a difference for us furry pals. If you're 18 or older, you can join the team solo, but if you're younger, just bring along an adult pal! Volunteering here is a blast – you get to hang out with all sorts of fluffy friends and help take care of them in a super fun environment. So, why wait? Reach out to them and offer your services today! Let's make tails wag and hearts smile together!</p>
+        </div>
+
+        <!-- Volunteer Opportunities Grid -->
+        <div class="volunteer-grid">
+            <div class="volunteer-card">
+                <img src="images/breadcat.jpg" alt="Animal Care" />
+                <h4>Animal Care</h4>
+                <p>Feeding, grooming, and exercising the animals.</p>
+            </div>
+            <div class="volunteer-card">
+                <img src="images/dogg.jpg" alt="Event Assistance" />
+                <h4>Event Assistance</h4>
+                <p>Helping organize and manage SPCA events.</p>
+            </div>
+            <div class="volunteer-card">
+                <img src="images/copycat.jpg" alt="Administrative Support" />
+                <h4>Administrative Support</h4>
+                <p>Assisting with office tasks and paperwork.</p>
+            </div>
+        </div>
+
+        <!-- Sticker at the Bottom -->
+        <div class="sticker-container">
+            <img src="stickers/kitty1.png" alt="Cute Kitty Sticker" class="sticker-image" />
+        </div>
     </div>
 </div>
 
-<style>
-    .side-navbar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: -250px; /* Initially hidden */
-        background-color: #007BFF; /* Blue background for navbar */
-        color: white;
-        overflow-x: hidden;
-        transition: 0.3s; /* Smooth transition for opening and closing */
-        padding-top: 60px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").style.width = "250px";
     }
 
-        .side-navbar .nav-link {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 1.2em;
-            color: white;
-            display: block;
-            transition: 0.3s;
-        }
+    function closeNav() {
+        document.getElementById("sideNavbar").style.width = "0";
+    }
+</script>
 
-            .side-navbar .nav-link:hover {
-                background-color: #0056b3; /* Darker blue for hover effect */
-            }
+<style>
+    html, body {
+        font-family: 'Quicksand', sans-serif;
+        background-color: #143963; 
+        margin: 0;
+        padding: 0;
+        color: #ffffff; 
+    }
 
-        .side-navbar .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        .side-navbar.active {
-            left: 0;
-        }
-
-    .main-content {
-        margin-left: 250px; /* Adjust to account for the width of the side navbar */
-        padding: 20px; /* Padding for the content area */
+    .centered-text {
+        text-align: center;
+        font-size: 2.5em;
+        color: #ffffff;
+        margin-top: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
     }
 
     .volunteer-container {
         padding: 20px;
+        margin: auto;
+        max-width: 1200px;
+        background-color: #143963; 
+        border-radius: 20px;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); 
+    }
+
+    .volunteer-intro {
         text-align: center;
-        background-color: #f9f9f9; /* Light background for the container */
-        border-radius: 8px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        margin: 20px auto;
-        max-width: 800px; /* Limits width for better readability */
+        margin-bottom: 40px;
+        font-size: 1.5em;
+        color: #ffffff;
+        font-weight: bold;
     }
 
-    .centered-heading {
-        font-size: 2.5em;
-        color: #007BFF; /* Blue color for the heading */
-        margin-bottom: 20px;
+    .volunteer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center;
+        padding: 10px;
     }
 
-    .intro-paragraph {
-        font-size: 1.2em;
-        color: #333; /* Darker text color for contrast */
-        margin-bottom: 20px;
-    }
-    
-    .volunteer-list {
-        list-style-type: none; /* Removes default bullet points */
-        padding: 0;
-        font-size: 1.1em;
-        color: #555; /* Slightly lighter text color */
-        margin-bottom: 20px;
+    .volunteer-card {
+        background-color: #4775A9; 
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); 
+        text-align: center;
+        padding: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        position: relative;
     }
 
-        .volunteer-list li {
-            margin-bottom: 10px; /* Space between list items */
+        .volunteer-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
+            background-color: #ffffff; 
         }
 
-    .open-nav-btn {
-        font-size: 20px;
+        .volunteer-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        .volunteer-card h4 {
+            margin: 10px 0;
+            font-size: 1.4em;
+            color: #143963; 
+        }
+
+        .volunteer-card p {
+            font-size: 1em;
+            color: #333; 
+        }
+
+    .side-navbar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #143963; 
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 100;
+        border-right: 2px solid #ffffff; 
+    }
+
+        .side-navbar .nav-link {
+            padding: 15px 20px;
+            font-size: 1.2em;
+            color: #e0f7fa; 
+            display: block;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none; 
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #4775A9; 
+                color: #ffffff; 
+                box-shadow: 0 0 10px #ffffff; 
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            color: #ffffff; 
+        }
+
+    .open-btn {
+        font-size: 24px;
         cursor: pointer;
-        background-color: #007BFF;
-        color: white;
+        color: #ffffff;
         border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
+        padding: 15px 25px;
+        border-radius: 25px;
         position: fixed;
         top: 20px;
         left: 20px;
-        z-index: 1001;
+        z-index: 101;
+        transition: background-color 0.3s ease;
+    }
+
+        .open-btn:hover {
+            background-color: #0d2a4a; 
+        }
+
+    .sticker-container {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+
+    .sticker-image {
+        max-width: 120px; 
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
     }
 </style>
-
-<script>
-    function openNav() {
-        document.getElementById("sideNavbar").classList.add("active");
-        document.querySelector(".main-content").style.marginLeft = "250px";
-    }
-
-    function closeNav() {
-        document.getElementById("sideNavbar").classList.remove("active");
-        document.querySelector(".main-content").style.marginLeft = "0";
-    }
-</script>
