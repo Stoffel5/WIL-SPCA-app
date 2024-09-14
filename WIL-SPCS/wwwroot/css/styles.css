@@ -1,0 +1,215 @@
+﻿/* Base styles */
+html, body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(180deg, #1e3c72, #143963);
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+}
+
+/* Header styles */
+.header {
+    background: linear-gradient(135deg, #1e3c72, #143963);
+    color: #ffffff;
+    text-align: center;
+    padding: 30px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+    border-bottom: 4px solid #ffffff;
+}
+
+/* Centered text */
+.centered-text {
+    text-align: center;
+    font-size: 3em;
+    color: #ffffff;
+    margin-top: 20px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 1s ease-out;
+}
+
+/* Awareness container */
+.awareness-container {
+    padding: 30px;
+    margin: auto;
+    max-width: 1200px;
+    background: rgba(20, 50, 100, 0.8);
+    border-radius: 15px;
+    box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease-out;
+}
+
+/* Intro section */
+.awareness-intro {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.8em;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 1.4;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Grid layout */
+.awareness-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    padding: 10px;
+}
+
+/* Awareness card */
+.awareness-card {
+    background: linear-gradient(135deg, #4775A9, #6a9abf);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    position: relative;
+    border: 2px solid #ffffff;
+}
+
+    .awareness-card img {
+        width: 100%;
+        border-radius: 10px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .awareness-card:hover img {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    .awareness-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.5);
+        background: linear-gradient(135deg, #6a9abf, #4775A9);
+    }
+
+    .awareness-card h4 {
+        margin: 10px 0;
+        font-size: 1.5em;
+        color: #ffffff;
+    }
+
+    .awareness-card p {
+        font-size: 1em;
+        color: #e0f7fa;
+        line-height: 1.5;
+    }
+
+/* Side navbar */
+.side-navbar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #143963, #1e3c72);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    z-index: 100;
+    border-right: 2px solid #ffffff;
+}
+
+    .side-navbar .nav-link {
+        padding: 15px 20px;
+        font-size: 1.3em;
+        color: #e0f7fa;
+        display: block;
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        text-decoration: none;
+    }
+
+        .side-navbar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+    /* Close button */
+    .side-navbar .close-btn {
+        position: absolute;
+        top: 15px;
+        right: 25px;
+        font-size: 30px;
+        color: #ffffff;
+        transition: color 0.3s ease;
+    }
+
+        .side-navbar .close-btn:hover {
+            color: #e0f7fa;
+        }
+
+/* Open button */
+.open-btn {
+    font-size: 24px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    border: none;
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 25px;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 101;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .open-btn:hover {
+        background: linear-gradient(135deg, #2a5298, #1e3c72);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+/* Main content */
+.main-content {
+    padding: 40px;
+}
+
+/* Sticker */
+.sticker-container {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+}
+
+.sticker-image {
+    max-width: 120px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .sticker-image:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+/* Keyframes for fadeIn animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Footer */
+.footer {
+    background: linear-gradient(135deg, #1e3c72, #143963);
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 4px solid #ffffff;
+}
