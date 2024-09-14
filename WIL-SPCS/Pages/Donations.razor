@@ -1,5 +1,5 @@
 ﻿@page "/donations"
-<button class="open-nav-btn" onclick="openNav()">☰</button>
+<button class="open-btn" onclick="openNav()">☰</button>
 
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
@@ -10,12 +10,11 @@
     <a href="/gallery" class="nav-link">Gallery</a>
     <a href="/boarding" class="nav-link">Animal Boarding</a>
     <a href="/events" class="nav-link">Events</a>
-
 </div>
 
 
 <div class="main-content">
-    
+
     <div class="donations-container">
         <h1 class="centered-heading">Support Our SPCA</h1>
         <p class="intro-paragraph">
@@ -36,67 +35,100 @@
         <div class="progress-container">
             <h2 class="progress-heading">Donation Progress</h2>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 50%;"></div> 
+                <div class="progress-fill" style="width: 50%;"></div>
             </div>
             <p class="progress-text">Goal: $10,000 | Raised: $5,000</p>
         </div>
     </div>
 
-    
     <div class="image-container">
         <img src="css/cat.jpg" alt="Support Our SPCA" class="donation-image">
     </div>
 
-    
     <div class="top-image-container">
         <img src="css/friendlydoggie.png" alt="SPCA Logo" class="top-image">
     </div>
 </div>
 
 <style>
-    .side-navbar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: -250px;
-        background-color: #007BFF;
-        color: white;
-        overflow-x: hidden;
-        transition: 0.3s;
-        padding-top: 60px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
+    body {
+        background-image: url('images/background1.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
     }
 
+    /* Side Navbar Styles */
+    .side-navbar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #143963;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 100;
+        border-right: 2px solid #ffffff;
+    }
+
+        /* Remove underline from links */
         .side-navbar .nav-link {
-            padding: 10px 15px;
-            text-decoration: none;
+            padding: 15px 20px;
             font-size: 1.2em;
-            color: white;
+            color: #e0f7fa;
             display: block;
-            transition: 0.3s;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
         }
 
+            /* Dark blue background on hover */
             .side-navbar .nav-link:hover {
-                background-color: #0056b3;
+                background-color: #4775A9;
+                color: #ffffff;
+                box-shadow: 0 0 10px #ffffff;
             }
 
         .side-navbar .close-btn {
             position: absolute;
-            top: 10px;
+            top: 15px;
             right: 25px;
-            font-size: 36px;
+            font-size: 30px;
+            color: #ffffff;
         }
 
-        .side-navbar.active {
-            left: 0;
+    /* Dark blue button */
+    .open-btn {
+        font-size: 24px;
+        cursor: pointer;
+        background-color: #143963;
+        color: #ffffff;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 25px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 101;
+        transition: background-color 0.3s ease;
+    }
+
+        /* Darker blue on hover */
+        .open-btn:hover {
+            background-color: #0d2a4a;
         }
+
 
     .main-content {
         margin-left: 250px;
         padding: 20px;
         position: relative;
+        background-color: #143963;
+        border-radius: 8px;
     }
 
     .top-image-container {
@@ -115,7 +147,7 @@
     .donations-container {
         padding: 20px;
         text-align: center;
-        background-color: #f9f9f9;
+        background-color: #143963;
         border-radius: 8px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         margin: 20px auto;
@@ -124,13 +156,13 @@
 
     .centered-heading {
         font-size: 2.5em;
-        color: #007BFF;
+        color: #ffffff;
         margin-bottom: 20px;
     }
 
     .intro-paragraph {
         font-size: 1.2em;
-        color: #333;
+        color: #ffffff;
         margin-bottom: 20px;
     }
 
@@ -138,7 +170,7 @@
         list-style-type: none;
         padding: 0;
         font-size: 1.1em;
-        color: #555;
+        color: #ffffff;
         margin-bottom: 20px;
     }
 
@@ -209,20 +241,19 @@
         border-radius: 8px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-    
 </style>
 
 <script>
     function openNav() {
-        document.getElementById("sideNavbar").classList.add("active");
-        document.querySelector(".main-content").style.marginLeft = "250px";
+        document.getElementById("sideNavbar").style.width = "250px";
     }
 
     function closeNav() {
-        document.getElementById("sideNavbar").classList.remove("active");
-        document.querySelector(".main-content").style.marginLeft = "0";
+        document.getElementById("sideNavbar").style.width = "0";
     }
 </script>
+
+
+
 
 
