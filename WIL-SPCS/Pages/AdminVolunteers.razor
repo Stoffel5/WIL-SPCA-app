@@ -80,7 +80,7 @@
     <div style="padding-left: 16px"></div>
 
     <div class="tbl-pets">
-        <table>
+        <table class="table-style">
             <tr>
                 <th>Volunteer ID</th>
                 <th>Name</th>
@@ -154,10 +154,22 @@
         width: 100%;
     }
 
-    table, th, td {
+    th, td {
         border: 1px solid black;
         border-collapse: collapse;
         background-color: white;
+        padding: 10px;
+    }
+
+    .table-style {
+        width: 100%;
+        border-collapse: separate;
+        background-color: white;
+        border-radius: 12px;
+        border: 1px solid black;
+        overflow: hidden;
+        border-spacing: 0;
+        margin-bottom: 10px;
     }
 
     .login-form {
