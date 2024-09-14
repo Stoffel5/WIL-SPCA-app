@@ -12,10 +12,10 @@
     <style>
         html, body {
             font-family: 'Quicksand', sans-serif;
-            background-image: url('images/background1.png'); /* Path to your background image */
-            background-size: cover; /* Ensure the background covers the entire viewport */
-            background-repeat: no-repeat; /* Prevent the background from repeating */
-            background-position: center; /* Center the background image */
+            background-image: url('images/background1.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
             margin: 0;
             padding: 0;
             color: #ffffff;
@@ -26,14 +26,13 @@
             font-size: 2.5em;
             color: #ffffff;
             margin-top: 20px;
-            text-shadow: 0 0 10px #ffffff; /* White glow */
         }
 
         .awareness-container {
             padding: 20px;
             margin: auto;
             max-width: 1200px;
-            background-color: rgba(20, 57, 99, 0.8); /* Semi-transparent background color */
+            background-color: rgba(20, 57, 99, 0.8);
             border-radius: 20px;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
         }
@@ -44,7 +43,6 @@
             font-size: 1.5em;
             color: #ffffff;
             font-weight: bold;
-            text-shadow: 0 0 10px #ffffff; /* White glow */
         }
 
         .awareness-grid {
@@ -163,14 +161,18 @@
             height: auto;
             border-radius: 15px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            transition: box-shadow 0.3s ease;
         }
+
+            .sticker-image:hover {
+                box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff; 
+            }
     </style>
 </head>
 <body>
     <h2 class="centered-text">Raise Awareness</h2>
 
-    <!-- Side Navigation Bar -->
+    
     <div id="sideNavbar" class="side-navbar">
         <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
         <a href="/adopt" class="nav-link" aria-label="Navigate to Adopt a Pet">Adopt a Pet</a>
@@ -182,7 +184,7 @@
         <a href="/events" class="nav-link" aria-label="Navigate to Events">Events</a>
     </div>
 
-    <!-- Main content -->
+   
     <div class="main-content">
         <button class="open-btn" onclick="openNav()">☰</button>
 
@@ -212,14 +214,14 @@
                 </div>
             </div>
 
-            <!-- Sticker at the bottom -->
+            
             <div class="sticker-container">
                 <img src="stickers/PUP1.png" alt="Cute Puppy Sticker" class="sticker-image" id="stickerImage" />
             </div>
         </div>
     </div>
 
-    <!-- Audio Element -->
+   
     <audio id="barkSound" preload="auto">
         <source src="sounds/barkingpuppy.mp3" type="audio/mpeg">
         Your browser does not support the audio tag.
@@ -232,25 +234,19 @@
             barkSound.play();
         }
 
-        const glowColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+        
         const sticker = document.getElementById('stickerImage');
-        const body = document.querySelector('body');
 
-        function getRandomColor() {
-            return glowColors[Math.floor(Math.random() * glowColors.length)];
-        }
+        sticker.addEventListener('mouseover', () => {
+            sticker.style.boxShadow = `0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff`; 
+            playBarkSound(); 
+        });
 
-        function applyTextGlowEffect() {
-            body.style.textShadow = `0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #ffffff`;
-        }
+        sticker.addEventListener('mouseout', () => {
+            sticker.style.boxShadow = `0 0 0px #ffffff`; 
+        });
 
-        function applyStickerGlowEffect() {
-            sticker.style.boxShadow = `0 0 10px ${getRandomColor()}, 0 0 20px ${getRandomColor()}, 0 0 30px ${getRandomColor()}, 0 0 40px ${getRandomColor()}`;
-        }
-
-        setInterval(applyStickerGlowEffect, 1000); // Apply sticker glow effect every second
-        applyTextGlowEffect(); // Apply text glow effect immediately
-
+        
         function openNav() {
             document.getElementById("sideNavbar").style.width = "250px";
         }
@@ -258,11 +254,6 @@
         function closeNav() {
             document.getElementById("sideNavbar").style.width = "0";
         }
-
-        // Play sound when page loads
-        window.onload = function () {
-            playBarkSound();
-        };
     </script>
 </body>
 </html>

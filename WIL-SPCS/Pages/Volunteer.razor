@@ -7,73 +7,15 @@
     <title>Volunteer Page</title>
     <!-- Link to Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <h2 class="centered-text">Join Our Volunteer Team</h2>
-
-    <!-- Side Navigation Bar -->
-    <div id="sideNavbar" class="side-navbar">
-        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-        <a href="/adopt" class="nav-link">Adopt a Pet</a>
-        <a href="/awareness" class="nav-link">Awareness</a>
-        <a href="/donations" class="nav-link">Donations and Sponsors</a>
-        <a href="/volunteer" class="nav-link">Volunteer</a>
-        <a href="/gallery" class="nav-link">Gallery</a>
-        <a href="/boarding" class="nav-link">Animal Boarding</a>
-        <a href="/events" class="nav-link">Events</a>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <button class="open-btn" onclick="openNav()">☰</button>
-        <div class="volunteer-container">
-            <div class="volunteer-intro">
-                <p>The SPCA welcomes volunteers with open paws? Yup, they're always on the lookout for big-hearted humans who want to lend a paw in making a difference for us furry pals. If you're 18 or older, you can join the team solo, but if you're younger, just bring along an adult pal! Volunteering here is a blast – you get to hang out with all sorts of fluffy friends and help take care of them in a super fun environment. So, why wait? Reach out to them and offer your services today! Let's make tails wag and hearts smile together!</p>
-            </div>
-
-            <!-- Volunteer Opportunities Grid -->
-            <div class="volunteer-grid">
-                <div class="volunteer-card">
-                    <img src="images/breadcat.jpg" alt="Animal Care" />
-                    <h4>Animal Care</h4>
-                    <p>Feeding, grooming, and exercising the animals.</p>
-                </div>
-                <div class="volunteer-card">
-                    <img src="images/dogg.jpg" alt="Event Assistance" />
-                    <h4>Event Assistance</h4>
-                    <p>Helping organize and manage SPCA events.</p>
-                </div>
-                <div class="volunteer-card">
-                    <img src="images/copycat.jpg" alt="Administrative Support" />
-                    <h4>Administrative Support</h4>
-                    <p>Assisting with office tasks and paperwork.</p>
-                </div>
-            </div>
-
-            <!-- Sticker at the Bottom -->
-            <div class="sticker-container">
-                <img src="stickers/kitty1.png" alt="Cute Kitty Sticker" class="sticker-image" />
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openNav() {
-            document.getElementById("sideNavbar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("sideNavbar").style.width = "0";
-        }
-    </script>
-
     <style>
         html, body {
             font-family: 'Quicksand', sans-serif;
-            background-color: #143963; 
+            background-image: url('images/background1.png');
+            background-size: cover; /* Ensure the background image covers the entire page */
+            background-attachment: fixed; /* Keeps the background image fixed during scrolling */
             margin: 0;
             padding: 0;
-            color: #ffffff; 
+            color: #ffffff;
         }
 
         .centered-text {
@@ -81,16 +23,16 @@
             font-size: 2.5em;
             color: #ffffff;
             margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .volunteer-container {
             padding: 20px;
             margin: auto;
             max-width: 1200px;
-            background-color: #143963; 
+            background-color: rgba(20, 57, 99, 0.8); /* Semi-transparent background to blend with the image */
             border-radius: 20px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); 
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .volunteer-intro {
@@ -110,40 +52,40 @@
         }
 
         .volunteer-card {
-            background-color: #4775A9; 
+            background-color: #4775A9;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); 
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
             padding: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             position: relative;
         }
 
-        .volunteer-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
-            background-color: #ffffff; 
-        }
+            .volunteer-card:hover {
+                transform: scale(1.05);
+                box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
+                background-color: #ffffff;
+            }
 
-        .volunteer-card img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            object-fit: cover;
-        }
+            .volunteer-card img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 10px;
+                margin-bottom: 15px;
+                object-fit: cover;
+            }
 
-        .volunteer-card h4 {
-            margin: 10px 0;
-            font-size: 1.4em;
-            color: #143963; 
-        }
+            .volunteer-card h4 {
+                margin: 10px 0;
+                font-size: 1.4em;
+                color: #143963;
+            }
 
-        .volunteer-card p {
-            font-size: 1em;
-            color: #333; 
-        }
+            .volunteer-card p {
+                font-size: 1em;
+                color: #333;
+            }
 
         /* Side Navbar Styles */
         .side-navbar {
@@ -217,11 +159,75 @@
         }
 
         .sticker-image {
-            max-width: 120px; 
+            max-width: 120px;
             height: auto;
             border-radius: 15px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease-in-out; /* Smooth transition for the glowing effect */
         }
+
+            .sticker-image:hover {
+                box-shadow: 0 0 10px #FF0081, 0 0 20px #FF0081, 0 0 30px #FF0081; /* Glow effect on hover */
+            }
     </style>
+</head>
+<body>
+    <h2 class="centered-text">Join Our Volunteer Team</h2>
+
+    <!-- Side Navigation Bar -->
+    <div id="sideNavbar" class="side-navbar">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
+        <a href="/adopt" class="nav-link">Adopt a Pet</a>
+        <a href="/awareness" class="nav-link">Awareness</a>
+        <a href="/donations" class="nav-link">Donations and Sponsors</a>
+        <a href="/volunteer" class="nav-link">Volunteer</a>
+        <a href="/gallery" class="nav-link">Gallery</a>
+        <a href="/boarding" class="nav-link">Animal Boarding</a>
+        <a href="/events" class="nav-link">Events</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <button class="open-btn" onclick="openNav()">☰</button>
+        <div class="volunteer-container">
+            <div class="volunteer-intro">
+                <p>The SPCA welcomes volunteers with open paws? Yup, they're always on the lookout for big-hearted humans who want to lend a paw in making a difference for us furry pals. If you're 18 or older, you can join the team solo, but if you're younger, just bring along an adult pal! Volunteering here is a blast – you get to hang out with all sorts of fluffy friends and help take care of them in a super fun environment. So, why wait? Reach out to them and offer your services today! Let's make tails wag and hearts smile together!</p>
+            </div>
+
+            <!-- Volunteer Opportunities Grid -->
+            <div class="volunteer-grid">
+                <div class="volunteer-card">
+                    <img src="images/breadcat.jpg" alt="Animal Care" />
+                    <h4>Animal Care</h4>
+                    <p>Feeding, grooming, and exercising the animals.</p>
+                </div>
+                <div class="volunteer-card">
+                    <img src="images/dogg.jpg" alt="Event Assistance" />
+                    <h4>Event Assistance</h4>
+                    <p>Helping organize and manage SPCA events.</p>
+                </div>
+                <div class="volunteer-card">
+                    <img src="images/copycat.jpg" alt="Administrative Support" />
+                    <h4>Administrative Support</h4>
+                    <p>Assisting with office tasks and paperwork.</p>
+                </div>
+            </div>
+
+            <!-- Sticker at the Bottom -->
+            <div class="sticker-container">
+                <img src="stickers/kitty1.png" alt="Cute Kitty Sticker" class="sticker-image" id="stickerImage" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("sideNavbar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("sideNavbar").style.width = "0";
+        }
+    </script>
 </body>
 </html>
