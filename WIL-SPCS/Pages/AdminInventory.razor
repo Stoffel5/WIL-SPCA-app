@@ -39,6 +39,10 @@
                 <label for="status" class="bold-text">Pet Adpotion Status</label>
                 <input id="status" @bind="addAdoption" class="form-control rounded-input" />
             </div>
+            <div class="form-group">
+                <label for="image" class="bold-text">Image</label>
+                <input id="image" @bind="addImage" type="file" class="form-control rounded-input" />
+            </div>
 
             <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button><br />
             <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
@@ -52,24 +56,20 @@
             <h3 class="bold-text">Edit Pet</h3>
             <div class="form-group">
                 <label for="editbreed" class="bold-text">Pet Breed</label>
-                <input id="editbreed" class="form-control rounded-input" />
+                <input id="editbreed" @bind="editBreed" class="form-control rounded-input" />
             </div>
 
             <div class="form-group">
                 <label for="edithealth" class="bold-text">Pet Health</label>
-                <input id="edithealth" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editheight" class="bold-text">Pet Height</label>
-                <input id="editheight" class="form-control rounded-input" />
+                <input id="edithealth" @bind="editHealth" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="editweight" class="bold-text">Pet Weight</label>
-                <input id="editweight" class="form-control rounded-input" />
+                <input id="editweight" @bind="editWeight" type="number" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="editstatus" class="bold-text">Pet Adpotion Status</label>
-                <input id="editeditstatusheight" class="form-control rounded-input" />
+                <input id="editStatus" @bind="editAdoption" class="form-control rounded-input" />
             </div>
 
             <button type="submit" @onclick="EditPet" class="btn btn-primary rounded-button bold-text">Edit</button>
@@ -119,8 +119,8 @@
                     <td>@pet.adoptionStatus</td>
                     <td>
                         <center>
-                            <button class="btn btnx btn-primary rounded-button bold-text" @onclick="DeletePetForm">Delete</button>
-                            <button class="btn btnx btn-primary rounded-button bold-text" @onclick="EditPetForm">Edit</button>
+                            <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => DeletePetForm(pet.petId)">Delete</button>
+                            <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => EditPetForm(pet)">Edit</button>
                         </center>
                     </td>
                 </tr>
@@ -133,10 +133,20 @@
     bool AddPetHtml = false;
     bool EditPetHtml = false;
     bool DeletePetHtml = false;
+
     string addBreed = string.Empty;
     string addHealth = string.Empty;
     int addWeight = 0;
     string addAdoption = string.Empty;
+    string addImage = string.Empty;
+
+    string editBreed = string.Empty;
+    string editHealth = string.Empty;
+    int editWeight = 0;
+    string editAdoption = string.Empty;
+
+    int petId = 0;
+    Pet editPet = new Pet();
     List<Pet> pets = new List<Pet>();
 
     protected override void OnInitialized()
@@ -168,13 +178,19 @@
         AddPetHtml = true;
         StateHasChanged();
     }
-    private void EditPetForm(MouseEventArgs e)
+    private void EditPetForm(Pet pet)
     {
+        editPet = pet;
+        editBreed = pet.breed;
+        editHealth = pet.health;
+        editWeight = pet.weight;
+        editAdoption = pet.adoptionStatus;
         EditPetHtml = true;
         StateHasChanged();
     }
-    private void DeletePetForm(MouseEventArgs e)
+    private void DeletePetForm(int petId)
     {
+        this.petId = petId;
         DeletePetHtml = true;
         StateHasChanged();
     }
@@ -201,11 +217,28 @@
     }
     private void EditPet(MouseEventArgs e)
     {
+        var findPet = pets.FirstOrDefault(p => p.petId == editPet.petId);
+        var index = pets.IndexOf(findPet);
+        if(findPet != null)
+        {
+            findPet.health = editHealth;
+            findPet.weight = editWeight;
+            findPet.breed = editBreed;
+            findPet.adoptionStatus = editAdoption;
+            pets.Remove(findPet);
+            pets.Add(findPet);
+        }
         EditPetHtml = false;
         StateHasChanged();
     }
     private void DeletePet(MouseEventArgs e)
     {
+        var foundPet = pets.FirstOrDefault(p => p.petId == petId);
+        if(foundPet != null)
+        {
+            pets.Remove(foundPet);
+        }
+        petId = 0;
         DeletePetHtml = false;
         StateHasChanged();
     }
@@ -221,6 +254,7 @@
         public string health { get; set; }
         public int weight { get; set; }
         public string adoptionStatus { get; set; }
+        public string image { get; set; }
     }
 }
 
