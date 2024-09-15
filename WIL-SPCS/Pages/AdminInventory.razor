@@ -26,7 +26,10 @@
                 <label for="breed" class="bold-text">Pet Breed</label>
                 <input id="breed" @bind="addBreed" class="form-control rounded-input" />
             </div>
-
+            <div class="form-group">
+                <label for="name" class="bold-text">Pet Name</label>
+                <input id="name" @bind="addName" class="form-control rounded-input" />
+            </div>
             <div class="form-group">
                 <label for="health" class="bold-text">Pet Health</label>
                 <input id="health" @bind="addHealth" class="form-control rounded-input" />
@@ -55,10 +58,13 @@
         <div class="login-form">
             <h3 class="bold-text">Edit Pet</h3>
             <div class="form-group">
+                <label for="editname" class="bold-text">Pet Name</label>
+                <input id="editname" @bind="editName" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
                 <label for="editbreed" class="bold-text">Pet Breed</label>
                 <input id="editbreed" @bind="editBreed" class="form-control rounded-input" />
             </div>
-
             <div class="form-group">
                 <label for="edithealth" class="bold-text">Pet Health</label>
                 <input id="edithealth" @bind="editHealth" class="form-control rounded-input" />
@@ -92,7 +98,7 @@
     <div class="top">
         <div>
             <center><h3 class="heading centered-text">Inventory</h3></center>
-            <center><input type="text" placeholder="Search..." class="desktop-search-bar"></center>
+            <center><input type="text" @oninput="search" placeholder="Search..." class="desktop-search-bar"></center>
             <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddPetForm">Add Pet</button></center>
         </div>
     </div>
@@ -103,6 +109,7 @@
         <table class="table-style">
             <tr>
                 <th>Pet ID</th>
+                <th>Name</th>
                 <th>Breed</th>
                 <th>Health</th>
                 <th>Weight</th>
@@ -113,6 +120,7 @@
             {
                 <tr>
                     <td>@pet.petId</td>
+                    <td>@pet.name</td>
                     <td>@pet.breed</td>
                     <td>@pet.health</td>
                     <td>@pet.weight</td>
@@ -135,11 +143,13 @@
     bool DeletePetHtml = false;
 
     string addBreed = string.Empty;
+    string addName = string.Empty;
     string addHealth = string.Empty;
     int addWeight = 0;
     string addAdoption = string.Empty;
     string addImage = string.Empty;
 
+    string editName = string.Empty;
     string editBreed = string.Empty;
     string editHealth = string.Empty;
     int editWeight = 0;
@@ -148,6 +158,7 @@
     int petId = 0;
     Pet editPet = new Pet();
     List<Pet> pets = new List<Pet>();
+    List<Pet> backupPets = new List<Pet>();
 
     protected override void OnInitialized()
     {
@@ -159,6 +170,7 @@
     {
         // Load events based on the selected date (placeholder logic)
         pets = GetPets();
+        backupPets = new List<Pet>(pets);
     }
 
     private List<Pet> GetPets()
@@ -167,9 +179,9 @@
         // Replace with actual data fetching from database or API
         return new List<Pet>
         {
-            new Pet { petId = 1, breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
-            new Pet { petId = 2, breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
-            new Pet { petId = 3, breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" }
+            new Pet { petId = 1, name = "Max", breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
+            new Pet { petId = 2, name = "Misty", breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
+            new Pet { petId = 3, name = "Maya", breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" }
         };
     }
 
@@ -203,6 +215,7 @@
     {
         Pet pet = new Pet();
         pet.petId = 1;
+        pet.name = addName;
         pet.breed = addBreed;
         pet.health = addHealth;
         pet.weight = addWeight;
@@ -211,20 +224,23 @@
         addHealth = string.Empty;
         addWeight = 0;
         addAdoption = string.Empty;
+        addName = string.Empty;
         pets.Add(pet);
+        backupPets.Add(pet);
         AddPetHtml = false;
         StateHasChanged();
     }
     private void EditPet(MouseEventArgs e)
     {
         var findPet = pets.FirstOrDefault(p => p.petId == editPet.petId);
-        var index = pets.IndexOf(findPet);
         if(findPet != null)
         {
             findPet.health = editHealth;
             findPet.weight = editWeight;
             findPet.breed = editBreed;
             findPet.adoptionStatus = editAdoption;
+            backupPets.Remove(findPet);
+            backupPets.Add(findPet);
             pets.Remove(findPet);
             pets.Add(findPet);
         }
@@ -250,11 +266,25 @@
     public class Pet
     {
         public int petId { get; set; }
+        public string name { get; set; }
         public string breed { get; set; }
         public string health { get; set; }
         public int weight { get; set; }
         public string adoptionStatus { get; set; }
         public string image { get; set; }
+    }
+    private void search(ChangeEventArgs e)
+    {
+        var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            pets = backupPets.Where(pet => pet.name.ToLower().Contains(searchText)).ToList();
+        }
+        else
+        {
+            pets = new List<Pet>(backupPets);
+        }
+        StateHasChanged();
     }
 }
 
