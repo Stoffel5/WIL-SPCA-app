@@ -165,7 +165,7 @@
         }
 
             .sticker-image:hover {
-                box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff; 
+                box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
             }
     </style>
 </head>
@@ -181,11 +181,11 @@
         <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">Gallery</a>
         <a href="/boarding" class="nav-link" aria-label="Navigate to Animal Boarding Page">Animal Boarding</a>
         <a href="/events" class="nav-link" aria-label="Navigate to Events">Events</a>
-        <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a> 
+        <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a>
     </div>
 
 
-   
+
     <div class="main-content">
         <button class="open-btn" onclick="openNav()">☰</button>
 
@@ -215,14 +215,14 @@
                 </div>
             </div>
 
-            
+
             <div class="sticker-container">
                 <img src="stickers/PUP1.png" alt="Cute Puppy Sticker" class="sticker-image" id="stickerImage" />
             </div>
         </div>
     </div>
 
-   
+
     <audio id="barkSound" preload="auto">
         <source src="sounds/barkingpuppy.mp3" type="audio/mpeg">
         Your browser does not support the audio tag.
@@ -235,19 +235,19 @@
             barkSound.play();
         }
 
-        
+
         const sticker = document.getElementById('stickerImage');
 
         sticker.addEventListener('mouseover', () => {
-            sticker.style.boxShadow = `0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff`; 
-            playBarkSound(); 
+            sticker.style.boxShadow = 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+            playBarkSound();
         });
 
         sticker.addEventListener('mouseout', () => {
-            sticker.style.boxShadow = `0 0 0px #ffffff`; 
+            sticker.style.boxShadow = 0 0 0px #ffffff;
         });
 
-        
+
         function openNav() {
             document.getElementById("sideNavbar").style.width = "250px";
         }
