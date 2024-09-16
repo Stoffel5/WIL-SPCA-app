@@ -1,5 +1,7 @@
 ﻿@page "/gallery"
-<button class="open-nav-btn" onclick="openNav()">☰ </button>
+
+<button class="open-btn" onclick="openNav()">☰</button>
+
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
@@ -10,7 +12,6 @@
     <a href="/gallery" class="nav-link">Gallery</a>
     <a href="/boarding" class="nav-link">Animal Boarding</a>
     <a href="/events" class="nav-link">Events</a>
-    <!-- Add more links here as needed -->
 </div>
 
 <!-- Main Content -->
@@ -43,118 +44,147 @@
 </div>
 
 <style>
-    .side-navbar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: -250px; /* Initially hidden */
-        background-color: #007BFF; /* Blue background for navbar */
-        color: white;
-        overflow-x: hidden;
-        transition: 0.3s; /* Smooth transition for opening and closing */
-        padding-top: 60px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
+    body {
+        background-image: url('images/background1.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
     }
 
+    /* Side Navbar Styles */
+    .side-navbar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #143963;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 100;
+        border-right: 2px solid #ffffff;
+    }
+
+        /* Remove underline from links */
         .side-navbar .nav-link {
-            padding: 10px 15px;
-            text-decoration: none;
+            padding: 15px 20px;
             font-size: 1.2em;
-            color: white;
+            color: #e0f7fa;
             display: block;
-            transition: 0.3s;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
         }
 
+            /* Dark blue background on hover */
             .side-navbar .nav-link:hover {
-                background-color: #0056b3; /* Darker blue for hover effect */
+                background-color: #4775A9;
+                color: #ffffff;
+                box-shadow: 0 0 10px #ffffff;
             }
 
         .side-navbar .close-btn {
             position: absolute;
-            top: 10px;
+            top: 15px;
             right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
+            font-size: 30px;
+            color: #ffffff;
         }
 
-        .side-navbar.active {
-            left: 0;
+    /* Dark blue button */
+    .open-btn {
+        font-size: 24px;
+        cursor: pointer;
+        background-color: #143963;
+        color: #ffffff;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 25px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 101;
+        transition: background-color 0.3s ease;
+    }
+
+        /* Darker blue on hover */
+        .open-btn:hover {
+            background-color: #0d2a4a;
         }
 
     .main-content {
-        margin-left: 250px; /* Adjust to account for the width of the side navbar */
-        padding: 20px; /* Padding for the content area */
+        margin-left: 250px;
+        padding: 20px;
+        position: relative;
+        background-color: #143963;
+        border-radius: 8px;
     }
 
     .gallery-container {
         padding: 20px;
         text-align: center;
-        background-color: #f9f9f9; /* Light background for the container */
+        background-color: #f9f9f9;
         border-radius: 8px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         margin: 20px auto;
-        max-width: 1000px; /* Limits width for better readability */
+        max-width: 1000px;
     }
 
     .centered-heading {
         font-size: 2.5em;
-        color: #007BFF; /* Blue color for the heading */
+        color: #143963;
         margin-bottom: 20px;
     }
 
     .intro-paragraph {
         font-size: 1.2em;
-        color: #333; /* Darker text color for contrast */
+        color: #333;
         margin-bottom: 20px;
     }
 
     .video-gallery {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px; /* Space between video items */
+        gap: 20px;
         justify-content: center;
     }
 
     .video-item {
-        background-color: #fff; /* White background for video items */
+        background-color: #fff;
         border-radius: 8px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         padding: 10px;
-        max-width: 320px; /* Limits width for individual video items */
+        max-width: 320px;
         text-align: center;
     }
 
         .video-item p {
             font-size: 1.1em;
-            color: #555; /* Slightly lighter text color */
+            color: #555;
             margin-top: 10px;
         }
 
-    .open-nav-btn {
-        font-size: 20px;
-        cursor: pointer;
+    .progress-container {
+        margin-top: 30px;
+        padding: 20px;
         background-color: #007BFF;
         color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 1001;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
     }
 </style>
 
 <script>
     function openNav() {
-        document.getElementById("sideNavbar").classList.add("active");
-        document.querySelector(".main-content").style.marginLeft = "250px";
+        document.getElementById("sideNavbar").style.width = "250px";
     }
 
     function closeNav() {
-        document.getElementById("sideNavbar").classList.remove("active");
-        document.querySelector(".main-content").style.marginLeft = "0";
+        document.getElementById("sideNavbar").style.width = "0";
     }
 </script>
+

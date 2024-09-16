@@ -1,6 +1,8 @@
 ﻿@page "/events"
+
 <h2 class="centered-text">Events</h2>
 <button class="open-nav-btn" onclick="openNav()">☰ </button>
+
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
@@ -11,7 +13,6 @@
     <a href="/gallery" class="nav-link">Gallery</a>
     <a href="/boarding" class="nav-link">Animal Boarding</a>
     <a href="/events" class="nav-link">Events</a>
-    <!-- Add more links here as needed -->
 </div>
 
 <!-- Calendar and Date Picker -->
@@ -44,7 +45,6 @@
 
     protected override void OnInitialized()
     {
-        // Initial load of events based on the default date
         LoadEvents();
     }
 
@@ -59,14 +59,11 @@
 
     private void LoadEvents()
     {
-        // Load events based on the selected date (placeholder logic)
         events = GetEventsForDate(selectedDate);
     }
 
     private List<Event> GetEventsForDate(DateTime date)
     {
-        // Placeholder logic for event fetching
-        // Replace with actual data fetching from database or API
         return new List<Event>
         {
             new Event { Title = "Sample Event 1", Description = "Description of Sample Event 1" },
@@ -84,6 +81,8 @@
 <style>
     .centered-text {
         text-align: center;
+        font-family: Arial, sans-serif;
+        color: #ffffff;
     }
 
     .calendar-container {
@@ -111,74 +110,101 @@
     }
 
     .event-item {
-        background-color: #e6f7ff; /* Light blue background */
-        border: 1px solid #007BFF; /* Blue border */
+        background-color: #e6f7ff;
+        border: 1px solid #007BFF;
         border-radius: 5px;
         padding: 15px;
         margin-bottom: 15px;
         text-align: center;
-        color: #007BFF; /* Blue text color */
+        color: #007BFF;
     }
 
-    .event-item strong {
-        display: block;
-        font-size: 1.5em;
-        margin-bottom: 10px;
-    }
+        .event-item strong {
+            display: block;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
 
-    .event-item p {
-        margin: 0;
-        font-size: 1.2em;
-    }
+        .event-item p {
+            margin: 0;
+            font-size: 1.2em;
+        }
 
     /* Side Navbar Styles */
     .side-navbar {
         height: 100%;
-        width: 250px;
+        width: 0;
         position: fixed;
         top: 0;
-        left: -250px; /* Initially hidden */
-        background-color: #007BFF; /* Blue background for navbar */
-        color: white;
-        overflow-x: hidden;
-        transition: 0.3s; /* Smooth transition for opening and closing */
-        padding-top: 60px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .side-navbar .nav-link {
-        padding: 10px 15px;
-        text-decoration: none;
-        font-size: 1.2em;
-        color: white;
-        display: block;
-        transition: 0.3s;
-    }
-
-    .side-navbar .nav-link:hover {
-        background-color: #0056b3; /* Darker blue for hover effect */
-    }
-
-    .side-navbar .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
-    }
-
-    /* Show the side navbar when it is active */
-    .side-navbar.active {
         left: 0;
+        background-color: #143963;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 100;
+        border-right: 2px solid #ffffff;
+    }
+
+        .side-navbar .nav-link {
+            padding: 15px 20px;
+            font-size: 1.2em;
+            color: #e0f7fa;
+            display: block;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #4775A9;
+                color: #ffffff;
+                box-shadow: 0 0 10px #ffffff;
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+    /* Dark blue button */
+    .open-btn {
+        font-size: 24px;
+        cursor: pointer;
+        background-color: #143963;
+        color: #ffffff;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 25px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 101;
+        transition: background-color 0.3s ease;
+    }
+
+        .open-btn:hover {
+            background-color: #0d2a4a;
+        }
+
+    .main-content {
+        margin-left: 250px;
+        padding: 20px;
+        position: relative;
+        background-color: #143963;
+        border-radius: 8px;
+    }
     }
 </style>
 
 <script>
     function openNav() {
-        document.getElementById("sideNavbar").classList.add("active");
+        document.getElementById("sideNavbar").style.width = "250px";
     }
 
     function closeNav() {
-        document.getElementById("sideNavbar").classList.remove("active");
+        document.getElementById("sideNavbar").style.width = "0";
     }
 </script>
+
