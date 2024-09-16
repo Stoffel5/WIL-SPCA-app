@@ -19,13 +19,31 @@
         <p class="intro-paragraph">
             The SPCA is always in need of supplies to care for the animals. Currently, we are in urgent need of the following items:
         </p>
-        <ul class="donation-list">
-            <li>Blankets to keep animals warm during cold months</li>
-            <li>Nutritious Dog Food for our hungry canines</li>
-            <li>Cat Food to nourish our lovely felines</li>
-            <li>Interactive Toys to keep both dogs and cats entertained</li>
-            <li>Cleaning Supplies to maintain a hygienic and safe environment</li>
-        </ul>
+
+        <!-- Gallery-like donation items -->
+        <div class="gallery-container">
+            <div class="gallery-item">
+                <img src="css/blankets.png" alt="Blankets" class="gallery-image">
+                <p>Blankets to keep animals warm during cold months</p>
+            </div>
+            <div class="gallery-item">
+                <img src="css/dogfood.png" alt="Dog Food" class="gallery-image">
+                <p>Nutritious Dog Food for our hungry canines</p>
+            </div>
+            <div class="gallery-item">
+                <img src="css/catfood.png" alt="Cat Food" class="gallery-image">
+                <p>Cat Food to nourish our lovely felines</p>
+            </div>
+            <div class="gallery-item">
+                <img src="css/dogtoys.png" alt="Interactive Toys" class="gallery-image">
+                <p>Interactive Toys to keep both dogs and cats entertained</p>
+            </div>
+            <div class="gallery-item">
+                <img src="css/cleaning.png" alt="Cleaning Supplies" class="gallery-image">
+                <p>Cleaning Supplies to maintain a hygienic and safe environment</p>
+            </div>
+        </div>
+
         <p class="intro-paragraph">
             Your generous donations help us provide a safe and comfortable environment for the animals. Thank you for your support!
         </p>
@@ -36,31 +54,138 @@
             <div class="progress-bar">
                 <div class="progress-fill"></div>
             </div>
-            <p class="progress-text">Goal: $10,000 | Raised: $5,000</p>
+            <p class="progress-text">Goal: R10,000 | Raised: R5,000</p>
         </div>
     </div>
 
-    <div class="image-container">
-        <img src="css/cat.jpg" alt="Support Our SPCA" class="donation-image">
-    </div>
-
-    <div class="top-image-container">
-        <img src="css/friendlydoggie.png" alt="SPCA Logo" class="top-image">
-    </div>
 </div>
 
 <style>
+    /* Font family */
     body {
-        background-image: url('images/background1.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
+        font-family: 'Quicksand', sans-serif;
     }
 
-    
+    /* Centering and layout improvements */
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #143963;
+        padding: 20px;
+    }
+
+    .donations-container {
+        padding: 20px;
+        text-align: center;
+        background-color: #143963;
+        border-radius: 20px;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .centered-heading {
+        font-size: 2.5em;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .intro-paragraph {
+        font-size: 1.2em;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center;
+        padding: 10px;
+    }
+
+    .gallery-item {
+        background-color: #4775A9;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        padding: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        position: relative;
+    }
+
+        /* Hover effect on donation items */
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
+            background-color: #ffffff;
+        }
+
+    .gallery-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        object-fit: cover;
+    }
+
+    .gallery-item p {
+        margin: 10px 0;
+        font-size: 1em;
+        color: #333;
+    }
+
+    /* Progress Bar Styles */
+    .progress-container {
+        margin-top: 30px;
+        padding: 20px;
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .progress-heading {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 25px;
+        background-color: #e0e0e0;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        position: relative;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background-color: #28a745;
+        border-radius: 12px 0 0 12px;
+        width: 0;
+        transition: width 1s ease;
+    }
+
+    .progress-bar:hover .progress-fill {
+        width: 50%;
+    }
+
+    .progress-fill.loaded {
+        width: 50%;
+    }
+
+    .progress-text {
+        font-size: 1.2em;
+    }
+
+    /* Side Navbar */
     .side-navbar {
         height: 100%;
         width: 0;
@@ -75,7 +200,6 @@
         border-right: 2px solid #ffffff;
     }
 
-        
         .side-navbar .nav-link {
             padding: 15px 20px;
             font-size: 1.2em;
@@ -85,7 +209,6 @@
             text-decoration: none;
         }
 
-            
             .side-navbar .nav-link:hover {
                 background-color: #4775A9;
                 color: #ffffff;
@@ -100,7 +223,6 @@
             color: #ffffff;
         }
 
-    
     .open-btn {
         font-size: 24px;
         cursor: pointer;
@@ -116,147 +238,10 @@
         transition: background-color 0.3s ease;
     }
 
-        
         .open-btn:hover {
             background-color: #0d2a4a;
         }
 
-    .main-content {
-        margin-left: 250px;
-        padding: 20px;
-        position: relative;
-        background-color: #143963;
-        border-radius: 8px;
-    }
-
-    .top-image-container {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        width: 150px;
-    }
-
-    .top-image {
-        max-width: 100%;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .donations-container {
-        padding: 20px;
-        text-align: center;
-        background-color: #143963;
-        border-radius: 8px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        margin: 20px auto;
-        max-width: 800px;
-    }
-
-    .centered-heading {
-        font-size: 2.5em;
-        color: #ffffff;
-        margin-bottom: 20px;
-    }
-
-    .intro-paragraph {
-        font-size: 1.2em;
-        color: #ffffff;
-        margin-bottom: 20px;
-    }
-
-    .donation-list {
-        list-style-type: none;
-        padding: 0;
-        font-size: 1.1em;
-        color: #ffffff;
-        margin-bottom: 20px;
-    }
-
-        .donation-list li {
-            margin-bottom: 10px;
-        }
-
-    .open-nav-btn {
-        font-size: 20px;
-        cursor: pointer;
-        background-color: #007BFF;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 1001;
-    }
-
-    .progress-container {
-        margin-top: 30px;
-        padding: 20px;
-        color: white;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    .progress-heading {
-        font-size: 2em;
-        margin-bottom: 20px;
-    }
-
-    /* Progress Bar Hover Glow Effect */
-    .progress-container:hover .progress-bar {
-        box-shadow: 0px 6px 20px rgba(255, 255, 255, 0.8);
-    }
-
-    
-    .progress-bar {
-        width: 100%;
-        height: 25px;
-        background-color: #e0e0e0;
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 10px;
-        position: relative;
-        transition: box-shadow 0.3s ease;
-    }
-
-    
-    .progress-fill {
-        height: 100%;
-        background-color: #28a745;
-        border-radius: 12px 0 0 12px;
-        width: 0;
-        transition: width 1s ease; /*Smooth transition for the width */
-    }
-
-    
-    .progress-bar:hover .progress-fill {
-        width: 50%; 
-    }
-
-    
-    .progress-fill.loaded {
-        width: 50%; 
-    }
-
-    .progress-text {
-        font-size: 1.2em;
-    }
-
-    .image-container {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        width: 150px;
-        height: auto;
-    }
-
-    .donation-image {
-        max-width: 100%;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
 </style>
 
 <script>
@@ -276,6 +261,10 @@
         document.getElementById("sideNavbar").style.width = "0";
     }
 </script>
+
+
+
+
 
 
 
