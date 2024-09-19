@@ -132,10 +132,10 @@
     List<Volunteer> volunteers = new List<Volunteer>();
     List<Volunteer> backupVolunteer = new List<Volunteer>();
 
-    private void AddPet(MouseEventArgs e)
+    private void AddVolunteer(MouseEventArgs e)
     {
         Volunteer vol = new Volunteer();
-        vol.volunteerId = 1;
+        vol.volunteerId = volunteers.Count + 1;
         vol.name = addName;
         vol.surname = addSurname;
         
@@ -193,11 +193,7 @@
     {
         Navigation.NavigateTo("/welcome");
     }
-    private void AddVolunteer(MouseEventArgs e)
-    {
-        AddVolunteerHtml = false;
-        StateHasChanged();
-    }
+    
     private void EditVolunteer(MouseEventArgs e)
     {
         EditVolunteerHtml = false;
