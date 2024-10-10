@@ -2,6 +2,7 @@
 
 @inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations
+@using Google.Cloud.Firestore
 
 <PageTitle>Inventory</PageTitle>
 
@@ -159,9 +160,27 @@
     List<Pet> pets = new List<Pet>();
     List<Pet> backupPets = new List<Pet>();
 
+    public async Task<FirestoreDb> establishCon()
+    {
+        /*
+        Code Attribution
+        Title: Getting Started with Google Cloud Firestore using C# | English
+        Author: The Amazing Codeverse
+        Link: https://www.youtube.com/watch?v=ptEtTNQ0dXg&list=PLrb70iTVZjZPEbhCh85VQIpRbQos2Qx3i&index=2
+        Usage: Used to see how to connect Firestore database to api
+        */
+
+        string path = AppDomain.CurrentDomain.BaseDirectory + @"wilfirebase.json";
+        Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
+
+        FirestoreDb db = await FirestoreDb.CreateAsync("wilspca");
+        return db;
+    }
+
     protected override void OnInitialized()
     {
         // Initial load of events based on the default date
+        Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
         LoadPets();
     }
 
@@ -210,8 +229,9 @@
     {
         Navigation.NavigateTo("/welcome");
     }
-    private void AddPet(MouseEventArgs e)
+    private async Task AddPet(MouseEventArgs e)
     {
+        FirestoreDb db = await establishCon();
         Pet pet = new Pet();
         pet.petId = 1;
         pet.name = addName;
@@ -219,6 +239,21 @@
         pet.health = addHealth;
         pet.weight = addWeight;
         pet.adoptionStatus = addAdoption;
+
+
+        DocumentReference docRef = db.Collection("Pets").Document(pet.petId.ToString());
+        Dictionary<string, object> data = new Dictionary<string, object>()
+        {
+            {"petId", pet.petId},
+            {"name", pet.name},
+            {"breed", pet.breed},
+            {"health", pet.health},
+            {"weight", pet.weight },
+            {"adoptionStatus", pet.adoptionStatus }
+        };
+
+        await docRef.SetAsync(data);
+
         addBreed = string.Empty;
         addHealth = string.Empty;
         addWeight = 0;
