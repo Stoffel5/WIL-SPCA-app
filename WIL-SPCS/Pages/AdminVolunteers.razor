@@ -2,6 +2,7 @@
 
 @inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations
+@using Google.Cloud.Firestore
 
 <PageTitle>Volunteers</PageTitle>
 
@@ -113,40 +114,48 @@
         public int volunteerId { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
-        
+
     }
 
     bool AddVolunteerHtml = false;
     bool EditVolunteerHtml = false;
     bool DeleteVolunteerHtml = false;
 
-    
+
     string addName = string.Empty;
     string addSurname = string.Empty;
 
     string editName = string.Empty;
     string editSurname = string.Empty;
 
-    
+
     Volunteer editVolunteer = new Volunteer();
     List<Volunteer> volunteers = new List<Volunteer>();
     List<Volunteer> backupVolunteer = new List<Volunteer>();
 
-    private void AddVolunteer(MouseEventArgs e)
+    public async Task<FirestoreDb> establishCon()
     {
-        Volunteer vol = new Volunteer();
-        vol.volunteerId = volunteers.Count + 1;
-        vol.name = addName;
-        vol.surname = addSurname;
-        
-        addName = string.Empty;
-        addSurname = string.Empty;
-        
+        /*
+        Code Attribution
+        Title: Getting Started with Google Cloud Firestore using C# | English
+        Author: The Amazing Codeverse
+        Link: https://www.youtube.com/watch?v=ptEtTNQ0dXg&list=PLrb70iTVZjZPEbhCh85VQIpRbQos2Qx3i&index=2
+        Usage: Used to see how to connect Firestore database to api
+        */
 
-        volunteers.Add(vol);
-        AddVolunteerHtml = false;
+        string path = AppDomain.CurrentDomain.BaseDirectory + @"wilfirebase.json";
+        Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
+
+        FirestoreDb db = await FirestoreDb.CreateAsync("wilspca");
+        return db;
+    }
+
+    private void AddVolunteerForm(MouseEventArgs e)
+    {
+        AddVolunteerHtml = true;
         StateHasChanged();
     }
+
 
     protected override void OnInitialized()
     {
@@ -173,11 +182,23 @@
         };
     }
 
-    private void AddVolunteerForm(MouseEventArgs e)
+    private void AddVolunteer(MouseEventArgs e)
     {
-        AddVolunteerHtml = true;
+        Volunteer vol = new Volunteer();
+        vol.volunteerId = volunteers.Count + 1;
+        vol.name = addName;
+        vol.surname = addSurname;
+
+        addName = string.Empty;
+        addSurname = string.Empty;
+
+
+        volunteers.Add(vol);
+        AddVolunteerHtml = false;
         StateHasChanged();
     }
+    // Still need to add edit and delete forms
+
     private void EditVolunteerForm(MouseEventArgs e)
     {
         EditVolunteerHtml = true;
@@ -193,7 +214,7 @@
     {
         Navigation.NavigateTo("/welcome");
     }
-    
+
     private void EditVolunteer(MouseEventArgs e)
     {
         EditVolunteerHtml = false;
@@ -204,7 +225,40 @@
         DeleteVolunteerHtml = false;
         StateHasChanged();
     }
+
+
+    //firebase functions
+
+    private async Task AddPet(MouseEventArgs e)
+    {
+        FirestoreDb db = await establishCon();
+        Volunteer vol = new Volunteer();
+        vol.volunteerId = 1; //this needs changing
+        vol.name = addName;
+        vol.surname = addSurname;
+        
+
+
+        DocumentReference docRef = db.Collection("Volunteers").Document(vol.volunteerId.ToString());
+        Dictionary<string, object> data = new Dictionary<string, object>()
+        {
+            {"volunteerID", vol.volunteerId},
+            {"name", vol.name},
+            {"Surname", vol.surname}         
+        };
+
+        await docRef.SetAsync(data);
+
+        addName = string.Empty;
+        addSurname = string.Empty;
+       
+        volunteers.Add(vol);
+        backupVolunteer.Add(vol);
+        AddVolunteerHtml = false;
+        StateHasChanged();
+    }
 }
+
 
 <style>
     .top {
