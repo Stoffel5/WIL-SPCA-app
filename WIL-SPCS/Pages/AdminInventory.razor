@@ -1,6 +1,7 @@
 ﻿@page "/AdminInventory"
 
 @inject NavigationManager Navigation
+@inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
 @using Google.Cloud.Firestore
 
@@ -44,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label for="image" class="bold-text">Image</label>
-                <input id="image" @bind="addImage" type="file" class="form-control rounded-input" />
+                <InputFile id="image" OnChange="HandleFileSelected" class="form-control rounded-input" />
             </div>
 
             <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button><br />
@@ -159,28 +160,28 @@
     Pet editPet = new Pet();
     List<Pet> pets = new List<Pet>();
     List<Pet> backupPets = new List<Pet>();
+    private IBrowserFile selectedFile;
 
-    public async Task<FirestoreDb> establishCon()
+    /*
+    Code Attribution
+    Title: Uploading Files to Blazor - The Blazor File Upload Mini Course
+    Author: IAmTimCorey
+    Link: https://www.youtube.com/watch?v=9H6hs61UK84
+    Usage: Used to upload images
+    */
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
-        /*
-        Code Attribution
-        Title: Getting Started with Google Cloud Firestore using C# | English
-        Author: The Amazing Codeverse
-        Link: https://www.youtube.com/watch?v=ptEtTNQ0dXg&list=PLrb70iTVZjZPEbhCh85VQIpRbQos2Qx3i&index=2
-        Usage: Used to see how to connect Firestore database to api
-        */
+        selectedFile = e.File;
 
-        string path = AppDomain.CurrentDomain.BaseDirectory + @"wilfirebase.json";
-        Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
-
-        FirestoreDb db = await FirestoreDb.CreateAsync("wilspca");
-        return db;
+        using (var stream = selectedFile.OpenReadStream(5 * 1024 * 1024)) 
+        {
+            var buffer = new byte[selectedFile.Size];
+            await stream.ReadAsync(buffer, 0, (int)selectedFile.Size);
+        }
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        // Initial load of events based on the default date
-        Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
         LoadPets();
     }
 
@@ -231,38 +232,47 @@
     }
     private async Task AddPet(MouseEventArgs e)
     {
-        FirestoreDb db = await establishCon();
-        Pet pet = new Pet();
-        pet.petId = 1;
-        pet.name = addName;
-        pet.breed = addBreed;
-        pet.health = addHealth;
-        pet.weight = addWeight;
-        pet.adoptionStatus = addAdoption;
+        var pet = new Pet
+            {
+                petId = 1,
+                name = addName,
+                breed = addBreed,
+                health = addHealth,
+                weight = addWeight,
+                adoptionStatus = addAdoption
+            };
 
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(pet.name), "name");
+        content.Add(new StringContent(pet.breed), "breed");
+        content.Add(new StringContent(pet.health), "health");
+        content.Add(new StringContent(pet.weight.ToString()), "weight");
+        content.Add(new StringContent(pet.adoptionStatus), "adoptionStatus");
 
-        DocumentReference docRef = db.Collection("Pets").Document(pet.petId.ToString());
-        Dictionary<string, object> data = new Dictionary<string, object>()
+        if (selectedFile != null)
         {
-            {"petId", pet.petId},
-            {"name", pet.name},
-            {"breed", pet.breed},
-            {"health", pet.health},
-            {"weight", pet.weight },
-            {"adoptionStatus", pet.adoptionStatus }
-        };
+            var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
+            content.Add(streamContent, "image", selectedFile.Name);
+        }
 
-        await docRef.SetAsync(data);
+        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Animal", content);
 
-        addBreed = string.Empty;
-        addHealth = string.Empty;
-        addWeight = 0;
-        addAdoption = string.Empty;
-        addName = string.Empty;
-        pets.Add(pet);
-        backupPets.Add(pet);
-        AddPetHtml = false;
-        StateHasChanged();
+        if (response.IsSuccessStatusCode)
+        {
+            addBreed = string.Empty;
+            addHealth = string.Empty;
+            addWeight = 0;
+            addAdoption = string.Empty;
+            addName = string.Empty;
+            pets.Add(pet);
+            backupPets.Add(pet);
+            AddPetHtml = false;
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
+        }
     }
     private void EditPet(MouseEventArgs e)
     {
