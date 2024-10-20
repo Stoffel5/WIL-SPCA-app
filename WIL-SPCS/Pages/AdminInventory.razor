@@ -232,6 +232,21 @@
     }
     private async Task AddPet(MouseEventArgs e)
     {
+
+        /*
+        Code Attribution
+        Title: How To Make API Requests In Blazor WASM
+        Author: Yassa Taiseer
+        Link: https://www.youtube.com/watch?v=9LDRwEZoX-s
+        Usage: Used to make post request in blazer
+        */
+        /*
+        Code Attribution
+        Title: Sending files and additional data using HttpClient in .NET Core
+        Author: Bartłomiej Iskrzycki
+        Link: https://brokul.dev/sending-files-and-additional-data-using-httpclient-in-net-core
+        Usage: Used to make post request in blazer with files
+        */
         var pet = new Pet
             {
                 petId = 1,
@@ -242,6 +257,7 @@
                 adoptionStatus = addAdoption
             };
 
+        // make content for post request
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(pet.name), "name");
         content.Add(new StringContent(pet.breed), "breed");
@@ -249,14 +265,17 @@
         content.Add(new StringContent(pet.weight.ToString()), "weight");
         content.Add(new StringContent(pet.adoptionStatus), "adoptionStatus");
 
+        // add file to request
         if (selectedFile != null)
         {
             var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
             content.Add(streamContent, "image", selectedFile.Name);
         }
 
+        // make request
         var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Animal", content);
 
+        // if/else get reponse
         if (response.IsSuccessStatusCode)
         {
             addBreed = string.Empty;
