@@ -1,44 +1,66 @@
 ﻿@page "/boarding"
 
-<h2 class="centered-text">Boarding</h2>
+<button class="open-btn" onclick="openNav()">☰</button>
 
-<!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
     <a href="/adopt" class="nav-link">Adopt a Pet</a>
     <a href="/awareness" class="nav-link">Awareness</a>
-    <a href="/donations" class="nav-link">Donations and Sponsors</a>
+    <a href="/donations" class="nav-link">Donations</a>
     <a href="/volunteer" class="nav-link">Volunteer</a>
     <a href="/gallery" class="nav-link">Gallery</a>
     <a href="/boarding" class="nav-link">Animal Boarding</a>
     <a href="/events" class="nav-link">Events</a>
 </div>
 
-<!-- Main content -->
 <div class="main-content">
-    <button class="open-btn" onclick="openNav()">☰</button>
-
     <div class="boarding-container">
-        <h3 class="centered-text">Available Boarding Schedules</h3>
+        <h1 class="centered-heading">Available Boarding Schedules</h1>
 
-        <div class="schedule-grid">
+        <div class="gallery-container">
             @foreach (var schedule in boardingSchedules)
             {
-                <div class="schedule-card">
-                    <div class="schedule-header">
-                        <h4>@schedule.Date</h4>
-                        <img src="css/dog_kennel.jpg" alt="Dog Kennel" class="schedule-image" />
-                    </div>
+                <div class="gallery-item">
+                    <img src="css/dog_kennel.jpg" alt="Dog Kennel" class="gallery-image">
+                    <h4>@schedule.Date</h4>
                     <p>Kennels Available: @schedule.AvailableKennels</p>
                     <p>Time Slots:</p>
                     <ul>
                         @foreach (var timeSlot in schedule.TimeSlots)
                         {
-                            <li>@timeSlot</li>
+                            var isBooked = schedule.BookedTimeSlots.Contains(timeSlot);
+                            <li>
+                                @timeSlot
+                                <button class="book-btn @((isBooked ? "booked" : ""))" @onclick="() => ToggleBooking(schedule.Date, timeSlot)">
+                                    @(isBooked ? "Unbook" : "Book")
+                                </button>
+                            </li>
                         }
                     </ul>
                 </div>
             }
+        </div>
+
+        @if (!string.IsNullOrEmpty(feedbackMessage))
+        {
+            <div class="feedback-message">@feedbackMessage</div>
+        }
+
+        <!-- FAQs Section -->
+        <h2 class="centered-heading">Frequently Asked Questions</h2>
+        <div class="gallery-container">
+            <div class="gallery-item">
+                <h4>How do I book a boarding slot?</h4>
+                <p>You can book a boarding slot by contacting us through our website or visiting the nearest shelter.</p>
+            </div>
+            <div class="gallery-item">
+                <h4>What are the boarding fees?</h4>
+                <p>Boarding fees depend on the size and type of animal. Please refer to our rates section for details.</p>
+            </div>
+            <div class="gallery-item">
+                <h4>What should I bring for my pet?</h4>
+                <p>Bring your pet's food, bedding, and any necessary medications. We provide everything else.</p>
+            </div>
         </div>
     </div>
 </div>
@@ -60,76 +82,181 @@
         {
             Date = "September 10, 2024",
             AvailableKennels = 5,
-            TimeSlots = new List<string> { "8:00 AM - 10:00 AM", "12:00 PM - 2:00 PM", "4:00 PM - 6:00 PM" }
+            TimeSlots = new List<string> { "8:00 AM - 10:00 AM", "12:00 PM - 2:00 PM", "4:00 PM - 6:00 PM" },
+            BookedTimeSlots = new List<string>() 
         },
         new BoardingSchedule
         {
             Date = "September 11, 2024",
             AvailableKennels = 3,
-            TimeSlots = new List<string> { "9:00 AM - 11:00 AM", "1:00 PM - 3:00 PM" }
+            TimeSlots = new List<string> { "9:00 AM - 11:00 AM", "1:00 PM - 3:00 PM" },
+            BookedTimeSlots = new List<string>() 
         }
     };
+
+    private string feedbackMessage;
 
     public class BoardingSchedule
     {
         public string Date { get; set; }
         public int AvailableKennels { get; set; }
         public List<string> TimeSlots { get; set; }
+        public List<string> BookedTimeSlots { get; set; } // List to track booked slots
+    }
+
+    private void ToggleBooking(string date, string timeSlot)
+    {
+        var schedule = boardingSchedules.FirstOrDefault(s => s.Date == date);
+        if (schedule != null)
+        {
+            if (schedule.BookedTimeSlots.Contains(timeSlot))
+            {
+                // Unbook the slot
+                schedule.BookedTimeSlots.Remove(timeSlot);
+                feedbackMessage = $"Successfully unbooked {timeSlot} on {date}.";
+            }
+            else
+            {
+                // Book the slot
+                schedule.BookedTimeSlots.Add(timeSlot);
+                feedbackMessage = $"Successfully booked {timeSlot} on {date}.";
+            }
+        }
+
+        StateHasChanged();
+
+        // this will reset the message after a few seconds
+        Task.Delay(5000).ContinueWith(_ =>
+        {
+            feedbackMessage = null;
+            InvokeAsync(StateHasChanged);
+        });
     }
 }
 
 <style>
     body {
-        background-image: url('images/background1.png');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
+        font-family: 'Quicksand', sans-serif;
     }
 
-    .centered-text {
-        text-align: center;
-        font-family: Arial, sans-serif;
-        color: #333;
+    /* Main content layout */
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #143963;
+        padding: 20px;
     }
 
     .boarding-container {
         padding: 20px;
+        text-align: center;
+        background-color: #143963;
+        border-radius: 20px;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 1200px;
+        margin: auto;
     }
 
-    .schedule-grid {
+    .centered-heading {
+        font-size: 2.5em;
+        color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .gallery-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 20px;
         justify-items: center;
+        padding: 10px;
     }
 
-    .schedule-card {
-        background-color: #f4f4f4;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    .gallery-item {
+        background-color: #4775A9;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
         text-align: center;
+        padding: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
         position: relative;
     }
 
-    .schedule-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+        /* Hover effect */
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
+            background-color: #ffffff;
+        }
 
-    .schedule-image {
-        width: 100%;
-        max-width: 200px;
+            .gallery-item:hover h4,
+            .gallery-item:hover p,
+            .gallery-item:hover li {
+                color: #333333; 
+            }
+
+    .gallery-image {
+        max-width: 100%;
         height: auto;
         border-radius: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        object-fit: cover;
     }
 
-    /* Side Navbar Styles */
+    .gallery-item h4 {
+        margin: 10px 0;
+        font-size: 1.2em;
+        color: #ffffff;
+    }
+
+    .gallery-item p,
+    .gallery-item li {
+        font-size: 1em;
+        color: #ffffff;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 5px;
+    }
+
+    /* Booking button style */
+    .book-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .book-btn.booked {
+            background-color: #dc3545;
+        }
+
+        .book-btn:hover {
+            background-color: #218838; 
+        }
+
+    /* Feedback message style */
+    .feedback-message {
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #d4edda; 
+        color: #155724; 
+        border: 1px solid #c3e6cb; 
+        border-radius: 5px;
+    }
+
+    /* Side Navbar */
     .side-navbar {
         height: 100%;
         width: 0;
@@ -167,7 +294,6 @@
             color: #ffffff;
         }
 
-    /* Dark blue button */
     .open-btn {
         font-size: 24px;
         cursor: pointer;
@@ -187,12 +313,4 @@
             background-color: #0d2a4a;
         }
 
-    .main-content {
-        margin-left: 250px;
-        padding: 20px;
-        position: relative;
-        background-color: #143963;
-        border-radius: 8px;
-    }
 </style>
-
