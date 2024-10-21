@@ -3,7 +3,6 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
-@using Google.Cloud.Firestore
 
 <PageTitle>Inventory</PageTitle>
 
@@ -37,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label for="weight" class="bold-text">Pet Weight</label>
-                <input id="weight" type="number" @bind="addWeight" class="form-control rounded-input" />
+                <input id="weight" @bind="addWeight" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="status" class="bold-text">Pet Adpotion Status</label>
@@ -72,14 +71,19 @@
             </div>
             <div class="form-group">
                 <label for="editweight" class="bold-text">Pet Weight</label>
-                <input id="editweight" @bind="editWeight" type="number" class="form-control rounded-input" />
+                <input id="editweight" @bind="editWeight" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="editstatus" class="bold-text">Pet Adpotion Status</label>
                 <input id="editStatus" @bind="editAdoption" class="form-control rounded-input" />
             </div>
+            <div class="form-group">
+                <label for="image" class="bold-text">Image</label>
+                <InputFile id="image" OnChange="HandleFileSelected" class="form-control rounded-input" />
+            </div>
 
             <button type="submit" @onclick="EditPet" class="btn btn-primary rounded-button bold-text">Edit</button>
+            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -91,6 +95,7 @@
             <p><b>Are you sure you want to delete this pet?</b></p>
 
             <button type="submit" @onclick="DeletePet" class="btn btn-primary rounded-button bold-text">Delete</button>
+            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -115,6 +120,7 @@
                 <th>Health</th>
                 <th>Weight</th>
                 <th>Status</th>
+                <th>Image</th>
                 <th></th>
             </tr>
             @foreach(var pet in pets)
@@ -126,6 +132,7 @@
                     <td>@pet.health</td>
                     <td>@pet.weight</td>
                     <td>@pet.adoptionStatus</td>
+                    <td><a href="@pet.imageUrl" target="_blank">View Image</a></td>
                     <td>
                         <center>
                             <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => DeletePetForm(pet.petId)">Delete</button>
@@ -146,17 +153,17 @@
     string addBreed = string.Empty;
     string addName = string.Empty;
     string addHealth = string.Empty;
-    int addWeight = 0;
+    string addWeight = string.Empty;
     string addAdoption = string.Empty;
     string addImage = string.Empty;
 
     string editName = string.Empty;
     string editBreed = string.Empty;
     string editHealth = string.Empty;
-    int editWeight = 0;
+    string editWeight = string.Empty;
     string editAdoption = string.Empty;
 
-    int petId = 0;
+    string petId = string.Empty;
     Pet editPet = new Pet();
     List<Pet> pets = new List<Pet>();
     List<Pet> backupPets = new List<Pet>();
@@ -182,26 +189,19 @@
 
     protected override async Task OnInitializedAsync()
     {
-        LoadPets();
+        await GetPets();
     }
 
-    private void LoadPets()
+    private async Task GetPets()
     {
-        // Load events based on the selected date (placeholder logic)
-        pets = GetPets();
-        backupPets = new List<Pet>(pets);
-    }
-
-    private List<Pet> GetPets()
-    {
-        // Placeholder logic for event fetching
-        // Replace with actual data fetching from database or API
-        return new List<Pet>
-        {
-            new Pet { petId = 1, name = "Max", breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
-            new Pet { petId = 2, name = "Misty", breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" },
-            new Pet { petId = 3, name = "Maya", breed = "Dog", health = "Health", weight = 60, adoptionStatus = "Adopted" }
-        };
+        /*
+        Code Attribution
+        Title: GET Request to API with Blazor/C#
+        Author: ZetBit
+        Link: https://www.youtube.com/watch?v=SjhzOauYC80
+        Usage: Used to make get request in blazer
+        */
+        pets = await Http.GetFromJsonAsync<List<Pet>>("https://spcaapi.azurewebsites.net/api/Animal/GetAnimals");
     }
 
     private void AddPetForm(MouseEventArgs e)
@@ -212,6 +212,8 @@
     private void EditPetForm(Pet pet)
     {
         editPet = pet;
+        editName = pet.name;
+        editWeight = pet.weight;
         editBreed = pet.breed;
         editHealth = pet.health;
         editWeight = pet.weight;
@@ -219,7 +221,7 @@
         EditPetHtml = true;
         StateHasChanged();
     }
-    private void DeletePetForm(int petId)
+    private void DeletePetForm(string petId)
     {
         this.petId = petId;
         DeletePetHtml = true;
@@ -248,14 +250,14 @@
         Usage: Used to make post request in blazer with files
         */
         var pet = new Pet
-            {
-                petId = 1,
-                name = addName,
-                breed = addBreed,
-                health = addHealth,
-                weight = addWeight,
-                adoptionStatus = addAdoption
-            };
+        {
+            petId = "",
+            name = addName,
+            breed = addBreed,
+            health = addHealth,
+            weight = addWeight,
+            adoptionStatus = addAdoption
+        };
 
         // make content for post request
         var content = new MultipartFormDataContent();
@@ -278,14 +280,7 @@
         // if/else get reponse
         if (response.IsSuccessStatusCode)
         {
-            addBreed = string.Empty;
-            addHealth = string.Empty;
-            addWeight = 0;
-            addAdoption = string.Empty;
-            addName = string.Empty;
-            pets.Add(pet);
-            backupPets.Add(pet);
-            AddPetHtml = false;
+            Navigation.NavigateTo("/AdminInventory", true);
             StateHasChanged();
         }
         else
@@ -293,33 +288,68 @@
             Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
         }
     }
-    private void EditPet(MouseEventArgs e)
+    private async Task EditPet(MouseEventArgs e)
     {
-        var findPet = pets.FirstOrDefault(p => p.petId == editPet.petId);
-        if(findPet != null)
+        var pet = new Pet
+            {
+                petId = editPet.petId,
+                name = editName,
+                breed = editBreed,
+                health = editHealth,
+                weight = editWeight,
+                adoptionStatus = editAdoption
+            };
+        // make content for post request
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(pet.name), "name");
+        content.Add(new StringContent(pet.breed), "breed");
+        content.Add(new StringContent(pet.health), "health");
+        content.Add(new StringContent(pet.weight.ToString()), "weight");
+        content.Add(new StringContent(pet.adoptionStatus), "adoptionStatus");
+
+        // add file to request
+        if (selectedFile != null)
         {
-            findPet.health = editHealth;
-            findPet.weight = editWeight;
-            findPet.breed = editBreed;
-            findPet.adoptionStatus = editAdoption;
-            backupPets.Remove(findPet);
-            backupPets.Add(findPet);
-            pets.Remove(findPet);
-            pets.Add(findPet);
+            var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
+            content.Add(streamContent, "image", selectedFile.Name);
         }
-        EditPetHtml = false;
+
+        // make request
+        var response = await Http.PatchAsync($"https://spcaapi.azurewebsites.net/api/Animal?id=" + editPet.petId, content);
+
+        // if/else get reponse
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/AdminInventory", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
+        }
         StateHasChanged();
     }
-    private void DeletePet(MouseEventArgs e)
+    private async Task DeletePet(MouseEventArgs e)
     {
-        var foundPet = pets.FirstOrDefault(p => p.petId == petId);
-        if(foundPet != null)
+        /*
+        Code Attribution
+        Title: How do you send an HTTP DELETE request using HttpClient in Blazor?
+        Author: syncfusion
+        Link: https://www.syncfusion.com/faq/blazor/web-api/how-do-you-send-an-http-delete-request-using-httpclient-in-blazor
+        Usage: Used to make delete request in blazer
+        */
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Animal?id=" + petId);
+
+        if (response.IsSuccessStatusCode)
         {
-            pets.Remove(foundPet);
+            Navigation.NavigateTo("/AdminInventory", true);
+            StateHasChanged();
+            StateHasChanged();
         }
-        petId = 0;
-        DeletePetHtml = false;
-        StateHasChanged();
+        else
+        {
+            Console.WriteLine(response.ReasonPhrase);
+        }
     }
     private void Cancel(MouseEventArgs e)
     {
@@ -328,13 +358,13 @@
     }
     public class Pet
     {
-        public int petId { get; set; }
+        public string petId { get; set; }
         public string name { get; set; }
         public string breed { get; set; }
         public string health { get; set; }
-        public int weight { get; set; }
+        public string weight { get; set; }
         public string adoptionStatus { get; set; }
-        public string image { get; set; }
+        public string imageUrl { get; set; }
     }
     private void search(ChangeEventArgs e)
     {
