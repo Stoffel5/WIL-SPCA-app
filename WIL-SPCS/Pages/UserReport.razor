@@ -1,0 +1,136 @@
+﻿@page "/userReport"
+
+<h3>User Report</h3>
+
+<div class="report-container">
+    <h4>Report an Animal</h4>
+    <EditForm Model="@animalReport" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <InputText id="location" @bind-Value="animalReport.Location" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <InputTextArea id="description" @bind-Value="animalReport.Description" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="contact">Contact Info:</label>
+            <InputText id="contact" @bind-Value="animalReport.ContactInfo" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <InputSelect id="status" @bind-Value="animalReport.Status" class="form-control" required>
+                <option value="">Select Status</option>
+                <option value="Lost">Lost</option>
+                <option value="Wandering">Wandering</option>
+                <option value="Abused">Abused</option>
+                <option value="In Need of Care">In Need of Care</option>
+            </InputSelect>
+        </div>
+
+        <div class="submit-container">
+            <button type="submit" class="btn btn-primary">Submit Report</button>
+        </div>
+    </EditForm>
+
+    <div class="reports-list">
+        <h4>Submitted Reports</h4>
+        @if (submittedReports.Any())
+        {
+            foreach (var report in submittedReports)
+            {
+                <div class="report-item">
+                    <strong>Location:</strong> @report.Location <br />
+                    <strong>Description:</strong> @report.Description <br />
+                    <strong>Contact Info:</strong> @report.ContactInfo <br />
+                    <strong>Status:</strong> @report.Status <br />
+                </div>
+            }
+        }
+        else
+        {
+            <p>No reports submitted yet.</p>
+        }
+    </div>
+</div>
+
+@code {
+    private AnimalReport animalReport = new AnimalReport();
+    private List<AnimalReport> submittedReports = new List<AnimalReport>();
+
+    private async Task HandleValidSubmit()
+    {
+        // Add the submitted report to the list
+        submittedReports.Add(new AnimalReport
+            {
+                Location = animalReport.Location,
+                Description = animalReport.Description,
+                ContactInfo = animalReport.ContactInfo,
+                Status = animalReport.Status
+            });
+
+        // Log for demonstration purposes
+        Console.WriteLine($"Report submitted: {animalReport.Location}, {animalReport.Description}, {animalReport.ContactInfo}, {animalReport.Status}");
+
+        // Reset the form
+        animalReport = new AnimalReport();
+    }
+
+    public class AnimalReport
+    {
+        public string Location { get; set; }
+        public string Description { get; set; }
+        public string ContactInfo { get; set; }
+        public string Status { get; set; }
+    }
+}
+
+<style>
+    .report-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0f7fa; /* Light background for the report section */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .submit-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .reports-list {
+        background-color: #ffffff; /* White background for report list */
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .report-item {
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+    }
+
+        .report-item:last-child {
+            border-bottom: none; /* Remove border from the last item */
+        }
+
+    h4 {
+        margin: 0;
+    }
+</style>
