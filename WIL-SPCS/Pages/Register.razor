@@ -1,6 +1,7 @@
 ﻿@page "/register"
 
 @inject NavigationManager Navigation
+@inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
 
 <PageTitle>Register</PageTitle>
@@ -15,7 +16,7 @@
 
             <div class="form-group">
                 <label for="username" class="bold-text">Username or Email</label>
-                <InputText id="username" class="form-control rounded-input" @bind-Value="registrationModel.UsernameOrEmail" />
+                <InputText id="username" class="form-control rounded-input" @bind-Value="registrationModel.Email" />
             </div>
 
             <div class="form-group">
@@ -29,23 +30,46 @@
             </div>
 
             <button type="submit" class="btn btn-primary rounded-button bold-text">Next</button>
+            @if(message != null)
+            {
+                <p>@message</p>
+            }
         </EditForm>
     </div>
 </div>
 
 @code {
     private RegistrationModel registrationModel = new RegistrationModel();
+    string message = "";
 
-    private void HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
-        // Navigate to login page after successful registration
-        Navigation.NavigateTo("/login");
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(registrationModel.Email), "email");
+        content.Add(new StringContent(registrationModel.Password), "password");
+
+        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/User/Register", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            message = "Account created";
+            StateHasChanged();
+        }
+        else
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorModel>();
+            message = errorResponse.message;
+        }
+    }
+    public class ErrorModel
+    {
+        public string message { get; set; }
     }
 
     private class RegistrationModel
     {
         [Required(ErrorMessage = "Username or Email is required.")]
-        public string UsernameOrEmail { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
@@ -55,5 +79,7 @@
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string UserType { get; set; }
     }
 }

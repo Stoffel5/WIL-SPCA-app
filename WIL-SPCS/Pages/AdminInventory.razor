@@ -313,6 +313,10 @@
             var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
             content.Add(streamContent, "image", selectedFile.Name);
         }
+        else
+        {
+            content.Add(new StringContent(""), "image");
+        }
 
         // make request
         var response = await Http.PatchAsync($"https://spcaapi.azurewebsites.net/api/Animal?id=" + editPet.petId, content);
