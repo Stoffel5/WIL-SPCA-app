@@ -1,8 +1,8 @@
 ﻿@page "/AdminVolunteers"
 
 @inject NavigationManager Navigation
+@inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
-@using Google.Cloud.Firestore
 
 <PageTitle>Volunteers</PageTitle>
 
@@ -25,15 +25,24 @@
             <h3 class="bold-text">Add Volunteer</h3>
             <div class="form-group">
                 <label for="name" class="bold-text">Name</label>
-                <input id="name" class="form-control rounded-input" />
+                <input id="name" @bind="addName" class="form-control rounded-input" />
             </div>
-
             <div class="form-group">
                 <label for="surname" class="bold-text">Surname</label>
-                <input id="surname" class="form-control rounded-input" />
+                <input id="surname" @bind="addSurname" class="form-control rounded-input" />
             </div>
-            
-
+            <div class="form-group">
+                <label for="VolunteerDate" class="bold-text">Volunteer Date</label>
+                <input id="VolunteerDate" @bind="addVolunteerDate" type="date" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="PhoneNumber" class="bold-text">Phone Number</label>
+                <input id="PhoneNumber" @bind="addPhoneNumber" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="Email" class="bold-text">Email</label>
+                <input id="Email" @bind="addEmail" class="form-control rounded-input" />
+            </div>
             <button type="submit" @onclick="AddVolunteer" class="btn btn-primary rounded-button bold-text">Add</button>
         </div>
     </div>
@@ -45,12 +54,23 @@
             <h3 class="bold-text">Add Volunteer</h3>
             <div class="form-group">
                 <label for="name" class="bold-text">Name</label>
-                <input id="name" class="form-control rounded-input" />               
+                <input id="name" @bind="editName" class="form-control rounded-input" />
             </div>
-
             <div class="form-group">
                 <label for="surname" class="bold-text">Surname</label>
-                <input id="surname" class="form-control rounded-input" />
+                <input id="surname" @bind="editSurname" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="VolunteerDate" class="bold-text">Volunteer Date</label>
+                <input id="VolunteerDate" @bind="editVolunteerDate" type="date" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="PhoneNumber" class="bold-text">Phone Number</label>
+                <input id="PhoneNumber" @bind="editPhoneNumber" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="Email" class="bold-text">Email</label>
+                <input id="Email" @bind="editEmail" class="form-control rounded-input" />
             </div>
 
             <button type="submit" @onclick="EditVolunteer" class="btn btn-primary rounded-button bold-text">Edit</button>
@@ -83,23 +103,27 @@
     <div class="tbl-pets">
         <table class="table-style">
             <tr>
-                <th>Volunteer ID</th>
                 <th>Name</th>
                 <th>Surname</th>
+                <th>Volunteer Date</th>
+                <th>PhoneNumber</th>
+                <th>Email</th>
 
                 <th></th>
             </tr>
             @foreach (var vol in volunteers)
             {
                 <tr>
-                    <td>@vol.volunteerId</td>
-                    <td>@vol.name</td>
-                    <td>@vol.surname</td>
+                    <td>@vol.Name</td>
+                    <td>@vol.Surname</td>
+                    <td>@vol.VolunteerDate</td>
+                    <td>@vol.PhoneNumber</td>
+                    <td>@vol.Email</td>
                 
                 <td>
                     <center>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="DeleteVolunteerForm">Delete</button>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="EditVolunteerForm">Edit</button>
+                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => DeleteVolunteerForm(vol)">Delete</button>
+                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => EditVolunteerForm(vol)">Edit</button>
                     </center>
                 </td>
             </tr>
@@ -111,44 +135,35 @@
 @code {
     public class Volunteer
     {
-        public int volunteerId { get; set; }
-        public string name { get; set; }
-        public string surname { get; set; }
+        public string VolunteerId { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string VolunteerDate { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
 
     }
-
     bool AddVolunteerHtml = false;
     bool EditVolunteerHtml = false;
     bool DeleteVolunteerHtml = false;
 
-
     string addName = string.Empty;
     string addSurname = string.Empty;
+    DateTime addVolunteerDate = DateTime.Now;
+    string addPhoneNumber = string.Empty;
+    string addEmail = string.Empty;
 
     string editName = string.Empty;
     string editSurname = string.Empty;
-
+    DateTime editVolunteerDate = DateTime.Now;
+    string editPhoneNumber = string.Empty;
+    string editEmail = string.Empty;
+    private string? errorMessage = null;
 
     Volunteer editVolunteer = new Volunteer();
+    Volunteer deleteVolunteer = new Volunteer();
     List<Volunteer> volunteers = new List<Volunteer>();
     List<Volunteer> backupVolunteer = new List<Volunteer>();
-
-    public async Task<FirestoreDb> establishCon()
-    {
-        /*
-        Code Attribution
-        Title: Getting Started with Google Cloud Firestore using C# | English
-        Author: The Amazing Codeverse
-        Link: https://www.youtube.com/watch?v=ptEtTNQ0dXg&list=PLrb70iTVZjZPEbhCh85VQIpRbQos2Qx3i&index=2
-        Usage: Used to see how to connect Firestore database to api
-        */
-
-        string path = AppDomain.CurrentDomain.BaseDirectory + @"wilfirebase.json";
-        Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", path);
-
-        FirestoreDb db = await FirestoreDb.CreateAsync("wilspca");
-        return db;
-    }
 
     private void AddVolunteerForm(MouseEventArgs e)
     {
@@ -156,57 +171,55 @@
         StateHasChanged();
     }
 
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        // Initial load of events based on the default date
-        LoadVolunteers();
+        await LoadVolunteers();
     }
 
-    private void LoadVolunteers()
+    private async Task LoadVolunteers()
     {
         // Load events based on the selected date (placeholder logic)
-        volunteers = GetVolunteer();
-        backupVolunteer = new List<Volunteer>(volunteers);
+        volunteers = await Http.GetFromJsonAsync<List<Volunteer>>("https://spcaapi.azurewebsites.net/api/Volunteer/GetVolunteers");
     }
 
-    private List<Volunteer> GetVolunteer()
+    private async Task AddVolunteer(MouseEventArgs e)
     {
-        // Placeholder logic for event fetching
-        // Replace with actual data fetching from database or API
-        return new List<Volunteer>
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(addName), "Name");
+        content.Add(new StringContent(addSurname), "Surname");
+        content.Add(new StringContent(addVolunteerDate.ToString()), "VolunteerDate");
+        content.Add(new StringContent(addPhoneNumber), "PhoneNumber");
+        content.Add(new StringContent(addEmail), "Email");
+        // Post report to external API
+        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Volunteer/AddVolunteer", content);
+        if (response.IsSuccessStatusCode)
         {
-            new Volunteer { volunteerId = 1, name = "Kyle", surname = "Mileham" },
-            new Volunteer { volunteerId = 2, name = "Peter", surname = "Parker" },
-            new Volunteer { volunteerId = 3, name = "John", surname = "Snow" }
-        };
-    }
-
-    private void AddVolunteer(MouseEventArgs e)
-    {
-        Volunteer vol = new Volunteer();
-        vol.volunteerId = volunteers.Count + 1;
-        vol.name = addName;
-        vol.surname = addSurname;
-
-        addName = string.Empty;
-        addSurname = string.Empty;
-
-
-        volunteers.Add(vol);
-        AddVolunteerHtml = false;
-        StateHasChanged();
+            // Reset the form and state after submission
+            Navigation.NavigateTo("/AdminVolunteers", true);
+            StateHasChanged();
+        }
+        else
+        {
+            errorMessage = "Failed to add volunteer";
+        }
     }
     // Still need to add edit and delete forms
 
-    private void EditVolunteerForm(MouseEventArgs e)
+    private void EditVolunteerForm(Volunteer vol)
     {
         EditVolunteerHtml = true;
+        editVolunteer = vol;
+        editEmail = vol.Email;
+        editName = vol.Name;
+        editPhoneNumber = vol.PhoneNumber;
+        editVolunteerDate = DateTime.Parse(vol.VolunteerDate);
+        editSurname = vol.Surname;
         StateHasChanged();
     }
-    private void DeleteVolunteerForm(MouseEventArgs e)
+    private void DeleteVolunteerForm(Volunteer vol)
     {
         DeleteVolunteerHtml = true;
+        deleteVolunteer = vol;
         StateHasChanged();
     }
 
@@ -215,47 +228,44 @@
         Navigation.NavigateTo("/welcome");
     }
 
-    private void EditVolunteer(MouseEventArgs e)
+    private async Task EditVolunteer(MouseEventArgs e)
     {
-        EditVolunteerHtml = false;
-        StateHasChanged();
-    }
-    private void DeleteVolunteer(MouseEventArgs e)
-    {
-        DeleteVolunteerHtml = false;
-        StateHasChanged();
-    }
+        // make content for post request
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(editName), "Name");
+        content.Add(new StringContent(editSurname), "Surname");
+        content.Add(new StringContent(editVolunteerDate.ToString()), "VolunteerDate");
+        content.Add(new StringContent(editPhoneNumber), "PhoneNumber");
+        content.Add(new StringContent(editEmail), "Email");
 
+        // make request
+        var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/Volunteer/UpdateVolunteer/" + editVolunteer.VolunteerId, content);
 
-    //firebase functions
-
-    private async Task AddPet(MouseEventArgs e)
-    {
-        FirestoreDb db = await establishCon();
-        Volunteer vol = new Volunteer();
-        vol.volunteerId = 1; //this needs changing
-        vol.name = addName;
-        vol.surname = addSurname;
-        
-
-
-        DocumentReference docRef = db.Collection("Volunteers").Document(vol.volunteerId.ToString());
-        Dictionary<string, object> data = new Dictionary<string, object>()
+        // if/else get reponse
+        if (response.IsSuccessStatusCode)
         {
-            {"volunteerID", vol.volunteerId},
-            {"name", vol.name},
-            {"Surname", vol.surname}         
-        };
-
-        await docRef.SetAsync(data);
-
-        addName = string.Empty;
-        addSurname = string.Empty;
-       
-        volunteers.Add(vol);
-        backupVolunteer.Add(vol);
-        AddVolunteerHtml = false;
+            Navigation.NavigateTo("/AdminVolunteers", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
+        }
         StateHasChanged();
+    }
+    private async Task DeleteVolunteer(MouseEventArgs e)
+    {
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Volunteer/DeleteVolunteer/" + deleteVolunteer.VolunteerId);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/AdminVolunteers", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine(response.ReasonPhrase);
+        }
     }
 }
 
