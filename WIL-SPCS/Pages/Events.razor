@@ -1,5 +1,9 @@
 ﻿@page "/events"
 
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
+
 <h2 class="centered-text">Events</h2>
 <button class="open-nav-btn" onclick="openNav()">☰ </button>
 
@@ -124,8 +128,9 @@
         @foreach (var ev in events)
         {
             <li class="event-item">
-                <strong>@ev.Title</strong>
-                <p>@ev.Description</p>
+                <strong>@ev.eventDate</strong>
+                <strong>@ev.eventName</strong>
+                <p>@ev.eventDescription</p>
             </li>
         }
     </ul>
@@ -135,9 +140,9 @@
     private DateTime selectedDate = DateTime.Now;
     private List<Event> events = new List<Event>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        LoadEvents();
+        await LoadEvents();
     }
 
     private void OnDateChanged(ChangeEventArgs e)
@@ -149,24 +154,19 @@
         }
     }
 
-    private void LoadEvents()
+    private async Task LoadEvents()
     {
-        events = GetEventsForDate(selectedDate);
-    }
+        // Load events based on the selected date (placeholder logic)
+        events = await Http.GetFromJsonAsync<List<Event>>("https://spcaapi.azurewebsites.net/api/events/GetEvents");
 
-    private List<Event> GetEventsForDate(DateTime date)
-    {
-        return new List<Event>
-        {
-            new Event { Title = "Sample Event 1", Description = "Description of Sample Event 1" },
-            new Event { Title = "Sample Event 2", Description = "Description of Sample Event 2" }
-        };
     }
 
     public class Event
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string eventName { get; set; }
+        public string eventDescription { get; set; }
+        public string eventId { get; set; }
+        public string eventDate { get; set; }
     }
 }
 

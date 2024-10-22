@@ -1,5 +1,8 @@
 ﻿@page "/AdminEvents"
 
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
 <PageTitle>Events</PageTitle>
 
 <button class="open-nav-btn" onclick="openNav()">☰ </button>
@@ -39,6 +42,30 @@
             </div>
         </div>
     }
+    @if (editEvent)
+    {
+        <div class="login-container">
+            <div class="login-form">
+                <h3 class="bold-text">Edit Event</h3>
+                <div class="form-group">
+                    <label for="date" class="bold-text">Date</label>
+                    <input type="date" @bind="selectedDate" class="date-picker form-control rounded-input" />
+                </div>
+
+                <div class="form-group">
+                    <label for="eventname" class="bold-text">Event Name</label>
+                    <input id="eventname" @bind="evName" class="form-control rounded-input" />
+                </div>
+                <div class="form-group">
+                    <label for="eventdescription" class="bold-text">Event Description</label>
+                    <input id="eventdescription" @bind="evDescription" class="form-control rounded-input" />
+                </div>
+
+                <button type="submit" @onclick="EditEvent" class="btn btn-primary rounded-button bold-text">Edit</button>
+                <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+            </div>
+        </div>
+    }
     else
     {
         <h2 class="centered-text" style="color: white;">Events</h2>
@@ -56,8 +83,11 @@
                 @foreach (var ev in events)
                 {
                     <li class="event-item">
-                        <strong>@ev.Title</strong>
-                        <p>@ev.Description</p>
+                        <strong>@ev.eventDate</strong>
+                        <strong>@ev.eventName</strong>
+                        <p>@ev.eventDescription</p>
+                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => EditEventForm(ev)">Edit</button>
+                        <button class="btn btn-danger" @onclick="@(() => DeleteEvent(ev.eventId))">Delete</button>
                     </li>
                 }
             </ul>
@@ -70,13 +100,15 @@
     private DateTime selectedDate = DateTime.Now;
     private string evName = string.Empty;
     private string evDescription = string.Empty;
+    private Event currentEvent = new Event();
     private List<Event> events = new List<Event>();
     public bool addEvent = false;
+    public bool editEvent = false;
+    private string? errorMessage = null;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        // Initial load of events based on the default date
-        LoadEvents();
+        await LoadEvents();
     }
 
     private void OnDateChanged(ChangeEventArgs e)
@@ -88,39 +120,95 @@
         }
     }
 
-    private void LoadEvents()
+    private async Task LoadEvents()
     {
         // Load events based on the selected date (placeholder logic)
-        events = GetEventsForDate(selectedDate);
-    }
+        events = await Http.GetFromJsonAsync<List<Event>>("https://spcaapi.azurewebsites.net/api/events/GetEvents");
 
-    private List<Event> GetEventsForDate(DateTime date)
-    {
-        // Placeholder logic for event fetching
-        // Replace with actual data fetching from database or API
-        return new List<Event>
-        {
-            new Event { Title = "Sample Event 1", Description = "Description of Sample Event 1" },
-            new Event { Title = "Sample Event 2", Description = "Description of Sample Event 2" }
-        };
     }
 
     public class Event
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string eventName { get; set; }
+        public string eventDescription { get; set; }
+        public string eventId { get; set; }
+        public string eventDate { get; set; }
     }
-    private void AddEvent(MouseEventArgs e)
+    private async Task AddEvent(MouseEventArgs e)
     {
-        Event ev= new Event();
-        ev.Title = evName;
-        ev.Description = evDescription;
-        events.Add(ev);
-        addEvent = false;
+        var encodedEventName = Uri.EscapeDataString(evName);
+        var encodedEventDescription = Uri.EscapeDataString(evDescription);
+        var encodedEventDate = Uri.EscapeDataString(selectedDate.ToString());
+
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(evName), "eventName");
+        content.Add(new StringContent(evDescription), "eventDescription");
+        content.Add(new StringContent(selectedDate.ToString()), "eventDate");
+        // Post report to external API
+        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/events/AddEvent", content);
+        if (response.IsSuccessStatusCode)
+        {
+            // Reset the form and state after submission
+            Navigation.NavigateTo("/AdminEvents", true);
+            StateHasChanged();
+        }
+        else
+        {
+            errorMessage = "Failed to submit report to API";
+        }
     }
     private void AddEventForm(MouseEventArgs e)
     {
         addEvent = true;
+    }
+    private async Task DeleteEvent(string eventId)
+    {
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/events/DeleteEvent/" + eventId);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/AdminEvents", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine(response.ReasonPhrase);
+        }
+    }
+    private void EditEventForm(Event ev)
+    {
+        currentEvent = ev;
+        editEvent = true;
+        StateHasChanged();
+    }
+    private async Task EditEvent(MouseEventArgs e)
+    {
+        // make content for post request
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(evName), "eventName");
+        content.Add(new StringContent(evDescription), "eventDescription");
+        content.Add(new StringContent(selectedDate.ToString()), "eventDate");
+
+        // make request
+        var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/events/UpdateEvent/" + currentEvent.eventId, content);
+
+        // if/else get reponse
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/AdminEvent", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
+        }
+        StateHasChanged();
+    }
+    private void Cancel(MouseEventArgs e)
+    {
+        editEvent = false;
+        addEvent = false;
+        StateHasChanged();
     }
 }
 
