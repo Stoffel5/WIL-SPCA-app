@@ -19,7 +19,7 @@
 
             <div class="form-group">
                 <label for="location">Location:</label>
-                <InputText id="location" @bind-Value="animalReport.Location" class="form-control" required />
+                <InputText id="location" @bind-Value="animalReport.location" class="form-control" required />
             </div>
 
             <div class="form-group">
@@ -68,7 +68,7 @@
             foreach (var report in reports)
             {
                 <div class="report-item">
-                    <strong>Location:</strong> @report.Location <br />
+                    <strong>Location:</strong> @report.location <br />
                     <strong>Description:</strong> @report.Description <br />
                     <strong>Contact Info:</strong> @report.ContactInfo <br />
                     <strong>Status:</strong> 
@@ -92,7 +92,6 @@
 @code {
     Report animalReport = new Report();
     List<Report> reports = new List<Report>();
-    private FirestoreDb db;
     private bool isEditing = false; // Flag to differentiate between new submission and editing
     private string? errorMessage = null; // For displaying error messages
     private string? successMessage = null; // For displaying success messages
@@ -100,159 +99,59 @@
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            // Initialize Firestore connection
-            db = FirestoreDb.Create("WILSPCA"); // Replace with your Firebase project ID
-            await GetReports();
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"Error initializing database: {ex.Message}";
-            Console.WriteLine(errorMessage); // Log the error to console for debugging
-        }
+        await GetReports();
     }
 
     private async Task HandleValidSubmit()
     {
-        try
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(animalReport.Status), "Status");
+        content.Add(new StringContent(animalReport.ContactInfo), "ContactInfo");
+        content.Add(new StringContent(animalReport.location), "Location");
+        content.Add(new StringContent(animalReport.Description), "Description");
+        // Post report to external API
+        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Report", content);
+        if (!response.IsSuccessStatusCode)
         {
-            loading = true;
-            errorMessage = null;
-            successMessage = null;
-
-            // Check if database connection is initialized
-            if (db == null)
-            {
-                errorMessage = "Database connection not initialized.";
-                return;
-            }
-
-            // Check if animal report is initialized
-            if (animalReport == null)
-            {
-                errorMessage = "Animal report data not initialized.";
-                return;
-            }
-
-            // Handle report update
-            if (isEditing)
-            {
-                if (string.IsNullOrEmpty(animalReport.ReportId))
-                {
-                    errorMessage = "Invalid report ID.";
-                    return;
-                }
-
-                DocumentReference reportRef = db.Collection("Reports").Document(animalReport.ReportId);
-                await reportRef.SetAsync(animalReport);
-                successMessage = "Report updated successfully!";
-            }
-            else
-            {
-                // Validate fields before adding new report
-                if (string.IsNullOrEmpty(animalReport.Location) ||
-                    string.IsNullOrEmpty(animalReport.Description) ||
-                    string.IsNullOrEmpty(animalReport.ContactInfo) ||
-                    string.IsNullOrEmpty(animalReport.Status))
-                {
-                    errorMessage = "Please fill out all fields.";
-                    return;
-                }
-
-                var newReport = new Report
-                {
-                    Location = animalReport.Location,
-                    Description = animalReport.Description,
-                    ContactInfo = animalReport.ContactInfo,
-                    Status = animalReport.Status
-                };
-
-                CollectionReference reportsCollection = db.Collection("Reports");
-                await reportsCollection.AddAsync(newReport);
-                successMessage = "Report submitted successfully!";
-            }
-
-            // Post report to external API
-            var response = await Http.PostAsJsonAsync("https://spcaapi.azurewebsites.net/api/Report", animalReport);
-            if (!response.IsSuccessStatusCode)
-            {
-                errorMessage = "Failed to submit report to API";
-            }
-
-            // Reset the form and state after submission
-            animalReport = new Report();
-            isEditing = false;
-            await GetReports();
+            errorMessage = "Failed to submit report to API";
         }
-        catch (Exception ex)
-        {
-            errorMessage = $"Error submitting report: {ex.Message} \n{ex.StackTrace}"; // More detailed error logging
-        }
-        finally
-        {
-            loading = false;
-            StateHasChanged();
-        }
+
+        // Reset the form and state after submission
+        animalReport = new Report();
+        isEditing = false;
+        await GetReports();
     }
 
     private async Task GetReports()
     {
-        try
+        reports = await Http.GetFromJsonAsync<List<Report>>("https://spcaapi.azurewebsites.net/api/Report/GetReports");
+        foreach(var rep in reports)
         {
-            loading = true;
-            CollectionReference reportsCollection = db.Collection("Reports");
-            QuerySnapshot snapshot = await reportsCollection.GetSnapshotAsync();
-
-            reports = new List<Report>();
-            foreach (DocumentSnapshot document in snapshot.Documents)
-            {
-                if (document.Exists)
-                {
-                    Report report = document.ConvertTo<Report>();
-                    report.ReportId = document.Id;
-                    reports.Add(report);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"Error loading reports: {ex.Message}";
-        }
-        finally
-        {
-            loading = false;
-            StateHasChanged();
+            Console.WriteLine(rep.location);
         }
     }
 
     private async Task EditReport(Report reportToEdit)
     {
         animalReport = reportToEdit;
-        isEditing = true; // Set the flag to editing mode
-        successMessage = null; // Clear success message
-        errorMessage = null; // Clear error message
+        isEditing = true; 
+        successMessage = null;
+        errorMessage = null; 
         StateHasChanged();
     }
 
     private async Task DeleteReport(string reportId)
     {
-        try
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Report?id=" + reportId);
+
+        if (response.IsSuccessStatusCode)
         {
-            loading = true;
-            DocumentReference reportRef = db.Collection("Reports").Document(reportId);
-            await reportRef.DeleteAsync();
-            successMessage = "Report deleted successfully!";
-            await GetReports();
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"Error deleting report: {ex.Message}";
-        }
-        finally
-        {
-            loading = false;
+            Navigation.NavigateTo("/userReport", true);
             StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine(response.ReasonPhrase);
         }
     }
 
@@ -271,7 +170,7 @@
     public class Report
     {
         public string ReportId { get; set; }
-        public string Location { get; set; }
+        public string location { get; set; }
         public string Description { get; set; }
         public string ContactInfo { get; set; }
         public string Status { get; set; }
