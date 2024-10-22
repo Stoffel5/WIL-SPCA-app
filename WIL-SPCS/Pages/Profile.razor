@@ -1,0 +1,154 @@
+﻿@page "/profile"
+
+<h3 class="profile-header">Profile</h3>
+
+<div class="profile-container">
+    <div class="profile-sidebar">
+        <img src="img/profile-pic.jpg" alt="User Profile Picture" class="profile-pic" />
+        <h4>@userName</h4>
+        <p class="profile-bio">@bio</p>
+        <button class="edit-button" @onclick="EditProfile">Edit Profile</button>
+    </div>
+
+    <div class="profile-details">
+        <h4>Personal Information</h4>
+        <ul class="profile-info-list">
+            <li><strong>Email:</strong> @userEmail</li>
+            <li><strong>Phone:</strong> @userPhone</li>
+            <li><strong>Location:</strong> @userLocation</li>
+        </ul>
+
+        <h4>Preferences</h4>
+        <div class="preferences-container">
+            <label>
+                <input type="checkbox" checked="@notificationsEnabled" @onchange="ToggleNotifications" />
+                Receive Notifications
+            </label>
+            <label>
+                <input type="checkbox" checked="@darkModeEnabled" @onchange="ToggleDarkMode" />
+                Dark Mode
+            </label>
+        </div>
+
+        <button class="save-button" @onclick="SaveChanges">Save Changes</button>
+    </div>
+</div>
+
+@code {
+    private string userName = "Jane Doe";
+    private string userEmail = "janedoe@example.com";
+    private string userPhone = "123-456-7890";
+    private string userLocation = "New York, USA";
+    private string bio = "Enthusiastic developer with a passion for technology and innovation.";
+    private bool notificationsEnabled = true;
+    private bool darkModeEnabled = false;
+
+    private void EditProfile()
+    {
+        // Handle profile editing
+    }
+
+    private void SaveChanges()
+    {
+        // Save user profile changes
+    }
+
+    private void ToggleNotifications(ChangeEventArgs e)
+    {
+        notificationsEnabled = (bool)e.Value;
+    }
+
+    private void ToggleDarkMode(ChangeEventArgs e)
+    {
+        darkModeEnabled = (bool)e.Value;
+    }
+}
+<style>
+    .profile-header {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+    }
+
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 30px;
+        padding: 20px;
+        background-color: #f4f4f9;
+        border-radius: 10px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-sidebar {
+        text-align: center;
+        max-width: 250px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-pic {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        margin-bottom: 15px;
+    }
+
+    .profile-bio {
+        font-style: italic;
+        margin: 10px 0;
+        color: #555;
+    }
+
+    .edit-button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #ff9f1a;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .edit-button:hover {
+            background-color: #e68a00;
+        }
+
+    .profile-details {
+        flex: 1;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-info-list {
+        list-style: none;
+        padding: 0;
+    }
+
+        .profile-info-list li {
+            margin: 10px 0;
+        }
+
+    .preferences-container {
+        margin: 20px 0;
+    }
+
+    .save-button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .save-button:hover {
+            background-color: #0056b3;
+        }
+</style>

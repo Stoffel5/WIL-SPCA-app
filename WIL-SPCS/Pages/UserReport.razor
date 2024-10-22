@@ -1,55 +1,82 @@
 ﻿@page "/userReport"
 
 <h3>User Report</h3>
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
 
 <div class="report-container">
-    <h4>Report an Animal</h4>
-    <EditForm Model="@animalReport" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+    <h4>@(isEditing ? "Edit Report" : "Report an Animal")</h4>
+    @if (loading)
+    {
+        <div class="spinner">Loading...</div> <!-- Loading spinner -->
+    }
+    else
+    {
+        <EditForm Model="@animalReport" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-        <div class="form-group">
-            <label for="location">Location:</label>
-            <InputText id="location" @bind-Value="animalReport.Location" class="form-control" required />
-        </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <InputText id="location" @bind-Value="animalReport.Location" class="form-control" required />
+            </div>
 
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <InputTextArea id="description" @bind-Value="animalReport.Description" class="form-control" required />
-        </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <InputTextArea id="description" @bind-Value="animalReport.Description" class="form-control" required />
+            </div>
 
-        <div class="form-group">
-            <label for="contact">Contact Info:</label>
-            <InputText id="contact" @bind-Value="animalReport.ContactInfo" class="form-control" required />
-        </div>
+            <div class="form-group">
+                <label for="contact">Contact Info:</label>
+                <InputText id="contact" @bind-Value="animalReport.ContactInfo" class="form-control" required />
+            </div>
 
-        <div class="form-group">
-            <label for="status">Status:</label>
-            <InputSelect id="status" @bind-Value="animalReport.Status" class="form-control" required>
-                <option value="">Select Status</option>
-                <option value="Lost">Lost</option>
-                <option value="Wandering">Wandering</option>
-                <option value="Abused">Abused</option>
-                <option value="In Need of Care">In Need of Care</option>
-            </InputSelect>
-        </div>
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <InputSelect id="status" @bind-Value="animalReport.Status" class="form-control" required>
+                    <option value="">Select Status</option>
+                    <option value="Lost">Lost</option>
+                    <option value="Wandering">Wandering</option>
+                    <option value="Abused">Abused</option>
+                    <option value="In Need of Care">In Need of Care</option>
+                </InputSelect>
+            </div>
 
-        <div class="submit-container">
-            <button type="submit" class="btn btn-primary">Submit Report</button>
-        </div>
-    </EditForm>
+            <div class="submit-container">
+                <button type="submit" class="btn btn-primary">
+                    @(isEditing ? "Update Report" : "Submit Report")
+                </button>
+            </div>
+        </EditForm>
+
+        @if (errorMessage != null)
+        {
+            <div class="alert alert-danger">@errorMessage</div> <!-- Display error message -->
+        }
+
+        @if (successMessage != null)
+        {
+            <div class="alert alert-success">@successMessage</div> <!-- Display success message -->
+        }
+    }
 
     <div class="reports-list">
         <h4>Submitted Reports</h4>
-        @if (submittedReports.Any())
+        @if (reports.Any())
         {
-            foreach (var report in submittedReports)
+            foreach (var report in reports)
             {
                 <div class="report-item">
                     <strong>Location:</strong> @report.Location <br />
                     <strong>Description:</strong> @report.Description <br />
                     <strong>Contact Info:</strong> @report.ContactInfo <br />
-                    <strong>Status:</strong> @report.Status <br />
+                    <strong>Status:</strong> 
+                    <span style="color:@GetStatusColor(report.Status)">
+                        @report.Status
+                    </span> <br />
+                    <button class="btn btn-secondary" @onclick="@(() => EditReport(report))">Edit</button>
+                    <button class="btn btn-danger" @onclick="@(() => DeleteReport(report.ReportId))">Delete</button>
                 </div>
             }
         }
@@ -60,30 +87,190 @@
     </div>
 </div>
 
+@using Google.Cloud.Firestore
+
 @code {
-    private AnimalReport animalReport = new AnimalReport();
-    private List<AnimalReport> submittedReports = new List<AnimalReport>();
+    Report animalReport = new Report();
+    List<Report> reports = new List<Report>();
+    private FirestoreDb db;
+    private bool isEditing = false; // Flag to differentiate between new submission and editing
+    private string? errorMessage = null; // For displaying error messages
+    private string? successMessage = null; // For displaying success messages
+    private bool loading = false; // Flag for loading state
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Initialize Firestore connection
+            db = FirestoreDb.Create("WILSPCA"); // Replace with your Firebase project ID
+            await GetReports();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error initializing database: {ex.Message}";
+            Console.WriteLine(errorMessage); // Log the error to console for debugging
+        }
+    }
 
     private async Task HandleValidSubmit()
     {
-        // Add the submitted report to the list
-        submittedReports.Add(new AnimalReport
+        try
+        {
+            loading = true;
+            errorMessage = null;
+            successMessage = null;
+
+            // Check if database connection is initialized
+            if (db == null)
             {
-                Location = animalReport.Location,
-                Description = animalReport.Description,
-                ContactInfo = animalReport.ContactInfo,
-                Status = animalReport.Status
-            });
+                errorMessage = "Database connection not initialized.";
+                return;
+            }
 
-        // Log for demonstration purposes
-        Console.WriteLine($"Report submitted: {animalReport.Location}, {animalReport.Description}, {animalReport.ContactInfo}, {animalReport.Status}");
+            // Check if animal report is initialized
+            if (animalReport == null)
+            {
+                errorMessage = "Animal report data not initialized.";
+                return;
+            }
 
-        // Reset the form
-        animalReport = new AnimalReport();
+            // Handle report update
+            if (isEditing)
+            {
+                if (string.IsNullOrEmpty(animalReport.ReportId))
+                {
+                    errorMessage = "Invalid report ID.";
+                    return;
+                }
+
+                DocumentReference reportRef = db.Collection("Reports").Document(animalReport.ReportId);
+                await reportRef.SetAsync(animalReport);
+                successMessage = "Report updated successfully!";
+            }
+            else
+            {
+                // Validate fields before adding new report
+                if (string.IsNullOrEmpty(animalReport.Location) ||
+                    string.IsNullOrEmpty(animalReport.Description) ||
+                    string.IsNullOrEmpty(animalReport.ContactInfo) ||
+                    string.IsNullOrEmpty(animalReport.Status))
+                {
+                    errorMessage = "Please fill out all fields.";
+                    return;
+                }
+
+                var newReport = new Report
+                {
+                    Location = animalReport.Location,
+                    Description = animalReport.Description,
+                    ContactInfo = animalReport.ContactInfo,
+                    Status = animalReport.Status
+                };
+
+                CollectionReference reportsCollection = db.Collection("Reports");
+                await reportsCollection.AddAsync(newReport);
+                successMessage = "Report submitted successfully!";
+            }
+
+            // Post report to external API
+            var response = await Http.PostAsJsonAsync("https://spcaapi.azurewebsites.net/api/Report", animalReport);
+            if (!response.IsSuccessStatusCode)
+            {
+                errorMessage = "Failed to submit report to API";
+            }
+
+            // Reset the form and state after submission
+            animalReport = new Report();
+            isEditing = false;
+            await GetReports();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error submitting report: {ex.Message} \n{ex.StackTrace}"; // More detailed error logging
+        }
+        finally
+        {
+            loading = false;
+            StateHasChanged();
+        }
     }
 
-    public class AnimalReport
+    private async Task GetReports()
     {
+        try
+        {
+            loading = true;
+            CollectionReference reportsCollection = db.Collection("Reports");
+            QuerySnapshot snapshot = await reportsCollection.GetSnapshotAsync();
+
+            reports = new List<Report>();
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    Report report = document.ConvertTo<Report>();
+                    report.ReportId = document.Id;
+                    reports.Add(report);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading reports: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task EditReport(Report reportToEdit)
+    {
+        animalReport = reportToEdit;
+        isEditing = true; // Set the flag to editing mode
+        successMessage = null; // Clear success message
+        errorMessage = null; // Clear error message
+        StateHasChanged();
+    }
+
+    private async Task DeleteReport(string reportId)
+    {
+        try
+        {
+            loading = true;
+            DocumentReference reportRef = db.Collection("Reports").Document(reportId);
+            await reportRef.DeleteAsync();
+            successMessage = "Report deleted successfully!";
+            await GetReports();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error deleting report: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private string GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Lost" => "red",
+            "Wandering" => "orange",
+            "Abused" => "darkred",
+            "In Need of Care" => "green",
+            _ => "black"
+        };
+    }
+
+    public class Report
+    {
+        public string ReportId { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
         public string ContactInfo { get; set; }
@@ -97,7 +284,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #e0f7fa; /* Light background for the report section */
+        background-color: #e0f7fa;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -113,7 +300,7 @@
     }
 
     .reports-list {
-        background-color: #ffffff; /* White background for report list */
+        background-color: #ffffff;
         padding: 15px;
         border-radius: 10px;
         margin-top: 20px;
@@ -122,15 +309,21 @@
     }
 
     .report-item {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #ddd;
         padding: 10px 0;
     }
 
-        .report-item:last-child {
-            border-bottom: none; /* Remove border from the last item */
-        }
-
-    h4 {
-        margin: 0;
+    .report-item:last-child {
+        border-bottom: none;
     }
+
+    .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #007bff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
+
 </style>
