@@ -1,6 +1,149 @@
 ﻿@page "/AdminReport"
-<h3>AdminReport</h3>
+
+<h3>User Report</h3>
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
+
+<div class="report-container">
+    <div class="reports-list">
+        <h4>Submitted Reports</h4>
+        @if (reports.Any())
+        {
+            foreach (var report in reports)
+            {
+                <div class="report-item">
+                    <strong>Location:</strong> @report.location <br />
+                    <strong>Description:</strong> @report.Description <br />
+                    <strong>Contact Info:</strong> @report.ContactInfo <br />
+                    <strong>Status:</strong>
+                    <span style="color:@GetStatusColor(report.Status)">
+                        @report.Status
+                    </span> <br />
+                    <button class="btn btn-danger" @onclick="@(() => DeleteReport(report.ReportId))">Delete</button>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No reports submitted yet.</p>
+        }
+    </div>
+</div>
+
+@using Google.Cloud.Firestore
 
 @code {
+    Report animalReport = new Report();
+    List<Report> reports = new List<Report>();
+    private bool isEditing = false; // Flag to differentiate between new submission and editing
+    private string? errorMessage = null; // For displaying error messages
+    private string? successMessage = null; // For displaying success messages
+    private bool loading = false; // Flag for loading state
 
+    protected override async Task OnInitializedAsync()
+    {
+        await GetReports();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        isEditing = false;
+        await GetReports();
+    }
+
+    private async Task GetReports()
+    {
+        reports = await Http.GetFromJsonAsync<List<Report>>("https://spcaapi.azurewebsites.net/api/Report/GetReports");
+        foreach (var rep in reports)
+        {
+            Console.WriteLine(rep.location);
+        }
+    }
+
+    private async Task DeleteReport(string reportId)
+    {
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Report?id=" + reportId);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/AdminReport", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine(response.ReasonPhrase);
+        }
+    }
+
+    private string GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Lost" => "red",
+            "Wandering" => "orange",
+            "Abused" => "darkred",
+            "In Need of Care" => "green",
+            _ => "black"
+        };
+    }
+
+    public class Report
+    {
+        public string ReportId { get; set; }
+        public string location { get; set; }
+        public string Description { get; set; }
+        public string ContactInfo { get; set; }
+        public string Status { get; set; }
+    }
 }
+
+<style>
+    .report-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0f7fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        width: 80%;
+        max-width: 600px;
+    }
+
+    .submit-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .reports-list {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .report-item {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+    }
+
+        .report-item:last-child {
+            border-bottom: none;
+        }
+
+    .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-top: 4px solid #007bff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+    }
+
+</style>
