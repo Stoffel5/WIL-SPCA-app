@@ -205,10 +205,10 @@
 
     <div class="bottom-nav">
         <a href="/Welcome" class="nav-item" aria-label="Home">
-            <img src="images/home-icon2.jpg" alt="Home" class="nav-icon">
+            <img src="images/home.png" alt="Home" class="nav-icon">
         </a>
         <a href="/adopt" class="nav-item" aria-label="Adopt a Pet">
-            <img src="images/search-icon.jpg" alt="Search" class="nav-icon">
+            <img src="images/search.png" alt="Search" class="nav-icon">
         </a>
         <div class="nav-center">
             <a href="/userReport" class="nav-item">
@@ -216,43 +216,49 @@
             </a>
         </div>
         <a href="/userchat" class="nav-item" aria-label="Chat with Us">
-            <img src="images/chat-icon.webp" alt="Chat" class="nav-icon">
+            <img src="images/message.png" alt="Chat" class="nav-icon">
         </a>
         <a href="/profile" class="nav-item" aria-label="Profile">
-            <img src="images/profile-icon.jpg" alt="Profile" class="nav-icon">
+            <img src="images/user.png" alt="Profile" class="nav-icon">
         </a>
     </div>
 
 
     <style>
-        /* Bottom Navigation Bar */
         .bottom-nav {
             position: fixed;
             bottom: 0;
+            left: 0;
+            right: 0;
             width: 100%;
             height: 60px;
-            background-color: #143963; /* Change to a cohesive color */
+            background-color: #ffffff;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 1000;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-item {
             flex: 1;
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            padding: 5px;
         }
 
             .nav-item:hover {
-                transform: scale(1.1); /* Slightly enlarge on hover */
+                background-color: #f0f0f0;
+                transform: scale(1.1);
+                border-radius: 10px;
             }
 
         .nav-icon {
-            width: 28px; /* Adjusted for visibility */
-            height: 28px; /* Adjusted for visibility */
-            filter: none; /* Ensure the filter does not hide the icon */
+            width: 28px;
+            height: 28px;
+            filter: none;
         }
 
         .nav-center {
@@ -273,17 +279,18 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             position: absolute;
-            top: -25px; /* Centers the button vertically */
+            top: -25px;
             transition: background-color 0.3s ease;
         }
 
             .nav-center-btn:hover {
-                background-color: #6C6A5A; /* Darker shade on hover */
+                background-color: #6C6A5A;
             }
 
             .nav-center-btn:focus {
                 outline: none;
             }
+
     </style>
 
 
