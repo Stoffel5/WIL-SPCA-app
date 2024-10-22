@@ -178,6 +178,9 @@
     private void EditEventForm(Event ev)
     {
         currentEvent = ev;
+        evName = ev.eventName;
+        evDescription = ev.eventDescription;
+        selectedDate = DateTime.Parse(ev.eventDate);
         editEvent = true;
         StateHasChanged();
     }
@@ -195,7 +198,7 @@
         // if/else get reponse
         if (response.IsSuccessStatusCode)
         {
-            Navigation.NavigateTo("/AdminEvent", true);
+            Navigation.NavigateTo("/AdminEvents", true);
             StateHasChanged();
         }
         else
