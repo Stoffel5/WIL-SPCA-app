@@ -32,6 +32,7 @@
     </div>
 </div>
 
+@inject IJSRuntime jsRuntime
 
 @code {
     private LoginModel loginModel = new LoginModel();
@@ -47,6 +48,11 @@
         if (response.IsSuccessStatusCode)
         {
             var loginData = await response.Content.ReadFromJsonAsync<LoginModel>();
+
+            // Store user data in local storage
+            await jsRuntime.InvokeVoidAsync("localStorage.setItem", "userName", loginData.Email);
+            await jsRuntime.InvokeVoidAsync("localStorage.setItem", "userEmail", loginData.Email);
+
             Navigation.NavigateTo("/welcome");
         }
         else
@@ -55,6 +61,7 @@
             errorMessage = errorResponse.message;
         }
     }
+
     public class ErrorModel
     {
         public string message { get; set; }

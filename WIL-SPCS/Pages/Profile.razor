@@ -6,7 +6,7 @@
     <div class="profile-sidebar">
         <img src="img/profile-pic.jpg" alt="User Profile Picture" class="profile-pic" />
         <h4>@userName</h4>
-        <p class="profile-bio">@bio</p>
+       
         <button class="edit-button" @onclick="EditProfile">Edit Profile</button>
     </div>
 
@@ -14,8 +14,7 @@
         <h4>Personal Information</h4>
         <ul class="profile-info-list">
             <li><strong>Email:</strong> @userEmail</li>
-            <li><strong>Phone:</strong> @userPhone</li>
-            <li><strong>Location:</strong> @userLocation</li>
+            
         </ul>
 
         <h4>Preferences</h4>
@@ -33,15 +32,18 @@
         <button class="save-button" @onclick="SaveChanges">Save Changes</button>
     </div>
 </div>
-
+@inject IJSRuntime jsRuntime
 @code {
-    private string userName = "Jane Doe";
-    private string userEmail = "janedoe@example.com";
-    private string userPhone = "123-456-7890";
-    private string userLocation = "New York, USA";
-    private string bio = "Enthusiastic developer with a passion for technology and innovation.";
+    private string userName;
+    private string userEmail;
     private bool notificationsEnabled = true;
     private bool darkModeEnabled = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userName = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userName");
+        userEmail = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userEmail");
+    }
 
     private void EditProfile()
     {
@@ -63,6 +65,7 @@
         darkModeEnabled = (bool)e.Value;
     }
 }
+
 <style>
     .profile-header {
         font-size: 2rem;
