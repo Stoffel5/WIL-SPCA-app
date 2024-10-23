@@ -136,10 +136,6 @@
     }
     private async Task AddEvent(MouseEventArgs e)
     {
-        var encodedEventName = Uri.EscapeDataString(evName);
-        var encodedEventDescription = Uri.EscapeDataString(evDescription);
-        var encodedEventDate = Uri.EscapeDataString(selectedDate.ToString());
-
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(evName), "eventName");
         content.Add(new StringContent(evDescription), "eventDescription");

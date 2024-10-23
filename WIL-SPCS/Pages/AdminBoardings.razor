@@ -2,7 +2,7 @@
 
 @inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations
-@using Google.Cloud.Firestore
+@inject HttpClient Http
 
 <PageTitle>Boardings</PageTitle>
 
@@ -64,11 +64,11 @@
             </div>
             <div class="form-group">
                 <label for="Start Date" class="bold-text">Start Date</label>
-                <input id="Start Date" class="form-control rounded-input" />
+                <input id="Start Date" type="date" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="End Date" class="bold-text">End Date</label>
-                <input id="End Date" class="form-control rounded-input" />
+                <input id="End Date" type="date" @bind="editEndDate" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="Owner name" class="bold-text">Owner name</label>
@@ -118,21 +118,23 @@
                 
                 <th></th>
             </tr>
-            <tr>
-                <td>Stuffy</td>
-                <td>Golden Retriever</td>
-                <td>12 July 2024</td>
-                <td>17 July</td>
-                <td>Petrus Johannes Willemse</td>
-                <td>PetrusDmann365@gmail.com</td>
-                
-                <td>
-                    <center>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="DeleteBoardingForm">Delete</button>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="EditBoardingForm">Edit</button>
-                    </center>
-                </td>
-            </tr>
+            @foreach (var request in boardingRequests)
+            {
+                <tr>
+                    <td>@request.OwnerName</td>
+                    <td>@request.PetName</td>
+                    <td>@request.Breed</td>
+                    <td>@request.StartDate</td>
+                    <td>@request.EndDate</td>
+                    <td>@request.OwnerEmail</td>
+
+                    <td>
+                        <center>
+                            <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => DeleteBoardingForm(request)">Delete</button>
+                        </center>
+                    </td>
+                </tr>
+            }
         </table>
     </div>
 }
@@ -141,18 +143,49 @@
     bool AddBoardingHtml = false;
     bool EditBoardingHtml = false;
     bool DeleteBoardingHtml = false;
+
+    string ownerName = string.Empty;
+    string ownerEmail = string.Empty;
+    string petName = string.Empty;
+    string breed = string.Empty;
+    DateTime startDate = DateTime.Today;
+    DateTime endDate = DateTime.Today;
+
+    string editOwnerName = string.Empty;
+    string editOwnerEmail = string.Empty;
+    string editPetName = string.Empty;
+    string editBreed = string.Empty;
+    DateTime editStartDate = DateTime.Today;
+    DateTime editEndDate = DateTime.Today;
+    private string? errorMessage = null;
+
+    private List<BoardingRequest> boardingRequests = new List<BoardingRequest>();
+    private BoardingRequest currentBoardingRequest = new BoardingRequest();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEvents();
+    }
+
+    private async Task LoadEvents()
+    {
+        // Load events based on the selected date (placeholder logic)
+        boardingRequests = await Http.GetFromJsonAsync<List<BoardingRequest>>("https://spcaapi.azurewebsites.net/api/Boarding/GetBoardingRequests");
+
+    }
     private void AddBoardingForm(MouseEventArgs e)
     {
         AddBoardingHtml = true;
         StateHasChanged();
     }
-    private void EditBoardingForm(MouseEventArgs e)
+    private void EditBoardingForm(BoardingRequest request)
     {
         EditBoardingHtml = true;
         StateHasChanged();
     }
-    private void DeleteBoardingForm(MouseEventArgs e)
+    private void DeleteBoardingForm(BoardingRequest request)
     {
+        currentBoardingRequest = request;
         DeleteBoardingHtml = true;
         StateHasChanged();
     }
@@ -161,20 +194,82 @@
     {
         Navigation.NavigateTo("/welcome");
     }
-    private void AddBoarding(MouseEventArgs e)
+    private async Task AddBoarding(MouseEventArgs e)
     {
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(ownerName), "OwnerName");
+        content.Add(new StringContent(breed), "Breed");
+        content.Add(new StringContent(petName), "PetName");
+        content.Add(new StringContent(ownerEmail), "OwnerEmail");
+        content.Add(new StringContent(startDate.Date.ToString()), "StartDate");
+        content.Add(new StringContent(endDate.Date.ToString()), "EndDate");
+        // Post report to external API
+        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Boarding", content);
+        if (response.IsSuccessStatusCode)
+        {
+            // Reset the form and state after submission
+            Navigation.NavigateTo("/AdminBoardings", true);
+            StateHasChanged();
+        }
+        else
+        {
+            errorMessage = "Failed to submit boarding to API";
+        }
         AddBoardingHtml = false;
         StateHasChanged();
     }
-    private void EditBoarding(MouseEventArgs e)
+    private async Task EditBoarding(MouseEventArgs e)
     {
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(editOwnerName), "OwnerName");
+        content.Add(new StringContent(editBreed), "Breed");
+        content.Add(new StringContent(editPetName), "PetName");
+        content.Add(new StringContent(editOwnerEmail), "OwnerEmail");
+        content.Add(new StringContent(editStartDate.Date.ToString()), "StartDate");
+        content.Add(new StringContent(editEndDate.Date.ToString()), "EndDate");
+
+        // make request
+        var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/events/UpdateEvent/" + currentBoardingRequest.requestId, content);
+
+        // if/else get reponse
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/AdminBoardings", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
+        }
+        StateHasChanged();
         EditBoardingHtml = false;
         StateHasChanged();
     }
-    private void DeleteBoarding(MouseEventArgs e)
+    private async Task DeleteBoarding(MouseEventArgs e)
     {
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Boarding/" + currentBoardingRequest.requestId);
+
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/AdminBoardings", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine(response.ReasonPhrase);
+        }
         DeleteBoardingHtml = false;
         StateHasChanged();
+    }
+        public class BoardingRequest
+    {
+        public string PetName { get; set; }
+        public string Breed { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string OwnerName { get; set; }
+        public string OwnerEmail { get; set; }
+        public string requestId { get; set; }
     }
 }
 
