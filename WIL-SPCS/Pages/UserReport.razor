@@ -183,14 +183,20 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #e0f7fa;
+        background-color: #ffffff; 
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin: 20px;
+        margin: 20px auto; 
         width: 80%;
         max-width: 600px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
+        .report-container:hover {
+            transform: scale(1.05); 
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+        }
 
     .submit-container {
         display: flex;
@@ -205,16 +211,21 @@
         margin-top: 20px;
         width: 100%;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
     }
+
+        .reports-list:hover {
+            background-color: #f0f0f0; 
+        }
 
     .report-item {
         border-bottom: 1px solid #ddd;
         padding: 10px 0;
     }
 
-    .report-item:last-child {
-        border-bottom: none;
-    }
+        .report-item:last-child {
+            border-bottom: none;
+        }
 
     .spinner {
         border: 4px solid rgba(0, 0, 0, 0.1);
@@ -222,7 +233,33 @@
         border-radius: 50%;
         width: 40px;
         height: 40px;
-        animation: spin 1s linear infinite;
+        
     }
 
+    
+    .report-item:hover {
+        background-color: #143963; 
+        color: #ffffff; 
+        transition: background-color 0.3s ease, color 0.3s ease; 
+    }
+
+    /* Input styles */
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #143963; 
+        border-radius: 5px;
+        margin-top: 10px;
+        transition: border-color 0.3s ease; 
+    }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #007bff; 
+            outline: none; 
+        }
 </style>
+
