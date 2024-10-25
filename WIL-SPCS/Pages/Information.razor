@@ -1,0 +1,113 @@
+﻿@page "/information"
+
+<div class="container">
+    <div class="header">
+        <h3>Information</h3>
+    </div>
+    <div class="scroll-container">
+        <div class="card-container">
+            <div class="card education-card">
+                <h4>Education Program</h4>
+                <p>
+                    Meow! Hello, lovely human! I'm here to purr-suade you to check out the SPCA's education program.
+                    They offer pawsome information and even tours for all you curious minds out there! If you're interested, just send them a message or reach out using the contact info they've provided. Trust me, it'll be a fur-tastic experience you won't forget! 🐾💞
+                </p>
+            </div>
+            <div class="card volunteers-card">
+                <h4>Volunteers</h4>
+                <p>The SPCA welcomes volunteers with open paws! Yup, they’re always on the lookout for big-hearted humans who want to lend a paw in making a difference for us furry pals. If you’re 18 or older, you can join the team solo, but if you're younger, just bring along an adult pal! Volunteering here is a blast – you get to hang out with all sorts of fluffy friends and help take care of them in a super fun environment. So, why wait? Reach out to them and offer your services today! Let’s make tails wag and hearts smile together!</p>
+            </div>
+            <div class="card pbo-card">
+                <h4>We are A PBO</h4>
+                <p>Woof Woof hey there, did you know that the SPCA is a PBO (Public Benefit Organization)? Yup, it’s true! By supporting them, you’re not only helping furry pals like me find loving homes, but you’re also doing good for your community. It’s like getting belly rubs and treats—best of both worlds! So, let’s spread some love together and make the world a better place, one paw at a time! 🐾💞</p>
+            </div>
+            <div class="card pet-boarding-card">
+                <h4>Pet Boarding</h4>
+                <p>🐾 Heyy Heyy! We’re a dynamic duo here to bark and purr about the SPCA’s boarding services. Whether you're planning a vacation or a quick getaway, you can trust the SPCA to take care of your pets while you’re away! Just reach out to them via their contact info, and they’ll organize everything to ensure their safe, happy, and loved. So go ahead, plan that trip knowing they’ll be in paw-some hands! 🐶🐱</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #CFCDCD;
+        border-radius: 10px;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    h3 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #143963;
+    }
+
+    .scroll-container {
+        max-height: 500px;
+        overflow-y: auto;
+        padding-right: 15px;
+    }
+
+    .card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .card {
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+
+        /* Improved Hover Effect */
+        .card:hover {
+            transform: scale(1.03); /* Subtle zoom-in effect */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Slightly more pronounced shadow */
+            background-color: #143963; /* Dark blue background on hover */
+            color: white; /* Ensure text stays visible on hover */
+        }
+
+    .education-card {
+        background-color: #FBD1CF;
+        color: #333;
+    }
+
+    .volunteers-card {
+        background-color: #9EACA4;
+        color: #333;
+    }
+
+    .pbo-card {
+        background-color: #5FB372;
+        color: #333;
+    }
+
+    .pet-boarding-card {
+        background-color: #B290AB;
+        color: #333;
+    }
+
+    h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+</style>
