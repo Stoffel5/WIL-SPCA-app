@@ -51,7 +51,14 @@
             await LocalStorage.SetItemAsync("email", loginData.Email);
             await LocalStorage.SetItemAsync("userType", loginData.UserType);
 
-            Navigation.NavigateTo("/welcome");
+            if(loginData.UserType == "Admin")
+            {
+                Navigation.NavigateTo("/desktophome");
+            }
+            else
+            {
+                Navigation.NavigateTo("/welcome");
+            }
         }
         else
         {

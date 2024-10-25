@@ -191,14 +191,7 @@
     protected override async Task OnInitializedAsync()
     {
         var usertype = await LocalStorage.GetItemAsync<string>("userType");
-        if(usertype == null || usertype != "Admin")
-        {
-            Navigation.NavigateTo("/login");
-        }
-        else
-        {
-            await GetPets();
-        }
+        await GetPets();
     }
 
     private async Task GetPets()
