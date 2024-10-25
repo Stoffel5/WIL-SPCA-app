@@ -3,6 +3,7 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 <PageTitle>Events</PageTitle>
 
 <button class="open-nav-btn" onclick="openNav()">☰ </button>
@@ -108,7 +109,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadEvents();
+        var usertype = await LocalStorage.GetItemAsync<string>("userType");
+        if (usertype == null || usertype != "Admin")
+        {
+            Navigation.NavigateTo("/login");
+        }
+        else
+        {
+            await LoadEvents();
+        }
     }
 
     private void OnDateChanged(ChangeEventArgs e)

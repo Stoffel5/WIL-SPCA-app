@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Google.Api;
+using Blazored.LocalStorage;
 
 namespace WIL_SPCS
 {
@@ -15,6 +16,7 @@ namespace WIL_SPCS
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddBlazoredLocalStorage();
 
             await builder.Build().RunAsync();
         }

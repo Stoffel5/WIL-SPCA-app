@@ -1,6 +1,7 @@
 ﻿@page "/AdminMessages"
 
 @inject NavigationManager Navigation
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>Messages</PageTitle>
 
@@ -105,10 +106,18 @@
         };
     }
 
-    protected override void OnInitialized()
+
+    protected override async Task OnInitializedAsync()
     {
-        // Initial load of events based on the default date
-        LoadUsers();
+        var usertype = await LocalStorage.GetItemAsync<string>("userType");
+        if (usertype == null || usertype != "Admin")
+        {
+            Navigation.NavigateTo("/login");
+        }
+        else
+        {
+            LoadUsers();
+        }
     }
 
     private void LoadUsers()

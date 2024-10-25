@@ -4,6 +4,7 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <div class="report-container">
     <div class="reports-list">
@@ -43,7 +44,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetReports();
+        var usertype = await LocalStorage.GetItemAsync<string>("userType");
+        if (usertype == null || usertype != "Admin")
+        {
+            Navigation.NavigateTo("/login");
+        }
+        else
+        {
+            await GetReports();
+        }
     }
 
     private async Task HandleValidSubmit()

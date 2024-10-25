@@ -3,6 +3,7 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>Login</PageTitle>
 <div class="login-container">
@@ -32,8 +33,6 @@
     </div>
 </div>
 
-@inject IJSRuntime jsRuntime
-
 @code {
     private LoginModel loginModel = new LoginModel();
     string errorMessage = "";
@@ -49,9 +48,8 @@
         {
             var loginData = await response.Content.ReadFromJsonAsync<LoginModel>();
 
-            // Store user data in local storage
-            await jsRuntime.InvokeVoidAsync("localStorage.setItem", "userName", loginData.Email);
-            await jsRuntime.InvokeVoidAsync("localStorage.setItem", "userEmail", loginData.Email);
+            await LocalStorage.SetItemAsync("email", loginData.Email);
+            await LocalStorage.SetItemAsync("userType", loginData.UserType);
 
             Navigation.NavigateTo("/welcome");
         }

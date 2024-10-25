@@ -3,6 +3,7 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>Volunteers</PageTitle>
 
@@ -173,7 +174,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadVolunteers();
+        var usertype = await LocalStorage.GetItemAsync<string>("userType");
+        if (usertype == null || usertype != "Admin")
+        {
+            Navigation.NavigateTo("/login");
+        }
+        else
+        {
+            await LoadVolunteers();
+        }
     }
 
     private async Task LoadVolunteers()
