@@ -7,139 +7,123 @@
 
 <PageTitle>Volunteers</PageTitle>
 
-<button class="open-nav-btn" onclick="openNav()">☰ </button>
-<!-- Side Navigation Bar -->
-<div id="sideNavbar" class="side-navbar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-    <a href="/adminmessages" class="nav-link">Messages</a>
-    <a href="/adminboardings" class="nav-link">Boardings</a>
-    <a href="/adminvolunteers" class="nav-link">Volunteers</a>
-    <a href="/admininventory" class="nav-link">Inventory</a>
-    <a href="/adminevents" class="nav-link">Events</a>
-    <!-- Add more links here as needed -->
-</div>
-
 @if (AddVolunteerHtml)
 {
-    <div class="login-container">
-        <div class="login-form">
-            <h3 class="bold-text">Add Volunteer</h3>
+    <div class="form-container">
+        <div class="form-card">
+            <h3 class="form-title">Add Volunteer</h3>
             <div class="form-group">
-                <label for="name" class="bold-text">Name</label>
-                <input id="name" @bind="addName" class="form-control rounded-input" />
+                <label for="name" class="form-label">Name</label>
+                <input id="name" @bind="addName" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="surname" class="bold-text">Surname</label>
-                <input id="surname" @bind="addSurname" class="form-control rounded-input" />
+                <label for="surname" class="form-label">Surname</label>
+                <input id="surname" @bind="addSurname" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="VolunteerDate" class="bold-text">Volunteer Date</label>
-                <input id="VolunteerDate" @bind="addVolunteerDate" type="date" class="form-control rounded-input" />
+                <label for="VolunteerDate" class="form-label">Volunteer Date</label>
+                <input id="VolunteerDate" @bind="addVolunteerDate" type="date" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="PhoneNumber" class="bold-text">Phone Number</label>
-                <input id="PhoneNumber" @bind="addPhoneNumber" class="form-control rounded-input" />
+                <label for="PhoneNumber" class="form-label">Phone Number</label>
+                <input id="PhoneNumber" @bind="addPhoneNumber" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="Email" class="bold-text">Email</label>
-                <input id="Email" @bind="addEmail" class="form-control rounded-input" />
+                <label for="Email" class="form-label">Email</label>
+                <input id="Email" @bind="addEmail" type="email" class="form-input" />
             </div>
-            <button type="submit" @onclick="AddVolunteer" class="btn btn-primary rounded-button bold-text">Add</button>
+            <button type="submit" @onclick="AddVolunteer" class="btn btn-primary btn-submit">Add</button>
         </div>
     </div>
 }
+
 @if (EditVolunteerHtml && !AddVolunteerHtml)
 {
-    <div class="login-container">
-        <div class="login-form">
-            <h3 class="bold-text">Add Volunteer</h3>
+    <div class="form-container">
+        <div class="form-card">
+            <h3 class="form-title">Edit Volunteer</h3>
             <div class="form-group">
-                <label for="name" class="bold-text">Name</label>
-                <input id="name" @bind="editName" class="form-control rounded-input" />
+                <label for="name" class="form-label">Name</label>
+                <input id="name" @bind="editName" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="surname" class="bold-text">Surname</label>
-                <input id="surname" @bind="editSurname" class="form-control rounded-input" />
+                <label for="surname" class="form-label">Surname</label>
+                <input id="surname" @bind="editSurname" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="VolunteerDate" class="bold-text">Volunteer Date</label>
-                <input id="VolunteerDate" @bind="editVolunteerDate" type="date" class="form-control rounded-input" />
+                <label for="VolunteerDate" class="form-label">Volunteer Date</label>
+                <input id="VolunteerDate" @bind="editVolunteerDate" type="date" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="PhoneNumber" class="bold-text">Phone Number</label>
-                <input id="PhoneNumber" @bind="editPhoneNumber" class="form-control rounded-input" />
+                <label for="PhoneNumber" class="form-label">Phone Number</label>
+                <input id="PhoneNumber" @bind="editPhoneNumber" class="form-input" />
             </div>
             <div class="form-group">
-                <label for="Email" class="bold-text">Email</label>
-                <input id="Email" @bind="editEmail" class="form-control rounded-input" />
+                <label for="Email" class="form-label">Email</label>
+                <input id="Email" @bind="editEmail" type="email" class="form-input" />
             </div>
-
-            <button type="submit" @onclick="EditVolunteer" class="btn btn-primary rounded-button bold-text">Edit</button>
+            <button type="submit" @onclick="EditVolunteer" class="btn btn-primary btn-submit">Edit</button>
         </div>
     </div>
 }
+
 @if (DeleteVolunteerHtml && !AddVolunteerHtml)
 {
-    <div class="login-container">
-        <div class="login-form">
-            <h3 class="bold-text">Delete Volunteer</h3>
-            <p><b>Are you sure you want to delete this Volunteer?</b></p>
-
-            <button type="submit" @onclick="DeleteVolunteer" class="btn btn-primary rounded-button bold-text">Delete</button>
+    <div class="form-container">
+        <div class="form-card">
+            <h3 class="form-title">Delete Volunteer</h3>
+            <p><strong>Are you sure you want to delete this Volunteer?</strong></p>
+            <button type="submit" @onclick="DeleteVolunteer" class="btn btn-danger btn-submit">Delete</button>
         </div>
     </div>
 }
+
 @if (!AddVolunteerHtml && !EditVolunteerHtml && !DeleteVolunteerHtml)
 {
     <div class="top">
-        <div>
-            <center><h3 style="color: white;">Volunteers</h3></center>
-            <center><input type="text" placeholder="Search..." class="desktop-search-bar"></center>
-            <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddVolunteerForm">Add Volunteer</button></center>
-        </div>
+        <h3 class="page-title">Volunteers</h3>
+        <input type="text" placeholder="Search..." class="search-bar" />
+        <button class="btn btn-add" @onclick="AddVolunteerForm">Add Volunteer</button>
     </div>
-
-    <div style="padding-left: 16px"></div>
 
     <div class="tbl-pets">
         <table class="table-style">
-            <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Volunteer Date</th>
-                <th>PhoneNumber</th>
-                <th>Email</th>
-
-                <th></th>
-            </tr>
-            @foreach (var vol in volunteers)
-            {
+            <thead>
                 <tr>
-                    <td>@vol.Name</td>
-                    <td>@vol.Surname</td>
-                    <td>@vol.VolunteerDate</td>
-                    <td>@vol.PhoneNumber</td>
-                    <td>@vol.Email</td>
-                
-                <td>
-                    <center>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => DeleteVolunteerForm(vol)">Delete</button>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => EditVolunteerForm(vol)">Edit</button>
-                    </center>
-                </td>
-            </tr>
-            }
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Volunteer Date</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var vol in volunteers)
+                {
+                    <tr>
+                        <td>@vol.Name</td>
+                        <td>@vol.Surname</td>
+                        <td>@vol.VolunteerDate.ToShortDateString()</td>
+                        <td>@vol.PhoneNumber</td>
+                        <td>@vol.Email</td>
+                        <td>
+                            <button class="btn btn-edit" @onclick="() => EditVolunteerForm(vol)">Edit</button>
+                            <button class="btn btn-danger" @onclick="() => DeleteVolunteerForm(vol)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 }
-
 @code {
     public class Volunteer
     {
         public string VolunteerId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string VolunteerDate { get; set; }
+        public DateTime VolunteerDate { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
@@ -214,7 +198,7 @@
         editEmail = vol.Email;
         editName = vol.Name;
         editPhoneNumber = vol.PhoneNumber;
-        editVolunteerDate = DateTime.Parse(vol.VolunteerDate);
+        editVolunteerDate = vol.VolunteerDate;
         editSurname = vol.Surname;
         StateHasChanged();
     }
@@ -270,138 +254,140 @@
         }
     }
 }
-
-
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
     .top {
         margin: 30px;
+        text-align: center;
     }
 
-    table {
-        width: 100%;
+    .page-title {
+        color: #143963;
+        margin-bottom: 20px;
+        font-size: 60px;
     }
 
-    th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        background-color: white;
+    .search-bar {
         padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 60%;
+    }
+
+    .tbl-pets {
+        padding: 0 16px;
     }
 
     .table-style {
         width: 100%;
-        border-collapse: separate;
-        background-color: white;
+        border-collapse: collapse;
         border-radius: 12px;
-        border: 1px solid black;
+        margin-bottom: 20px;
         overflow: hidden;
-        border-spacing: 0;
-        margin-bottom: 10px;
     }
 
-    .login-form {
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #143963;
+        color: white;
+    }
+
+    .form-container {
         display: flex;
-        flex-direction: column;
+        justify-content: center;
         align-items: center;
         margin-top: 20px;
+    }
+
+    .form-card {
+        background: #143963;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
         text-align: center;
+    }
+
+    .form-title {
+        margin-bottom: 20px;
+        color: #ffffff;
     }
 
     .form-group {
-        margin-bottom: 1rem;
+        margin-bottom: 15px;
         width: 100%;
     }
 
-    .rounded-input {
-        border-radius: 15px;
-        width: 100%;
-    }
-
-    .rounded-button {
-        border-radius: 15px;
-        width: 100%;
-    }
-
-    .bold-text {
+    .form-label {
+        margin-bottom: 5px;
         font-weight: bold;
+        color: white;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 50%;
+        font-size: 16px;
+        color: white;
     }
 
     .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
+        background-color: #143963;
+        color: white;
     }
 
         .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
+            background-color: #143963;
         }
 
-    .btn {
-        display: inline-block;
-        font-weight: 400;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        user-select: none;
-        border: 1px solid transparent;
-        padding: 0.375rem 0.75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-    }
-
-    .btnx {
-        width: fit-content;
-        margin-top: 10px;
-    }
-    /* Side Navbar Styles */
-    .side-navbar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: -250px; /* Initially hidden */
-        background-color: #007BFF; /* Blue background for navbar */
+    .btn-danger {
+        background-color: #dc3545;
         color: white;
-        overflow-x: hidden;
-        transition: 0.3s; /* Smooth transition for opening and closing */
-        padding-top: 60px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     }
 
-        .side-navbar .nav-link {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 1.2em;
-            color: white;
-            display: block;
-            transition: 0.3s;
+        .btn-danger:hover {
+            background-color: #c82333;
         }
 
-            .side-navbar .nav-link:hover {
-                background-color: #0056b3; /* Darker blue for hover effect */
-            }
+    .btn-edit {
+        background-color: #28a745;
+        color: white;
+        margin-right: 5px;
+    }
 
-        .side-navbar .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
+        .btn-edit:hover {
+            background-color: #218838;
         }
 
-        /* Show the side navbar when it is active */
-        .side-navbar.active {
-            left: 0;
+    .btn-add {
+        background-color: #ffff;
+        color: #143963;
+        margin-top: 10px;
+        border: 1px solid #143963;
+    }
+
+        .btn-add:hover {
+            background-color: #e0e0e0;
         }
 </style>
-
-<script>
-    function openNav() {
-        document.getElementById("sideNavbar").classList.add("active");
-    }
-
-    function closeNav() {
-        document.getElementById("sideNavbar").classList.remove("active");
-    }
-</script>
-
