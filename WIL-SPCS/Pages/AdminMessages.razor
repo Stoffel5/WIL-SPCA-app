@@ -5,7 +5,9 @@
 
 <PageTitle>Messages</PageTitle>
 
-<button class="open-nav-btn" onclick="openNav()">☰ </button>
+<a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
+
+@* <button class="open-nav-btn" onclick="openNav()">☰ </button>
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
@@ -15,7 +17,7 @@
     <a href="/admininventory" class="nav-link">Inventory</a>
     <a href="/adminevents" class="nav-link">Events</a>
     <!-- Add more links here as needed -->
-</div>
+</div> *@
 
 <div class="messages-page">
     <div class="messages-inbox">
@@ -172,24 +174,30 @@
     }
     .messages-chat{
         width: 60%;
-        border: 1px solid black;
+        border: 1px solid #143963;
+        ;
     }
 
     .messages-inbox {
         width: 40%;
         border: 1px solid black;
+        color: #143963;
     }
     .messages-table{
         width: 100%;
+        color: #143963;
     }
 
     .messages-inbox-items{
         width: 40%;
         border-bottom: 1px solid black;
+        color: #143963;
     }
 
     .messages-chat-heading{
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid #143963;
+        color: #143963;
+        
     }
 
     .chat-window {
@@ -202,6 +210,7 @@
     .message-title{
         padding:5px;
         border-bottom: 1px solid black;
+        color: #143963;
     }
     .messages {
         flex: 1;
@@ -210,6 +219,7 @@
         border-bottom: 1px solid #ddd;
         overflow-y: auto;
         border: 1px solid black;
+        color: #143963;
     }
 
     input {
@@ -279,13 +289,15 @@
         position: fixed;
         top: 0;
         left: -250px; /* Initially hidden */
-        background-color: #007BFF; /* Blue background for navbar */
-        color: white;
+        background-color: #143963;
+         /* Blue background for navbar */
+        color: #143963;
         overflow-x: hidden;
         transition: 0.3s; /* Smooth transition for opening and closing */
         padding-top: 60px;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
         z-index: 100;
+       
     }
 
         .side-navbar .nav-link {
@@ -298,7 +310,7 @@
         }
 
             .side-navbar .nav-link:hover {
-                background-color: #0056b3; /* Darker blue for hover effect */
+                background-color: #143963; /* Darker blue for hover effect */
             }
 
         .side-navbar .close-btn {

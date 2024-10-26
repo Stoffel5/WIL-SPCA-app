@@ -6,7 +6,9 @@
 
 <PageTitle>Boardings</PageTitle>
 
-<button class="open-nav-btn" onclick="openNav()">☰ </button>
+<a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
+
+@* <button class="open-nav-btn" onclick="openNav()">☰ </button>
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
@@ -16,7 +18,7 @@
     <a href="/admininventory" class="nav-link">Inventory</a>
     <a href="/adminevents" class="nav-link">Events</a>
     <!-- Add more links here as needed -->
-</div>
+</div> *@
 
 @if (AddBoardingHtml)
 {
@@ -274,13 +276,16 @@
 }
 
 <style>
+   
     .top {
         margin: 30px;
+        color: #143963;
     }
 
     table {
         width: 100%;
     }
+    
 
     th, td {
         border: 1px solid black;
@@ -290,6 +295,7 @@
     }
 
     .table-style {
+        
         width: 100%;
         border-collapse: separate;
         background-color: white;
@@ -299,6 +305,7 @@
         border-spacing: 0;
         margin-bottom: 10px;
     }
+    
 
     .login-form {
         display: flex;
@@ -316,11 +323,13 @@
     .rounded-input {
         border-radius: 15px;
         width: 100%;
+        background-color: #143963;
     }
 
     .rounded-button {
         border-radius: 15px;
         width: 100%;
+        background-color: #143963;
     }
 
     .bold-text {
@@ -328,7 +337,7 @@
     }
 
     .btn-primary {
-        background-color: #007bff;
+        background-color: #143963;
         border-color: #007bff;
     }
 

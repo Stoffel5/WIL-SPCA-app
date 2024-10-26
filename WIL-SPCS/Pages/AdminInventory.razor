@@ -7,7 +7,9 @@
 
 <PageTitle>Inventory</PageTitle>
 
-<button class="open-nav-btn" onclick="openNav()">☰ </button>
+<a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
+
+@* <button class="open-nav-btn" onclick="openNav()">☰ </button>
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
     <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
@@ -16,7 +18,8 @@
     <a href="/adminvolunteers" class="nav-link">Volunteers</a>
     <a href="/admininventory" class="nav-link">Inventory</a>
     <a href="/adminevents" class="nav-link">Events</a>
-</div>
+</div> *@
+
 
 @if (AddPetHtml)
 {
@@ -386,11 +389,15 @@
         }
         StateHasChanged();
     }
+
+   
 }
 
 <style>
     .top {
         margin: 30px;
+        color: #143963;
+        Back
     }
 
     th, td {
@@ -440,12 +447,12 @@
     }
 
     .btn-primary {
-        background-color: #007bff;
+        background-color: #143963;
         border-color: #007bff;
     }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #143963;
             border-color: #0056b3;
         }
 
@@ -477,6 +484,7 @@
         width: fit-content;
         margin-top: 10px;
     }
+    
     /* Side Navbar Styles */
     .side-navbar {
         height: 100%;
@@ -484,7 +492,7 @@
         position: fixed;
         top: 0;
         left: -250px; /* Initially hidden */
-        background-color: #007BFF; /* Blue background for navbar */
+        background-color: #143963; /* Blue background for navbar */
         color: white;
         overflow-x: hidden;
         transition: 0.3s; /* Smooth transition for opening and closing */
@@ -502,7 +510,7 @@
         }
 
             .side-navbar .nav-link:hover {
-                background-color: #0056b3; /* Darker blue for hover effect */
+                background-color: #143963; /* Darker blue for hover effect */
             }
 
         .side-navbar .close-btn {
@@ -517,6 +525,17 @@
         .side-navbar.active {
             left: 0;
         }
+
+    /* .btn-add {
+        background-color: #ffff;
+        color: #143963;
+        margin-top: 10px;
+        border: 1px solid #143963;
+    }
+
+        .btn-add:hover {
+            background-color: #e0e0e0;
+        } */
 </style>
 
 <script>
