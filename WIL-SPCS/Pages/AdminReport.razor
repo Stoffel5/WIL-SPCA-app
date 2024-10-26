@@ -2,7 +2,7 @@
 
 <a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
 
-<h3>User Report</h3>
+<h3 class="user-report-title">User Report</h3>
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
@@ -103,12 +103,15 @@
 }
 
 <style>
+    .user-report-title {
+        color: #143963; /* Set the text color to green */
+    }
     .report-container {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #e0f7fa;
+        background-color: #143963;
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -116,15 +119,20 @@
         width: 80%;
         max-width: 600px;
     }
+    button{
+        background-color: #143963;
+    }
 
     .submit-container {
         display: flex;
         justify-content: center;
         margin-top: 20px;
+       
     }
 
     .reports-list {
-        background-color: #ffffff;
+        background-color: white;
+        color: #143963;
         padding: 15px;
         border-radius: 10px;
         margin-top: 20px;
