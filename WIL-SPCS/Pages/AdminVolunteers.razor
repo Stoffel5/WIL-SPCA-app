@@ -1,12 +1,11 @@
 ﻿@page "/AdminVolunteers"
-
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
-<PageTitle>Volunteers</PageTitle>
-<a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
+<PageTitle>Volunteer Managements</PageTitle>
+<a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home</a>
 
 @if (AddVolunteerHtml)
 {
@@ -70,8 +69,8 @@
 
 @if (DeleteVolunteerHtml && !AddVolunteerHtml)
 {
-    <div class="form-container">
-        <div class="form-card">
+    <div class="login-container">
+        <div class="login-card">
             <h3 class="form-title">Delete Volunteer</h3>
             <p><strong>Are you sure you want to delete this Volunteer?</strong></p>
             <button type="submit" @onclick="DeleteVolunteer" class="btn btn-danger btn-submit">Delete</button>
@@ -83,10 +82,10 @@
 {
     <div class="top">
         <h3 class="page-title">Volunteers</h3>
-        <input type="text" placeholder="Search..." class="search-bar" />
-        <button class="btn btn-add" @onclick="AddVolunteerForm">Add Volunteer</button>
+        <input type="text" placeholder="Search..." class="desktop-search-bar">
+        <button class="search-button">Search</button>
+        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddVolunteerForm">Add Volunteer</button>
     </div>
-
     <div class="tbl-pets">
         <table class="table-style">
             <thead>
@@ -118,6 +117,7 @@
         </table>
     </div>
 }
+
 @code {
     public class Volunteer
     {
@@ -262,6 +262,7 @@
         color: #333;
     }
 
+
     .top {
         margin: 30px;
         text-align: center;
@@ -273,13 +274,14 @@
         font-size: 60px;
     }
 
-    .search-bar {
+    .desktop-search-bar {
         padding: 10px;
-        margin: 10px 0;
         border: 1px solid #ccc;
         border-radius: 5px;
-        width: 60%;
+        width: 80%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
 
     .tbl-pets {
         padding: 0 16px;
@@ -343,6 +345,12 @@
         border-radius: 5px;
     }
 
+    .btnx {
+        margin-top: 15px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
     .btn {
         padding: 10px 15px;
         border: none;
@@ -350,45 +358,83 @@
         cursor: pointer;
         width: 50%;
         font-size: 16px;
-        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .btn-primary {
         background-color: #143963;
         color: white;
+        border: 1px solid #143963;
     }
 
         .btn-primary:hover {
-            background-color: #143963;
+            background-color: white;
+            color: #143963;
+            border-color: #143963;
         }
 
     .btn-danger {
         background-color: #dc3545;
         color: white;
+        border: 1px solid #dc3545;
+        margin-right: 5px;
     }
 
         .btn-danger:hover {
-            background-color: #c82333;
+            border-color: #8a1212;
+            color: #fff;
         }
 
     .btn-edit {
         background-color: #28a745;
         color: white;
+        border: 1px solid #28a745;
         margin-right: 5px;
     }
 
         .btn-edit:hover {
             background-color: #218838;
+            color: white;
         }
 
+
+
     .btn-add {
-        background-color: #ffff;
+        background-color: #ffffff;
         color: #143963;
-        margin-top: 10px;
         border: 1px solid #143963;
+        margin-top: 10px;
     }
 
         .btn-add:hover {
             background-color: #e0e0e0;
+            color: #143963;
         }
+
+    .desktop-search-bar {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 80%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-button {
+        padding: 8px 15px;
+        margin-left: 10px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        background-color: #143963;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .search-button:hover {
+            background-color: #fff;
+            color: #143963;
+        }
+
 </style>
+
