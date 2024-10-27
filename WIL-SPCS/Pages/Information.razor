@@ -1,85 +1,95 @@
 ﻿@page "/information"
 
-<div class="container">
-    <div class="header">
-        <h3>Information</h3>
-    </div>
-    <div class="scroll-container">
-        <div class="card-container">
-            <div class="card education-card" onclick="window.location.href='/Userchat'">
-                <h4>Education Program</h4>
-                <p>
-                    Meow! Hello, lovely human! I'm here to purr-suade you to check out the SPCA's education program.
-                    They offer pawsome information and even tours for all you curious minds out there! If you're interested, just send them a message or reach out using the contact info they've provided. Trust me, it'll be a fur-tastic experience you won't forget! 🐾💞
-                </p>
-            </div>
-            <div class="card volunteers-card" onclick="window.location.href='/Volunteer'">
-                <h4>Volunteers</h4>
-                <p>The SPCA welcomes volunteers with open paws! Yup, they’re always on the lookout for big-hearted humans who want to lend a paw in making a difference for us furry pals. If you’re 18 or older, you can join the team solo, but if you're younger, just bring along an adult pal! Volunteering here is a blast – you get to hang out with all sorts of fluffy friends and help take care of them in a super fun environment. So, why wait? Reach out to them and offer your services today! Let’s make tails wag and hearts smile together!</p>
-            </div>
-            <div class="card pbo-card">
-                <h4>We are A PBO</h4>
-                <p>Woof Woof hey there, did you know that the SPCA is a PBO (Public Benefit Organization)? Yup, it’s true! By supporting them, you’re not only helping furry pals like me find loving homes, but you’re also doing good for your community. It’s like getting belly rubs and treats—best of both worlds! So, let’s spread some love together and make the world a better place, one paw at a time! 🐾💞</p>
-            </div>
-            <div class="card pet-boarding-card" onclick="window.location.href='/Boarding'">
-                <h4>Pet Boarding</h4>
-                <p>🐾 Heyy Heyy! We’re a dynamic duo here to bark and purr about the SPCA’s boarding services. Whether you're planning a vacation or a quick getaway, you can trust the SPCA to take care of your pets while you’re away! Just reach out to them via their contact info, and they’ll organize everything to ensure their safe, happy, and loved. So go ahead, plan that trip knowing they’ll be in paw-some hands! 🐶🐱</p>
-            </div>
+<div class="header">
+    <h3>Information</h3>
+</div>
+    <div class="card-container">
+        <div class="card education-card">
+            <h4>Education Program</h4>
+            <p>Meow! Hello, lovely human! I'm here to purr-suade you to check out the SPCA's education program...</p>
+            <button class="view-btn" onclick="window.location.href='/Userchat'">View</button>
+        </div>
+        <div class="card volunteers-card">
+            <h4>Volunteers</h4>
+            <p>The SPCA welcomes volunteers with open paws! They’re always looking for big-hearted humans...</p>
+            <button class="view-btn" onclick="window.location.href='/Volunteer'">View</button>
+        </div>
+        <div class="card pbo-card">
+            <h4>We are A PBO</h4>
+            <p>Woof Woof hey there, did you know that the SPCA is a PBO (Public Benefit Organization)?...</p>
+            <button class="view-btn">View</button>
+        </div>
+        <div class="card pet-boarding-card">
+            <h4>Pet Boarding</h4>
+            <p>🐾 Heyy Heyy! The SPCA offers fantastic pet boarding services. They ensure pets are safe and loved...</p>
+            <button class="view-btn" onclick="window.location.href='/Boarding'">View</button>
+        </div>
+        <div class="card adoption-card">
+            <h4>Adoption</h4>
+            <p>Hi there! Woof woof! If you're thinking about adding a furry friend to your family, consider adopting...</p>
+            <button class="view-btn">View</button>
+        </div>
+        <div class="card charity-shop-card">
+            <h4>Charity Shop</h4>
+            <p>The SPCA's charity store is stocked with pet goodies. Visit to find treats, toys, and more while supporting a cause...</p>
+            <button class="view-btn">View</button>
+        </div>
+        <div class="card sponsors-card">
+            <h4>Sponsors and Donations</h4>
+            <p>The SPCA relies on donations to keep our tails wagging and purrs loud! Every bit of support counts...</p>
+            <button class="view-btn">View</button>
         </div>
     </div>
-</div>
-
 <style>
-    .container {
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #CFCDCD;
-        border-radius: 10px;
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
     }
 
     .header {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 10px;
+        padding: 20px;
+        background-color: #143963;
+        color: white;
     }
 
     h3 {
         font-size: 24px;
         font-weight: bold;
-        color: #143963;
+        margin: 0;
     }
 
     .scroll-container {
-        max-height: 500px;
+        max-height: calc(100vh - 60px);
         overflow-y: auto;
-        padding-right: 15px;
     }
-
     .card-container {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        margin-top: 20px;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .card {
+        width: 100%;
         padding: 15px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     }
 
-        /* Improved Hover Effect */
         .card:hover {
-            transform: scale(1.03); /* Subtle zoom-in effect */
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Slightly more pronounced shadow */
-            background-color: #143963; /* Dark blue background on hover */
-            color: white; /* Ensure text stays visible on hover */
+            transform: scale(1.03);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            background-color: #143963;
+            color: white;
         }
 
+    /* Specific card colors */
     .education-card {
         background-color: #FBD1CF;
         color: #333;
@@ -100,14 +110,74 @@
         color: #333;
     }
 
+    .adoption-card {
+        background-color: #FFDA77;
+        color: #333;
+    }
+
+    .charity-shop-card {
+        background-color: #C6E5F2;
+        color: #333;
+    }
+
+    .sponsors-card {
+        background-color: #E3A7B1;
+        color: #333;
+    }
+
     h4 {
         font-size: 20px;
         margin-bottom: 10px;
-        color: #333;
+        color: inherit;
     }
 
     p {
         font-size: 16px;
         line-height: 1.6;
     }
+
+    /* View button */
+    .view-btn {
+        margin-top: 10px;
+        padding: 8px 15px;
+        background-color: #ffffff;
+        color: #143963;
+        border: none;
+        border-radius: 20px;
+        font-size: 1em;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+        .view-btn:hover {
+            background-color: #143963;
+            color: #ffffff;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+    /* View More button styling */
+    .view-more-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .view-more-btn {
+        padding: 10px 20px;
+        background-color: #143963;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.2em;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+        .view-more-btn:hover {
+            background-color: #FBD1CF;
+            color: #143963;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
+        }
 </style>
