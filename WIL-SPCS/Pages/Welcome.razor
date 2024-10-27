@@ -7,8 +7,7 @@
 
 <!-- Side Navigation Bar -->
 <div id="sideNavbar" class="side-navbar">
-    <a href="javascript:void(0)" class="close-btn" onclick="toggleNav('close')">×</a>
-    <a href="/adopt" class="nav-link">Adopt a Pet</a>
+    <a href="javascript:void(0)" class="close-btn" onclick="toggleNav('close')">×</a>   
     <a href="/awareness" class="nav-link">Awareness</a>
     <a href="/donations" class="nav-link">Donations and Sponsors</a>
     <a href="/volunteer" class="nav-link">Volunteer</a>
@@ -19,7 +18,7 @@
     <a href="/Home" class="nav-link">Home</a>
 </div>
 
-<!-- Main Content -->
+
 <div class="main-content">
     <!-- SPCA Logo -->
     <div class="logo-container">
@@ -32,7 +31,7 @@
     </div>
 
     <!-- Welcome Message -->
-    <h2 class="welcome-message">
+    <h2 class="welcome-message" color: "#143963">
         🐾 Catch a glimpse of our adorable pets as they introduce themselves in this charming little video! 🐾
     </h2>
 
@@ -41,27 +40,16 @@
         <a href="/gallery" class="see-more-btn">See More</a>
     </div>
 
-    <!-- Video Section -->
-    <div class="video-grid">
-        <video controls>
-            <source src="videos/catvid1.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="videos/catvid2.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="videos/dogvid1.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="videos/dogvid2.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-        </video>
+    <div class="video-grid">        
+        <div class="gallery-item">
+            <video src="/videos/doggvid1.mp4" controls></video>
+        </div>
+        <div class="gallery-item">
+            <video src="/videos/doggvid3.mp4" controls></video>
+        </div>
+       
     </div>
 
-    <!-- Quick Description -->
     <div class="quick-description">
         <h3>About Us</h3>
         <p>
@@ -106,7 +94,6 @@
         transition: margin-left 0.5s;
     }
 
-    /* SPCA logo */
     .spca-logo {
         display: block;
         margin: 20px auto;
@@ -114,7 +101,6 @@
         height: auto;
     }
 
-    /* Side Navbar Styles */
     .side-navbar {
         height: 100%;
         width: 0;
@@ -128,7 +114,6 @@
         z-index: 100;
         border-right: 2px solid #ffffff;
     }
-        /* Remove underline from links */
         .side-navbar .nav-link {
             padding: 15px 20px;
             font-size: 1.2em;
@@ -138,9 +123,6 @@
             text-decoration: none;
         }
 
-            /* Dark blue background on hover */
-            /* White text on hover */
-            /* White glow effect on hover */
             .side-navbar .nav-link:hover {
                 background-color: #4775A9;
                 color: #ffffff;
@@ -209,7 +191,7 @@
         font-size: 2em;
         margin-top: 30px;
         margin-bottom: 40px;
-        color: #ffffff;
+        color: #143963;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
@@ -221,7 +203,7 @@
 
     .see-more-btn {
         padding: 10px 20px;
-        background-color: #8C9096; /* gray */
+        background-color: #8C9096; 
         color: #ffffff;
         border: none;
         border-radius: 20px;
@@ -238,7 +220,7 @@
             transform: scale(1.05);
         }
 
-    /* Video grid styling */
+    
     .video-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -252,9 +234,9 @@
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    /* Quick description section */
+   
     .quick-description {
-        background-color: #0d2a4a; /* Slightly lighter */
+        background-color: #0d2a4a;
         padding: 20px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -270,9 +252,9 @@
             color: #ffffff;
         }
 
-    /* Contact information section */
+    
     .contact-info {
-        background-color: #0d2a4a; /* Same as quick description */
+        background-color: #0d2a4a; 
         padding: 20px;
         border-radius: 10px;
     }
