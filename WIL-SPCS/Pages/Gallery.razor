@@ -63,7 +63,6 @@
 </div>
 
 <style>
-    /* Gallery Styles */
     .gallery {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -75,13 +74,18 @@
         overflow: hidden;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: relative;
+        padding-top: 56.25%; 
     }
 
         .gallery-item img,
         .gallery-item video {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            object-fit: cover; 
             border-radius: 8px;
             transition: transform 0.3s ease;
         }
@@ -91,7 +95,8 @@
             transform: scale(1.05);
         }
 
-    /* Side Navigation Styles */
+
+  
     .side-navbar {
         height: 100%;
         width: 0;
