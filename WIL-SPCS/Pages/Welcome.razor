@@ -24,31 +24,38 @@
     <div class="logo-container">
         <img src="images/logo.png" alt="SPCA Logo" class="spca-logo" />
     </div>
+     
 
-    <!-- Search Bar -->
-    <div class="search-container">
-        <input type="text" class="search-bar" placeholder="Search for pets, info..." />
-    </div>
-
-    <!-- Welcome Message -->
-    <h2 class="welcome-message" color: "#143963">
+   
+    <h2 class="welcome-message" >
         🐾 Catch a glimpse of our adorable pets as they introduce themselves in this charming little video! 🐾
     </h2>
 
-    <!-- See More Button -->
     <div class="see-more-container">
         <a href="/gallery" class="see-more-btn">See More</a>
     </div>
 
-    <div class="video-grid">        
+    <div class="video-grid">
         <div class="gallery-item">
-            <video src="/videos/doggvid1.mp4" controls></video>
+            <video controls>
+                <source src="/videos/doggvid1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
         <div class="gallery-item">
-            <video src="/videos/doggvid3.mp4" controls></video>
+            <img src="/dogimages/dog2.jpg" alt="Dog 2">
         </div>
-       
+        <div class="gallery-item">
+            <video controls>
+                <source src="/videos/doggvid3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>       
+        <div class="gallery-item">
+            <img src="/dogimages/pup3.jpg" alt="Pup 3">
+        </div>
     </div>
+
 
     <div class="quick-description">
         <h3>About Us</h3>
@@ -64,7 +71,6 @@
         </p>
     </div>
 
-    <!-- Contact Information -->
     <div class="contact-info">
         <h3>Contact Us</h3>
         <p><strong>Address:</strong> Schonland St, Cape Road Industrial, Kariega, 6021</p>
@@ -137,7 +143,7 @@
             color: #ffffff;
         }
 
-    /* Open button */
+   
     .open-btn {
         font-size: 24px;
         cursor: pointer;
@@ -147,7 +153,7 @@
         padding: 10px 20px;
         border-radius: 20px;
         position: fixed;
-        top: 20px; /* Adjusted position */
+        top: 20px; 
         left: 20px;
         z-index: 101;
         transition: background-color 0.3s ease;
@@ -157,35 +163,15 @@
             background-color: #0d2a4a;
         }
 
-    /* Main content styling */
+    
     .main-content {
-        margin-left: 0; /* Adjusted to work with sidebar toggle */
+        margin-left: 0;
         transition: margin-left 0.5s;
-        padding: 0 20px; /* Added padding for content */
+        padding: 0 20px; 
     }
 
-    /* Search bar container */
-    .search-container {
-        display: flex;
-        align-items: center;
-        background-color: #fff;
-        padding: 10px;
-        border-radius: 25px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    /* Search input field */
-    .search-bar {
-        border: none;
-        padding: 10px;
-        width: 250px;
-        outline: none;
-        border-radius: 25px 0 0 25px;
-        font-size: 16px;
-    }
-
-    /* Welcome message */
+    
+   
     .welcome-message {
         text-align: center;
         font-size: 2em;
@@ -195,44 +181,48 @@
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     }
 
-    /* See More button */
     .see-more-container {
-        text-align: center;
+        text-align: right; 
         margin-top: 20px;
     }
 
     .see-more-btn {
         padding: 10px 20px;
-        background-color: #8C9096; 
-        color: #ffffff;
+        background-color: #ffffff;
+        color: #143963;
         border: none;
         border-radius: 20px;
         font-size: 1em;
         text-decoration: none;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        margin-right: 0; 
     }
 
         .see-more-btn:hover {
             background-color: #ffffff;
             color: #143963;
-            box-shadow: 0 0 15px #ffffff;
+            box-shadow: 0 0 15px #143963;
             transform: scale(1.05);
         }
 
-    
+
     .video-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
         gap: 20px;
         margin-bottom: 20px;
     }
 
-    video {
-        width: 100%;
-        border-radius: 10px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
+        .video-grid .gallery-item video,
+        .video-grid .gallery-item img {
+            width: 100%; 
+            height: 200px;
+            object-fit: cover; 
+            border-radius: 10px; 
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+        }
+
 
    
     .quick-description {
