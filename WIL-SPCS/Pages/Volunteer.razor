@@ -5,41 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volunteer Page</title>
-    <!-- Link to Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         html, body {
             font-family: 'Quicksand', sans-serif;
-           
-            background-size: cover; /* Ensure the background image covers the entire page */
-            background-attachment: fixed; /* Keeps the background image fixed during scrolling */
+            background-color: #E8E8E8;
+            color: #333333;
             margin: 0;
             padding: 0;
-            color: #ffffff;
         }
 
         .centered-text {
             text-align: center;
             font-size: 2.5em;
-            color: #ffffff;
+            color: #9EACA4;
             margin-top: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .volunteer-container {
             padding: 20px;
             margin: auto;
             max-width: 1200px;
-            background-color: rgba(20, 57, 99, 0.8); /* Semi-transparent background to blend with the image */
+            background-color: #F5F5F5;
             border-radius: 20px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .volunteer-intro {
             text-align: center;
             margin-bottom: 40px;
             font-size: 1.5em;
-            color: #ffffff;
+            color: #4A4A4A;
             font-weight: bold;
         }
 
@@ -52,100 +49,47 @@
         }
 
         .volunteer-card {
-            background-color: #4775A9;
+            background-color: #9EACA4;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
             padding: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            position: relative;
-        }
-
-            .volunteer-card:hover {
-                transform: scale(1.05);
-                box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
-                background-color: #ffffff;
-            }
-
-            .volunteer-card img {
-                max-width: 100%;
-                height: auto;
-                border-radius: 10px;
-                margin-bottom: 15px;
-                object-fit: cover;
-            }
-
-            .volunteer-card h4 {
-                margin: 10px 0;
-                font-size: 1.4em;
-                color: #143963;
-            }
-
-            .volunteer-card p {
-                font-size: 1em;
-                color: #333;
-            }
-
-        /* Side Navbar Styles */
-        .side-navbar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #143963;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            z-index: 100;
-            border-right: 2px solid #ffffff;
-        }
-            /* Remove underline from links */
-            .side-navbar .nav-link {
-                padding: 15px 20px;
-                font-size: 1.2em;
-                color: #e0f7fa;
-                display: block;
-                transition: background-color 0.3s ease, box-shadow 0.3s ease;
-                text-decoration: none;
-            }
-
-                /* Dark blue background on hover */
-                /* White text on hover */
-                /* White glow effect on hover */
-                .side-navbar .nav-link:hover {
-                    background-color: #4775A9;
-                    color: #ffffff;
-                    box-shadow: 0 0 10px #ffffff;
-                }
-
-            .side-navbar .close-btn {
-                position: absolute;
-                top: 15px;
-                right: 25px;
-                font-size: 30px;
-                color: #ffffff;
-            }
-        /* Dark blue button */
-        .open-btn {
-            font-size: 24px;
-            cursor: pointer;
-            background-color: #143963;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             color: #ffffff;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 25px;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 101;
-            transition: background-color 0.3s ease;
+            min-width: 250px;
+            max-width: 300px;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-            /* Darker blue on hover */
-            .open-btn:hover {
-                background-color: #0d2a4a;
-            }
+
+        .volunteer-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+            background-color: #B1C1B5;
+        }
+
+        .volunteer-card img {
+            max-width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .volunteer-card h4 {
+            margin: 10px 0;
+            font-size: 1.4em;
+            color: #ffffff;
+        }
+
+        .volunteer-card p {
+            font-size: 1em;
+            color: #F0F0F0;
+            margin-top: auto;
+        }
 
         .main-content {
             padding: 40px;
@@ -163,138 +107,22 @@
             height: auto;
             border-radius: 15px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            transition: box-shadow 0.3s ease-in-out; /* Smooth transition for the glowing effect */
+            transition: box-shadow 0.3s ease-in-out;
         }
 
-            /* Glow effect on hover */
-            .sticker-image:hover {
-                box-shadow: 0 0 10px #FF0081, 0 0 20px #FF0081, 0 0 30px #FF0081; 
-            }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            height: 60px;
-            background-color: #ffffff;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-            display: none; /* Initially hidden */
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            padding: 5px;
-        }
-
-            .nav-item:hover {
-                background-color: #f0f0f0;
-                transform: scale(1.1);
-                border-radius: 10px;
-            }
-
-        /* Responsive styles */
-        @@media screen and (max-width: 768px) {
-            .side-navbar {
-                display: none; /* Hide sidebar on small screens */
-            }
-
-            .main-content {
-                margin-left: 0; /* Remove margin on small screens */
-            }
-
-            .bottom-nav {
-                display: flex; /* Show bottom nav on small screens */
-            }
-        }
-
-        @@media screen and (min-width: 769px) {
-            .bottom-nav {
-                display: none; /* Hide bottom nav on larger screens */
-            }
+        .sticker-image:hover {
+            box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
         }
     </style>
 </head>
 <body>
     <h2 class="centered-text">Join Our Volunteer Team</h2>
 
-    <!-- Side Navigation Bar -->
-    <div id="sideNavbar" class="side-navbar">
-        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-        <a href="/information" class="nav-link" aria-label="Navigate to Information">Information</a>
-        <a href="/profile" class="nav-link" aria-label="Navigate to Profile">Profile</a>
-        <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">Gallery</a>
-        <a href="/events" class="nav-link" aria-label="Navigate to Events">Events</a>
-        <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a>
-    </div>
-    <style>       
-
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            padding: 5px;
-        }
-
-            .nav-item:hover {
-                background-color: #f0f0f0;
-                transform: scale(1.1);
-                border-radius: 10px;
-            }
-
-        .nav-icon {
-            width: 28px;
-            height: 28px;
-            filter: none;
-        }
-
-        .nav-center {
-            position: relative;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .nav-center-btn {
-            width: 50px;
-            height: 50px;
-            background-color: #8C7D70;
-            border-radius: 50%;
-            border: none;
-            font-size: 24px;
-            color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            position: absolute;
-            top: -25px;
-            transition: background-color 0.3s ease;
-        }
-
-            .nav-center-btn:hover {
-                background-color: #6C6A5A;
-            }
-
-            .nav-center-btn:focus {
-                outline: none;
-            }
-
-    </style>
-
-    <!-- Main Content -->
     <div class="main-content">
-        <button class="open-btn" onclick="openNav()">☰</button>
         <div class="volunteer-container">
             <div class="volunteer-intro">
-                <p>The SPCA welcomes volunteers with open paws? Yup, they're always on the lookout for big-hearted humans who want to lend a paw in making a difference for us furry pals. If you're 18 or older, you can join the team solo, but if you're younger, just bring along an adult pal! Volunteering here is a blast – you get to hang out with all sorts of fluffy friends and help take care of them in a super fun environment. So, why wait? Reach out to them and offer your services today! Let's make tails wag and hearts smile together!</p>
+                <p>The SPCA welcomes volunteers with open paws! Reach out to them and offer your services today. Let's make tails wag and hearts smile together!</p>
             </div>
-
-            <!-- Volunteer Opportunities Grid -->
             <div class="volunteer-grid">
                 <div class="volunteer-card">
                     <img src="images/breadcat.jpg" alt="Animal Care" />
@@ -313,29 +141,10 @@
                 </div>
             </div>
 
-            <!-- Sticker at the Bottom -->
             <div class="sticker-container">
                 <img src="stickers/kitty1.png" alt="Cute Kitty Sticker" class="sticker-image" id="stickerImage" />
             </div>
         </div>
     </div>
-
-    <div class="bottom-nav">
-        <a href="/information" class="nav-item" aria-label="Information"<img src="images/communication.png" alt="Information" class="nav-icon"></a>
-        <a href="/profile" class="nav-item" aria-label="Profile"> <img src="images/user.png" alt="Profile" class="nav-icon"></a>
-        <a href="/gallery" class="nav-item" aria-label="Gallery"<img src="images/gallery.png" alt="Gallery" class="nav-icon"></a>
-        <a href="/events" class="nav-item" aria-label="Events"<img src="images/calendar.png" alt="Events" class="nav-icon"></a>
-        <a href="/userchat" class="nav-item" aria-label="Chat with Us"> <img src="images/message.png" alt="Chat" class="nav-icon"> </a>
-    </div>
-    <script>
-        function openNav() {
-            document.getElementById("sideNavbar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("sideNavbar").style.width = "0";
-
-        }
-    </script>
 </body>
 </html>
