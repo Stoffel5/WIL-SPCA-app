@@ -73,12 +73,66 @@
     {
         <h2 class="centered-text" style="color: white;">Events</h2>
         <h3 style="color: white;">Select a Date to See Events</h3>
-        <input type="date" @bind="selectedDate" class="date-picker" /><br />
+        <input type="date" id="datepicker" @bind="selectedDate" class="date-picker" /><br />
         <button class="btn btn-primary rounded-button bold-text" @onclick="AddEventForm">Add Event</button>
-        <div class="calendar">
-            <!-- Include the custom calendar component -->
-            <CustomCalendar />
+
+
+         <div class="calendar">
+        <div class="header">
+            <div class="day">Mon</div>
+            <div class="day">Tue</div>
+            <div class="day">Wed</div>
+            <div class="day">Thu</div>
+            <div class="day">Fri</div>
+            <div class="day">Sat</div>
+            <div class="day">Sun</div>
         </div>
+        <div class="body">
+            <!-- Calendar Days -->
+            <div class="day" onclick="selectDate(1)">1</div>
+            <div class="day" onclick="selectDate(2)">2</div>
+            <div class="day" onclick="selectDate(3)">3</div>
+            <div class="day" onclick="selectDate(4)">4</div>
+            <div class="day" onclick="selectDate(5)">5</div>
+            <div class="day" onclick="selectDate(6)">6</div>
+            <div class="day" onclick="selectDate(7)">7</div>
+            <div class="day" onclick="selectDate(8)">8</div>
+            <div class="day" onclick="selectDate(9)">9</div>
+            <div class="day" onclick="selectDate(10)">10</div>
+            <div class="day" onclick="selectDate(11)">11</div>
+            <div class="day" onclick="selectDate(12)">12</div>
+            <div class="day" onclick="selectDate(13)">13</div>
+            <div class="day" onclick="selectDate(14)">14</div>
+            <div class="day" onclick="selectDate(15)">15</div>
+            <div class="day" onclick="selectDate(16)">16</div>
+            <div class="day" onclick="selectDate(17)">17</div>
+            <div class="day" onclick="selectDate(18)">18</div>
+            <div class="day" onclick="selectDate(19)">19</div>
+            <div class="day" onclick="selectDate(20)">20</div>
+            <div class="day" onclick="selectDate(21)">21</div>
+            <div class="day" onclick="selectDate(22)">22</div>
+            <div class="day" onclick="selectDate(23)">23</div>
+            <div class="day" onclick="selectDate(24)">24</div>
+            <div class="day" onclick="selectDate(25)">25</div>
+            <div class="day" onclick="selectDate(26)">26</div>
+            <div class="day" onclick="selectDate(27)">27</div>
+            <div class="day" onclick="selectDate(28)">28</div>
+            <div class="day" onclick="selectDate(29)">29</div>
+            <div class="day" onclick="selectDate(30)">30</div>
+            <div class="day" onclick="selectDate(31)">31</div>
+        </div>
+    </div>
+    <script>
+        function selectDate(day) {
+            const datepicker = document.getElementById('datepicker');
+            const today = new Date();
+            const month = today.getMonth() + 1; // Months are 0-based
+            const year = today.getFullYear();
+            datepicker.value = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+        }
+    </script>
+
+
         <!-- Events List -->
         <div class="events-container">
             <h3 class="centered-text">Events on @selectedDate.ToShortDateString()</h3>
@@ -238,24 +292,50 @@
     }
 
 
-    @* .calendar {
-        margin: 20px auto;
-        background-color: #f4f4f4;
-        color: #143963;       
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    } *@
-    
 
-   .calendar-container{
-       margin: 20px auto;
-        background-color: #f4f4f4;      
-        color: #143963;       
-        border-radius: 10px;
+    .calendar {
+        width: 80%;
+        max-width: 1000px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+    }
+
+    .header {
+        display: flex;
+        background-color: #143963;
+        color: white;
+    }
+
+        .header .day {
+            flex: 1; /* Ensure that each header takes equal space */
+            text-align: center;
+            padding: 7px;
+        }
+
+    .day {
+        flex: 1; /* Ensure that each day takes equal space */
+        text-align: center;
         padding: 20px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-   }
+        border: 1px solid #ccc;
+        box-sizing: border-box; /* Ensure padding does not affect width */
+    }
+
+        .day:hover {
+            background-color: #e0e0e0;
+        }
+
+    .body {
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping of days to create rows */
+    }
+
+        /* Ensure each day takes the same width as headers */
+        .body .day {
+            flex: 1; /* Ensure that each day takes equal space */
+            min-width: 14.2857%; /* 100% divided by 7 days */
+            box-sizing: border-box; /* Ensure padding does not affect width */
+        }
+
 
     .rounded-button{
         width:max-content;
