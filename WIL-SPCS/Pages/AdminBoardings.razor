@@ -88,16 +88,16 @@
 }
 
 @if (!AddBoardingHtml && !EditBoardingHtml && !DeleteBoardingHtml)
-{  <div class="top">
-            <div>
-                <center><h3 style="color: #143963;">Boarding</h3></center>               
-                <center>
-                <input type="text" @oninput="search" placeholder="Search..." class="desktop-search-bar">
-                    <button class="search-button">Search</button>                
-                </center>
-                <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddBoardingForm">Add Boarding</button></center>
-            </div>
+{   
+    <div class="top">
+        <div>
+            <center><h3 class="page-title">Boarding</h3></center>               
+            <center>
+            <input type="text" @oninput="search" placeholder="Search..." class="desktop-search-bar">   
+            </center>
+            <center><button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddBoardingForm">Add Boarding</button></center>
         </div>
+    </div>
     <div style="padding-left: 16px"></div>
 
     <div class="tbl-pets">
@@ -465,6 +465,11 @@
             background-color: #fff;
             color: #143963;
         }
+
+    .btnx {
+        width: fit-content;
+        margin-top: 10px;
+    }
 
 
 </style>
