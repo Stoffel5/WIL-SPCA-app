@@ -1,29 +1,14 @@
 ﻿@page "/welcome"
 @layout MainLayout
 
-<button class="open-btn" onclick="toggleNav('open')">☰</button>
-
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
-
-
-<div id="sideNavbar" class="side-navbar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-    <a href="/information" class="nav-link" aria-label="Navigate to Information">Information</a>
-    <a href="/profile" class="nav-link" aria-label="Navigate to Profile">Profile</a>
-    <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">Gallery</a>
-    <a href="/events" class="nav-link" aria-label="Navigate to Events">Events</a>
-    <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a>
-</div>
-
 
 <div class="main-content">
     <!-- SPCA Logo -->
     <div class="logo-container">
         <img src="images/logo.png" alt="SPCA Logo" class="spca-logo" />
     </div>
-     
 
-   
     <h2 class="welcome-message" >
         🐾 Catch a glimpse of our adorable pets as they introduce themselves in this charming little video! 🐾
     </h2>
@@ -75,6 +60,8 @@
         <p><strong>Emergency:</strong> 082 905 4716 (After Hours)</p>
         <p><strong>Email:</strong> <a href="mailto:info@uitenhagespca.co.za">info@uitenhagespca.co.za</a></p>
     </div>
+
+    <NavbarBackup />
 </div>
 
 <script>
@@ -164,10 +151,8 @@
     .main-content {
         margin-left: 0;
         transition: margin-left 0.5s;
-        padding: 0 20px; 
+        padding: 0; 
     }
-
-    
    
     .welcome-message {
         text-align: center;
