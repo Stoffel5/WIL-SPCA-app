@@ -82,7 +82,7 @@
 {
     <div class="top">
         <h3 class="page-title">Volunteers</h3>
-        <input type="text" placeholder="Search..." class="desktop-search-bar">
+        <input type="text" @oninput="search" placeholder="Search..." class="desktop-search-bar">
         <button class="search-button">Search</button>
         <button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddVolunteerForm">Add Volunteer</button>
     </div>
@@ -167,6 +167,7 @@
     {
         // Load events based on the selected date (placeholder logic)
         volunteers = await Http.GetFromJsonAsync<List<Volunteer>>("https://spcaapi.azurewebsites.net/api/Volunteer/GetVolunteers");
+        backupVolunteer = volunteers;
     }
 
     private async Task AddVolunteer(MouseEventArgs e)
@@ -253,6 +254,19 @@
         {
             Console.WriteLine(response.ReasonPhrase);
         }
+    }
+    private void search(ChangeEventArgs e)
+    {
+        var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            volunteers = backupVolunteer.Where(vol => vol.Name.ToLower().Contains(searchText)).ToList();
+        }
+        else
+        {
+            volunteers = new List<Volunteer>(backupVolunteer);
+        }
+        StateHasChanged();
     }
 }
 <style>
