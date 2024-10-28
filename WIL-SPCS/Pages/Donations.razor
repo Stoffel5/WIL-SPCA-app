@@ -310,7 +310,64 @@
             background-color: #0d2a4a;
         }
 
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #ffffff;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        display: none; /* Initially hidden */
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .nav-item {
+        flex: 1;
+        text-align: center;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        padding: 5px;
+    }
+
+        .nav-item:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.1);
+            border-radius: 10px;
+        }
+
+    /* Responsive styles */
+    @@media screen and (max-width: 768px) {
+        .side-navbar {
+            display: none; /* Hide sidebar on small screens */
+        }
+
+        .main-content {
+            margin-left: 0; /* Remove margin on small screens */
+        }
+
+        .bottom-nav {
+            display: flex; /* Show bottom nav on small screens */
+        }
+    }
+
+    @@media screen and (min-width: 769px) {
+        .bottom-nav {
+            display: none; /* Hide bottom nav on larger screens */
+        }
+    }
+
 </style>
+
+<div class="bottom-nav">
+    <a href="/information" class="nav-item" aria-label="Information"<img src="images/communication.png" alt="Information" class="nav-icon"></a>
+    <a href="/profile" class="nav-item" aria-label="Profile"> <img src="images/user.png" alt="Profile" class="nav-icon"></a>
+    <a href="/gallery" class="nav-item" aria-label="Gallery"<img src="images/gallery.png" alt="Gallery" class="nav-icon"></a>
+    <a href="/events" class="nav-item" aria-label="Events"<img src="images/calendar.png" alt="Events" class="nav-icon"></a>
+    <a href="/userchat" class="nav-item" aria-label="Chat with Us"> <img src="images/message.png" alt="Chat" class="nav-icon"> </a>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -327,6 +384,7 @@
 
     function closeNav() {
         document.getElementById("sideNavbar").style.width = "0";
+
     }
 </script>
 
