@@ -15,15 +15,224 @@
             padding: 0;
         }
 
-        .boarding-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 30px;
-            background-color: #FFFFFF;
-            border-radius: 20px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-            border: 2px solid #9B7D9B;
+    .nav-item {
+        flex: 1;
+        text-align: center;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        padding: 5px;
+    }
+
+        .nav-item:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.1);
+            border-radius: 10px;
         }
+
+    .nav-icon {
+        width: 28px;
+        height: 28px;
+        filter: none;
+    }
+
+    .nav-center {
+        position: relative;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-center-btn {
+        width: 50px;
+        height: 50px;
+        background-color: #8C7D70;
+        border-radius: 50%;
+        border: none;
+        font-size: 24px;
+        color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        position: absolute;
+        top: -25px;
+        transition: background-color 0.3s ease;
+    }
+
+        .nav-center-btn:hover {
+            background-color: #6C6A5A;
+        }
+
+        .nav-center-btn:focus {
+            outline: none;
+        }
+        /* Default Visibility for Side Navbar */
+    @@media (max-width: 768px) {
+        .side-navbar {
+            display: none; /* Hide side navbar on small screens */
+        }
+        
+        .bottom-nav {
+            display: flex; /* Show bottom navbar on small screens */
+        }
+    }
+
+    /* Default Visibility for Bottom Navbar */
+    @@media (min-width: 769px) {
+        .bottom-nav {
+            display: none; /* Hide bottom navbar on larger screens */
+        }
+        
+        .side-navbar {
+            display: block; /* Show side navbar on larger screens */
+        }
+    }
+
+</style>
+
+<div class="main-content">
+    <div class="boarding-container">
+        <h1 class="centered-heading">Available Boarding Schedules</h1>
+
+        <div class="gallery-container">
+            @foreach (var schedule in boardingSchedules)
+            {
+                <div class="gallery-item">
+                    <img src="css/dog_kennel.jpg" alt="Dog Kennel" class="gallery-image">
+                    <h4>@schedule.Date</h4>
+                    <p>Kennels Available: @schedule.AvailableKennels</p>
+                    <p>Time Slots:</p>
+                    <ul>
+                        @foreach (var timeSlot in schedule.TimeSlots)
+                        {
+                            var isBooked = schedule.BookedTimeSlots.Contains(timeSlot);
+                            <li>
+                                @timeSlot
+                                <button class="book-btn @((isBooked ? "booked" : ""))" @onclick="() => ToggleBooking(schedule.Date, timeSlot)">
+                                    @(isBooked ? "Unbook" : "Book")
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+
+        @if (!string.IsNullOrEmpty(feedbackMessage))
+        {
+            <div class="feedback-message">@feedbackMessage</div>
+        }
+
+        <!-- FAQs Section -->
+        <h2 class="centered-heading">Frequently Asked Questions</h2>
+        <div class="gallery-container">
+            <div class="gallery-item">
+                <h4>How do I book a boarding slot?</h4>
+                <p>You can book a boarding slot by contacting us through our website or visiting the nearest shelter.</p>
+            </div>
+            <div class="gallery-item">
+                <h4>What are the boarding fees?</h4>
+                <p>Boarding fees depend on the size and type of animal. Please refer to our rates section for details.</p>
+            </div>
+            <div class="gallery-item">
+                <h4>What should I bring for my pet?</h4>
+                <p>Bring your pet's food, bedding, and any necessary medications. We provide everything else.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("sideNavbar").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("sideNavbar").style.width = "0";
+    }
+</script>
+
+@code {
+    private List<BoardingSchedule> boardingSchedules = new List<BoardingSchedule>
+    {
+        new BoardingSchedule
+        {
+            Date = "September 10, 2024",
+            AvailableKennels = 5,
+            TimeSlots = new List<string> { "8:00 AM - 10:00 AM", "12:00 PM - 2:00 PM", "4:00 PM - 6:00 PM" },
+            BookedTimeSlots = new List<string>() 
+        },
+        new BoardingSchedule
+        {
+            Date = "September 11, 2024",
+            AvailableKennels = 3,
+            TimeSlots = new List<string> { "9:00 AM - 11:00 AM", "1:00 PM - 3:00 PM" },
+            BookedTimeSlots = new List<string>() 
+        }
+    };
+
+    private string feedbackMessage;
+
+    public class BoardingSchedule
+    {
+        public string Date { get; set; }
+        public int AvailableKennels { get; set; }
+        public List<string> TimeSlots { get; set; }
+        public List<string> BookedTimeSlots { get; set; } // List to track booked slots
+    }
+
+    private void ToggleBooking(string date, string timeSlot)
+    {
+        var schedule = boardingSchedules.FirstOrDefault(s => s.Date == date);
+        if (schedule != null)
+        {
+            if (schedule.BookedTimeSlots.Contains(timeSlot))
+            {
+                // Unbook the slot
+                schedule.BookedTimeSlots.Remove(timeSlot);
+                feedbackMessage = $"Successfully unbooked {timeSlot} on {date}.";
+            }
+            else
+            {
+                // Book the slot
+                schedule.BookedTimeSlots.Add(timeSlot);
+                feedbackMessage = $"Successfully booked {timeSlot} on {date}.";
+            }
+        }
+
+        StateHasChanged();
+
+        // this will reset the message after a few seconds
+        Task.Delay(5000).ContinueWith(_ =>
+        {
+            feedbackMessage = null;
+            InvokeAsync(StateHasChanged);
+        });
+    }
+}
+
+<style>
+    body {
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    /* Main content layout */
+    .main-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+       
+        padding: 20px;
+    }
+
+    .boarding-container {
+        padding: 20px;
+        text-align: center;
+        background-color: #143963;
+        border-radius: 20px;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        max-width: 1200px;
+        margin: auto;
+    }
 
         .heading {
             text-align: center;
@@ -60,65 +269,95 @@
             margin-top: 10px;
         }
 
-            .rates-table th, .rates-table td {
-                padding: 10px;
-                text-align: left;
-                border-bottom: 1px solid #9B7D9B; 
-            }
+    li {
+        margin-bottom: 5px;
+    }
 
-            .rates-table th {
-                font-weight: bold;
-                color: #9B7D9B; 
-            }
+    /* Booking button style */
+    .book-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-            .rates-table td {
-                color: #4B3F4E;
-            }
-
-        .highlight {
-            font-weight: bold;
-            color: #9B7D9B; 
+        .book-btn.booked {
+            background-color: #dc3545;
         }
-    </style>
-</head>
-<body>
-    <div class="boarding-container">
-        <h1 class="heading">SPCA Pet Boarding</h1>
 
-        <div class="card">
-            <h2>Home Away from Home</h2>
-            <p>Looking for a safe and loving place for your pets while you're on holiday? Why not bring them to the SPCA? We accommodate cats and dogs of all sizes at our clean and comfortable Uitenhage SPCA boarding kennels. You can relax, knowing they’ll receive the best possible care!</p>
-        </div>
+        .book-btn:hover {
+            background-color: #218838; 
+        }
 
-        <div class="card">
-            <h2>Rates Per Day</h2>
-            <table class="rates-table">
-                <tr>
-                    <th>Category</th>
-                    <th>Rate</th>
-                </tr>
-                <tr>
-                    <td>Cat</td>
-                    <td>R 50.00</td>
-                </tr>
-                <tr>
-                    <td>Kitten</td>
-                    <td>R 50.00</td>
-                </tr>
-                <tr>
-                    <td>Small Breed Dog</td>
-                    <td>R 50.00</td>
-                </tr>
-                <tr>
-                    <td>Medium Breed Dog</td>
-                    <td>R 50.00</td>
-                </tr>
-                <tr>
-                    <td>Large Breed Dog</td>
-                    <td>R 50.00</td>
-                </tr>
-            </table>
-        </div>
+    /* Feedback message style */
+    .feedback-message {
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #d4edda; 
+        color: #155724; 
+        border: 1px solid #c3e6cb; 
+        border-radius: 5px;
+    }
+
+    /* Side Navbar */
+    .side-navbar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #143963;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        z-index: 100;
+        border-right: 2px solid #ffffff;
+    }
+
+        .side-navbar .nav-link {
+            padding: 15px 20px;
+            font-size: 1.2em;
+            color: #e0f7fa;
+            display: block;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+
+            .side-navbar .nav-link:hover {
+                background-color: #4775A9;
+                color: #ffffff;
+                box-shadow: 0 0 10px #ffffff;
+            }
+
+        .side-navbar .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+    .open-btn {
+        font-size: 24px;
+        cursor: pointer;
+        background-color: #143963;
+        color: #ffffff;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 25px;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 101;
+        transition: background-color 0.3s ease;
+    }
+
+        .open-btn:hover {
+            background-color: #0d2a4a;
+        }
 
         <div class="card">
             <h2>Important Notes</h2>
