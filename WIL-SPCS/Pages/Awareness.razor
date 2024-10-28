@@ -7,24 +7,20 @@
     <meta name="description" content="Learn about animal welfare, responsible pet ownership, and how to raise awareness for animal rights and causes.">
     <meta name="keywords" content="Animal Welfare, Pet Adoption, Animal Rights, Awareness, Pet Care">
     <title>Awareness Page</title>
-    <!-- Link to Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         html, body {
             font-family: 'Quicksand', sans-serif;
-            
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+            background-color: #E0D4E7; 
+            color: #4B3B4A; 
             margin: 0;
             padding: 0;
-            color: #ffffff;
         }
 
         .centered-text {
             text-align: center;
             font-size: 2.5em;
-            color: #ffffff;
+            color: #8B5D9B;
             margin-top: 20px;
         }
 
@@ -32,7 +28,7 @@
             padding: 20px;
             margin: auto;
             max-width: 1200px;
-            background-color: rgba(20, 57, 99, 0.8);
+            background-color: rgba(224, 212, 231, 0.8); 
             border-radius: 20px;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
         }
@@ -41,7 +37,7 @@
             text-align: center;
             margin-bottom: 40px;
             font-size: 1.5em;
-            color: #ffffff;
+            color: #8B5D9B; 
             font-weight: bold;
         }
 
@@ -54,88 +50,30 @@
         }
 
         .awareness-card {
-            background-color: #4775A9;
+            background-color: #E8CDE2; 
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
             padding: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            position: relative;
         }
 
             .awareness-card:hover {
                 transform: scale(1.05);
                 box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
-                background-color: #ffffff;
+                background-color: #fff; 
             }
 
-
-        .awareness-card h4 {
-            margin: 10px 0;
-            font-size: 1.4em;
-            color: #143963;
-        }
-
-        .awareness-card p {
-            font-size: 1em;
-            color: #333;
-        }
-
-        .side-navbar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #143963;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            z-index: 100;
-            border-right: 2px solid #ffffff;
-        }
-
-            .side-navbar .nav-link {
-                padding: 15px 20px;
-                font-size: 1.2em;
-                color: #e0f7fa;
-                display: block;
-                transition: background-color 0.3s ease, box-shadow 0.3s ease;
-                text-decoration: none;
+            .awareness-card h4 {
+                margin: 10px 0;
+                font-size: 1.4em;
+                color: #8B5D9B; 
             }
 
-                .side-navbar .nav-link:hover {
-                    background-color: #4775A9;
-                    color: #ffffff;
-                    box-shadow: 0 0 10px #ffffff;
-                }
-
-            .side-navbar .close-btn {
-                position: absolute;
-                top: 15px;
-                right: 25px;
-                font-size: 30px;
-                color: #ffffff;
-            }
-
-        .open-btn {
-            font-size: 24px;
-            cursor: pointer;
-            background-color: #143963;
-            color: #ffffff;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 25px;
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 101;
-            transition: background-color 0.3s ease;
-        }
-
-            .open-btn:hover {
-                background-color: #0d2a4a;
+            .awareness-card p {
+                font-size: 1em;
+                color: #4B3B4A; 
             }
 
         .main-content {
@@ -158,134 +96,15 @@
         }
 
             .sticker-image:hover {
-                box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
+                box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
             }
-            
-            .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            height: 60px;
-            background-color: #ffffff;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-            display: none; /* Initially hidden */
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            padding: 5px;
-        }
-
-        .nav-item:hover {
-            background-color: #f0f0f0;
-            transform: scale(1.1);
-            border-radius: 10px;
-        }
-
-        /* Responsive styles */
-        @@media screen and (max-width: 768px) {
-            .side-navbar {
-                display: none; /* Hide sidebar on small screens */
-            }
-
-            .main-content {
-                margin-left: 0; /* Remove margin on small screens */
-            }
-
-            .bottom-nav {
-                display: flex; /* Show bottom nav on small screens */
-            }
-        }
-
-        @@media screen and (min-width: 769px) {
-            .bottom-nav {
-                display: none; /* Hide bottom nav on larger screens */
-            }
-        }
-
     </style>
 </head>
 <body>
     <h2 class="centered-text">Raise Awareness</h2>
 
-    <div id="sideNavbar" class="side-navbar">
-        <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-        <a href="/information" class="nav-link" aria-label="Navigate to Information">Information</a>
-        <a href="/profile" class="nav-link" aria-label="Navigate to Profile">Profile</a>
-        <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">Gallery</a>
-        <a href="/events" class="nav-link" aria-label="Navigate to Events">Events</a>
-        <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a>
-    </div>
-
-
-    <style>
-        
-        .nav-item {
-            flex: 1;
-            text-align: center;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            padding: 5px;
-        }
-
-            .nav-item:hover {
-                background-color: #f0f0f0;
-                transform: scale(1.1);
-                border-radius: 10px;
-            }
-
-        .nav-icon {
-            width: 28px;
-            height: 28px;
-            filter: none;
-        }
-
-        .nav-center {
-            position: relative;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-
-        .nav-center-btn {
-            width: 50px;
-            height: 50px;
-            background-color: #8C7D70;
-            border-radius: 50%;
-            border: none;
-            font-size: 24px;
-            color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            position: absolute;
-            top: -25px;
-            transition: background-color 0.3s ease;
-        }
-
-            .nav-center-btn:hover {
-                background-color: #6C6A5A;
-            }
-
-            .nav-center-btn:focus {
-                outline: none;
-            }
-
-    </style>
-
-
-
-   
     <div class="main-content">
-        <button class="open-btn" onclick="openNav()">☰</button>
-
         <div class="awareness-container">
-            <!-- Awareness Section -->
             <div class="awareness-intro">
                 <h3>Animal Welfare Awareness</h3>
                 <p>We strive to raise awareness about animal welfare and the importance of responsible pet ownership. By spreading the message, we hope to create a community that cares for and respects animals.</p>
@@ -309,61 +128,11 @@
                 </div>
             </div>
 
-
             <div class="sticker-container">
                 <img src="stickers/PUP1.png" alt="Cute Puppy Sticker" class="sticker-image" id="stickerImage" />
             </div>
         </div>
     </div>
-    <div class="bottom-nav">
-        <a href="/information" class="nav-item" aria-label="Information"<img src="images/communication.png" alt="Information" class="nav-icon"></a>
-        <a href="/profile" class="nav-item" aria-label="Profile"> <img src="images/user.png" alt="Profile" class="nav-icon"></a>
-        <a href="/gallery" class="nav-item" aria-label="Gallery"<img src="images/gallery.png" alt="Gallery" class="nav-icon"></a>
-        <a href="/events" class="nav-item" aria-label="Events"<img src="images/calendar.png" alt="Events" class="nav-icon"></a>
-        <a href="/userchat" class="nav-item" aria-label="Chat with Us"> <img src="images/message.png" alt="Chat" class="nav-icon"> </a>
-    </div>
-
-    <script>
-        function openNav() {
-            document.getElementById("sideNavbar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("sideNavbar").style.width = "0";
-        }
-
-    <audio id="barkSound" preload="auto">
-        <source src="sounds/barkingpuppy.mp3" type="audio/mpeg">
-        Your browser does not support the audio tag.
-    </audio>
-
-    <script>
-        // Function to play the barking sound
-        function playBarkSound() {
-            const barkSound = document.getElementById('barkSound');
-            barkSound.play();
-        }
-
-
-        const sticker = document.getElementById('stickerImage');
-
-        sticker.addEventListener('mouseover', () => {
-            sticker.style.boxShadow = 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
-            playBarkSound();
-        });
-
-        sticker.addEventListener('mouseout', () => {
-            sticker.style.boxShadow = 0 0 0px #ffffff;
-        });
-
-
-        function openNav() {
-            document.getElementById("sideNavbar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("sideNavbar").style.width = "0";
-        }
-    </script>
 </body>
 </html>
+
