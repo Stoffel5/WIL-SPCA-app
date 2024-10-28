@@ -123,7 +123,7 @@
                 <th>Weight</th>
                 <th>Status</th>
                 <th>Image</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
             @foreach(var pet in pets)
             {
@@ -387,8 +387,6 @@
         }
         StateHasChanged();
     }
-
-   
 }
 
 <style>
@@ -467,9 +465,9 @@
         font-weight: bold;
     }
 
-
     .btnx {
-        margin-top: 15px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         padding: 10px 20px;
         cursor: pointer;
     }

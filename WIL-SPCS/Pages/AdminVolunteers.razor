@@ -108,8 +108,10 @@
                         <td>@vol.PhoneNumber</td>
                         <td>@vol.Email</td>
                         <td>
-                            <button class="btn btn-edit" @onclick="() => EditVolunteerForm(vol)">Edit</button>
-                            <button class="btn btn-danger" @onclick="() => DeleteVolunteerForm(vol)">Delete</button>
+                            <center>
+                                <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => EditVolunteerForm(vol)">Edit</button>
+                                <button class="btn btnx btn-danger rounded-button bold-text" @onclick="() => DeleteVolunteerForm(vol)">Delete</button>
+                            </center>
                         </td>
                     </tr>
                 }
@@ -359,7 +361,8 @@
     }
 
     .btnx {
-        margin-top: 15px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         padding: 10px 20px;
         cursor: pointer;
     }
@@ -410,6 +413,8 @@
             color: white;
         }
 
+
+
     .btn-add {
         background-color: #ffffff;
         color: #143963;
@@ -421,6 +426,7 @@
             background-color: #e0e0e0;
             color: #143963;
         }
+
 
     .desktop-search-bar {
         padding: 10px;
