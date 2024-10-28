@@ -146,15 +146,15 @@
     string ownerEmail = string.Empty;
     string petName = string.Empty;
     string breed = string.Empty;
-    DateTime startDate = DateTime.Today;
-    DateTime endDate = DateTime.Today;
+    DateOnly startDate = DateOnly.FromDateTime(DateTime.Today);
+    DateOnly endDate = DateOnly.FromDateTime(DateTime.Today);
 
     string editOwnerName = string.Empty;
     string editOwnerEmail = string.Empty;
     string editPetName = string.Empty;
     string editBreed = string.Empty;
-    DateTime editStartDate = DateTime.Today;
-    DateTime editEndDate = DateTime.Today;
+    DateOnly editStartDate = DateOnly.FromDateTime(DateTime.Today);
+    DateOnly editEndDate = DateOnly.FromDateTime(DateTime.Today);
     private string? errorMessage = null;
 
     private List<BoardingRequest> boardingRequests = new List<BoardingRequest>();
@@ -199,8 +199,8 @@
         content.Add(new StringContent(breed), "Breed");
         content.Add(new StringContent(petName), "PetName");
         content.Add(new StringContent(ownerEmail), "OwnerEmail");
-        content.Add(new StringContent(startDate.Date.ToString()), "StartDate");
-        content.Add(new StringContent(endDate.Date.ToString()), "EndDate");
+        content.Add(new StringContent(startDate.ToString()), "StartDate");
+        content.Add(new StringContent(endDate.ToString()), "EndDate");
         // Post report to external API
         var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Boarding", content);
         if (response.IsSuccessStatusCode)
@@ -223,8 +223,8 @@
         content.Add(new StringContent(editBreed), "Breed");
         content.Add(new StringContent(editPetName), "PetName");
         content.Add(new StringContent(editOwnerEmail), "OwnerEmail");
-        content.Add(new StringContent(editStartDate.Date.ToString()), "StartDate");
-        content.Add(new StringContent(editEndDate.Date.ToString()), "EndDate");
+        content.Add(new StringContent(editStartDate.ToString()), "StartDate");
+        content.Add(new StringContent(editEndDate.ToString()), "EndDate");
 
         // make request
         var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/events/UpdateEvent/" + currentBoardingRequest.requestId, content);

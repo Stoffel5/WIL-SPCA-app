@@ -104,7 +104,7 @@
                     <tr>
                         <td>@vol.Name</td>
                         <td>@vol.Surname</td>
-                        <td>@vol.VolunteerDate.ToShortDateString()</td>
+                        <td>@vol.VolunteerDate</td>
                         <td>@vol.PhoneNumber</td>
                         <td>@vol.Email</td>
                         <td>
@@ -124,7 +124,7 @@
         public string VolunteerId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public DateTime VolunteerDate { get; set; }
+        public string VolunteerDate { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
@@ -135,13 +135,13 @@
 
     string addName = string.Empty;
     string addSurname = string.Empty;
-    DateTime addVolunteerDate = DateTime.Now;
+    DateOnly addVolunteerDate = DateOnly.FromDateTime(DateTime.Now);
     string addPhoneNumber = string.Empty;
     string addEmail = string.Empty;
 
     string editName = string.Empty;
     string editSurname = string.Empty;
-    DateTime editVolunteerDate = DateTime.Now;
+    DateOnly editVolunteerDate = DateOnly.FromDateTime(DateTime.Now);
     string editPhoneNumber = string.Empty;
     string editEmail = string.Empty;
     private string? errorMessage = null;
@@ -199,7 +199,7 @@
         editEmail = vol.Email;
         editName = vol.Name;
         editPhoneNumber = vol.PhoneNumber;
-        editVolunteerDate = vol.VolunteerDate;
+        editVolunteerDate = DateOnly.Parse(vol.VolunteerDate);
         editSurname = vol.Surname;
         StateHasChanged();
     }

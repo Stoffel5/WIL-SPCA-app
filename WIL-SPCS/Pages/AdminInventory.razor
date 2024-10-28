@@ -207,6 +207,7 @@
         Usage: Used to make get request in blazer
         */
         pets = await Http.GetFromJsonAsync<List<Pet>>("https://spcaapi.azurewebsites.net/api/Animal/GetAnimals");
+        backupPets = pets;
     }
 
     private void AddPetForm(MouseEventArgs e)

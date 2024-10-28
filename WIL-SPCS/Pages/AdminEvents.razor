@@ -100,7 +100,7 @@
 
 
 @code {
-    private DateTime selectedDate = DateTime.Now;
+    private DateOnly selectedDate = DateOnly.FromDateTime(DateTime.Now);
     private string evName = string.Empty;
     private string evDescription = string.Empty;
     private Event currentEvent = new Event();
@@ -119,7 +119,7 @@
     {
         if (DateTime.TryParse(e.Value.ToString(), out var date))
         {
-            selectedDate = date;
+            selectedDate = DateOnly.FromDateTime(date);
             LoadEvents();
         }
     }
@@ -180,7 +180,7 @@
         currentEvent = ev;
         evName = ev.eventName;
         evDescription = ev.eventDescription;
-        selectedDate = DateTime.Parse(ev.eventDate);
+        selectedDate = DateOnly.Parse(ev.eventDate);
         editEvent = true;
         StateHasChanged();
     }
