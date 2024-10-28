@@ -160,6 +160,55 @@
             .sticker-image:hover {
                 box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff;
             }
+            
+            .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #ffffff;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            display: none; /* Initially hidden */
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            padding: 5px;
+        }
+
+        .nav-item:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.1);
+            border-radius: 10px;
+        }
+
+        /* Responsive styles */
+        @@media screen and (max-width: 768px) {
+            .side-navbar {
+                display: none; /* Hide sidebar on small screens */
+            }
+
+            .main-content {
+                margin-left: 0; /* Remove margin on small screens */
+            }
+
+            .bottom-nav {
+                display: flex; /* Show bottom nav on small screens */
+            }
+        }
+
+        @@media screen and (min-width: 769px) {
+            .bottom-nav {
+                display: none; /* Hide bottom nav on larger screens */
+            }
+        }
 
     </style>
 </head>
@@ -266,6 +315,23 @@
             </div>
         </div>
     </div>
+    <div class="bottom-nav">
+        <a href="/information" class="nav-item">Information</a>
+        <a href="/profile" class="nav-item">Profile</a>
+        <a href="/gallery" class="nav-item">Gallery</a>
+        <a href="/events" class="nav-item">Events</a>
+        <a href="/userchat" class="nav-item">Chat</a>
+    </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("sideNavbar").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("sideNavbar").style.width = "0";
+        }
+
     <audio id="barkSound" preload="auto">
         <source src="sounds/barkingpuppy.mp3" type="audio/mpeg">
         Your browser does not support the audio tag.

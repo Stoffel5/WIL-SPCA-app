@@ -11,6 +11,16 @@
     <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a>
 </div>
 
+<div class="bottom-nav">
+    <a href="/information" class="nav-item">Information</a>
+    <a href="/profile" class="nav-item">Profile</a>
+    <a href="/gallery" class="nav-item">Gallery</a>
+    <a href="/events" class="nav-item">Events</a>
+    <a href="/userchat" class="nav-item" aria-label="Chat with Us">
+        <img src="images/message.png" alt="Chat" class="nav-icon">
+    </a>
+</div>
+
 <style>
     .bottom-nav {
         position: fixed;
@@ -77,6 +87,27 @@
         .nav-center-btn:focus {
             outline: none;
         }
+        /* Default Visibility for Side Navbar */
+    @@media (max-width: 768px) {
+        .side-navbar {
+            display: none; /* Hide side navbar on small screens */
+        }
+        
+        .bottom-nav {
+            display: flex; /* Show bottom navbar on small screens */
+        }
+    }
+
+    /* Default Visibility for Bottom Navbar */
+    @@media (min-width: 769px) {
+        .bottom-nav {
+            display: none; /* Hide bottom navbar on larger screens */
+        }
+        
+        .side-navbar {
+            display: block; /* Show side navbar on larger screens */
+        }
+    }
 
 </style>
 
