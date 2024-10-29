@@ -115,6 +115,7 @@
         public string health { get; set; }
         public string weight { get; set; }
         public string adoptionStatus { get; set; }
+        public string animalType { get; set; }
         public string imageUrl { get; set; }
     }
     private void search(ChangeEventArgs e)
@@ -122,7 +123,7 @@
         var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
         if (!string.IsNullOrEmpty(searchText))
         {
-            pets = backupPets.Where(pet => pet.breed.ToLower().Contains(searchText)).ToList();
+            pets = backupPets.Where(pet => pet.animalType.ToLower().Contains(searchText)).ToList();
         }
         else
         {
