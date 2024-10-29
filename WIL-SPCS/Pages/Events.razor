@@ -6,9 +6,6 @@
 
 <h2 class="centered-text">Events</h2>
 <div id="sideNavbar" class="side-navbar">
-
-    <div id="arrow" class="arrow-icon">►</div>
-
     <a href="/information" class="nav-link" aria-label="Navigate to Information">
         <img src="images/communication.png" alt="Information Icon" class="nav-icon">
         <span class="nav-text">Information</span>
@@ -39,148 +36,16 @@
     </a>
 </div>
 
-<style>
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 60px;
-        background-color: #ffffff;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 1000;
-        margin: 0;
-        padding: 0;
-    }
-
-    .nav-item {
-        flex: 1;
-        text-align: center;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-        padding: 5px;
-    }
-
-        .nav-item:hover {
-            background-color: #f0f0f0;
-            transform: scale(1.1);
-            border-radius: 10px;
-        }
-
-    .nav-icon {
-        width: 28px;
-        height: 28px;
-        filter: none;
-    }
-
-    .nav-center {
-        position: relative;
-        flex: 1;
-        display: flex;
-        justify-content: center;
-    }
-
-    .nav-center-btn {
-        width: 50px;
-        height: 50px;
-        background-color: #8C7D70;
-        border-radius: 50%;
-        border: none;
-        font-size: 24px;
-        color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-        position: absolute;
-        top: -25px;
-        transition: background-color 0.3s ease;
-    }
-
-        .nav-center-btn:hover {
-            background-color: #6C6A5A;
-        }
-
-        .nav-center-btn:focus {
-            outline: none;
-        }
-
-</style>
-
-
-<!-- Calendar and Date Picker -->
 <div class="calendar-container">
     <h3>Select a Date to See Events</h3>
     <input type="date" id="datepicker" @bind="selectedDate" class="date-picker" />
+    <button class="btn btnx btn-primary" @onclick="ResetEvents">View All</button>
 
-
-
-    <div class="calendar">
-        <div class="header">
-            <div class="day">Mon</div>
-            <div class="day">Tue</div>
-            <div class="day">Wed</div>
-            <div class="day">Thu</div>
-            <div class="day">Fri</div>
-            <div class="day">Sat</div>
-            <div class="day">Sun</div>
-        </div>
-        <div class="body">
-            <!-- Calendar Days -->
-            <div class="day" onclick="selectDate(1)">1</div>
-            <div class="day" onclick="selectDate(2)">2</div>
-            <div class="day" onclick="selectDate(3)">3</div>
-            <div class="day" onclick="selectDate(4)">4</div>
-            <div class="day" onclick="selectDate(5)">5</div>
-            <div class="day" onclick="selectDate(6)">6</div>
-            <div class="day" onclick="selectDate(7)">7</div>
-            <div class="day" onclick="selectDate(8)">8</div>
-            <div class="day" onclick="selectDate(9)">9</div>
-            <div class="day" onclick="selectDate(10)">10</div>
-            <div class="day" onclick="selectDate(11)">11</div>
-            <div class="day" onclick="selectDate(12)">12</div>
-            <div class="day" onclick="selectDate(13)">13</div>
-            <div class="day" onclick="selectDate(14)">14</div>
-            <div class="day" onclick="selectDate(15)">15</div>
-            <div class="day" onclick="selectDate(16)">16</div>
-            <div class="day" onclick="selectDate(17)">17</div>
-            <div class="day" onclick="selectDate(18)">18</div>
-            <div class="day" onclick="selectDate(19)">19</div>
-            <div class="day" onclick="selectDate(20)">20</div>
-            <div class="day" onclick="selectDate(21)">21</div>
-            <div class="day" onclick="selectDate(22)">22</div>
-            <div class="day" onclick="selectDate(23)">23</div>
-            <div class="day" onclick="selectDate(24)">24</div>
-            <div class="day" onclick="selectDate(25)">25</div>
-            <div class="day" onclick="selectDate(26)">26</div>
-            <div class="day" onclick="selectDate(27)">27</div>
-            <div class="day" onclick="selectDate(28)">28</div>
-            <div class="day" onclick="selectDate(29)">29</div>
-            <div class="day" onclick="selectDate(30)">30</div>
-            <div class="day" onclick="selectDate(31)">31</div>
-        </div>
-    </div>
-    <script>
-        function selectDate(day) {
-            const datepicker = document.getElementById('datepicker');
-            const today = new Date();
-            const month = today.getMonth() + 1; // Months are 0-based
-            const year = today.getFullYear();
-            datepicker.value = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        }
-    </script>
-
-
-
-
-
-
+    <CustomCalendar OnDateSelected="@(date => OnDateChanged(DateTime.Parse(date.ToString())))" />
 </div>
 
-<!-- Events List -->
 <div class="events-container">
-    <h3 class="centered-text">Events on @selectedDate.ToShortDateString()</h3>
+    <h3 class="centered-text">@eventString</h3>
     <ul>
         @foreach (var ev in events)
         {
@@ -193,6 +58,7 @@
     </ul>
 </div>
 
+
 <div class="bottom-nav">
     <a href="/information" class="nav-item" aria-label="Information"<img src="images/communication.png" alt="Information" class="nav-icon"></a>
     <a href="/profile" class="nav-item" aria-label="Profile"> <img src="images/user.png" alt="Profile" class="nav-icon"></a>
@@ -204,28 +70,46 @@
 </div>
 
 @code {
-    private DateTime selectedDate = DateTime.Now;
+    private DateTime _selectedDate = DateTime.Now;
     private List<Event> events = new List<Event>();
+    private List<Event> backupEvents = new List<Event>();
+    private string eventString = "All upcoming events";
+
+    public DateTime selectedDate
+    {
+        get { return _selectedDate; }
+        set
+        {
+            if (_selectedDate != value)
+            {
+                _selectedDate = value;
+                SortEvents();
+            }
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
         await LoadEvents();
     }
 
-    private void OnDateChanged(ChangeEventArgs e)
+    private void OnDateChanged(DateTime date)
     {
-        if (DateTime.TryParse(e.Value.ToString(), out var date))
-        {
-            selectedDate = date;
-            LoadEvents();
-        }
+        selectedDate = date;
+        SortEvents();
+    }
+
+    private void SortEvents()
+    {
+        events = backupEvents.Where(ev => DateTime.Parse(ev.eventDate).Date == selectedDate.Date).ToList();
+        eventString = "Events on " + selectedDate.Date.ToString("dd/MM/yyyy");
     }
 
     private async Task LoadEvents()
     {
         // Load events based on the selected date (placeholder logic)
         events = await Http.GetFromJsonAsync<List<Event>>("https://spcaapi.azurewebsites.net/api/events/GetEvents");
-
+        backupEvents = events;
     }
 
     public class Event
@@ -234,6 +118,11 @@
         public string eventDescription { get; set; }
         public string eventId { get; set; }
         public string eventDate { get; set; }
+    }
+    private void ResetEvents(MouseEventArgs e)
+    {
+        events = backupEvents;
+        eventString = "All upcoming events";
     }
 }
 
@@ -324,7 +213,6 @@
     .event-item {
         background-color: #143963;
          border: 1px solid #e6f7ff;
-        ;
         border-radius: 5px;
         padding: 15px;
         margin-bottom: 15px;
@@ -398,20 +286,7 @@
         display: inline; /* Show text on hover */
         opacity: 1;
     }
-    /* Arrow icon styling */
-    .arrow-icon {
-        font-size: 16px;
-        color: #ffffff;
-        text-align: center;
-        margin-bottom: 10px;
-        display: block;
-        transform: rotate(0deg);
-        transition: opacity 0.3s ease;
-    }
 
-    .side-navbar:hover .arrow-icon {
-        opacity: 0;
-    }
 
     .bottom-nav {
         position: fixed;
@@ -440,24 +315,25 @@
             transform: scale(1.1);
             border-radius: 10px;
         }
+
     /* Responsive styles */
     @@media screen and (max-width: 768px) {
         .side-navbar {
-            display: none; 
+            display: none; /* Hide sidebar on small screens */
         }
 
         .main-content {
-            margin-left: 0;
+            margin-left: 0; /* Remove margin on small screens */
         }
 
         .bottom-nav {
-            display: flex; 
+            display: flex; /* Show bottom nav on small screens */
         }
     }
 
     @@media screen and (min-width: 769px) {
         .bottom-nav {
-            display: none;
+            display: none; /* Hide bottom nav on larger screens */
         }
     }
 
@@ -470,7 +346,34 @@
         border-radius: 8px;
 
     }
+
+    .btnx {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
     }
+
+    .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #143963;
+        color: white;
+        border: 1px solid #143963;
+    }
+
+        .btn-primary:hover {
+            background-color: white;
+            color: #143963;
+            border-color: #143963;
+        }
 </style>
 
 <script>

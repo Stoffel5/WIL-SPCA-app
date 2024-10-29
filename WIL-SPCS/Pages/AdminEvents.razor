@@ -8,19 +8,6 @@
 
 <a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
 
-@* <button class="open-nav-btn" onclick="openNav()">☰ </button>
-<!-- Side Navigation Bar -->
-<div id="sideNavbar" class="side-navbar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-    <a href="/adminmessages" class="nav-link">Messages</a>
-    <a href="/adminboardings" class="nav-link">Boardings</a>
-    <a href="/adminvolunteers" class="nav-link">Volunteers</a>
-    <a href="/admininventory" class="nav-link">Inventory</a>
-    <a href="/adminevents" class="nav-link">Events</a>
-    <!-- Add more links here as needed -->
-</div> *@
-
-<!-- Calendar and Date Picker -->
 <div class="calendar-container">
     @if (addEvent)
     {
@@ -69,73 +56,20 @@
             </div>
         </div>
     }
-    else
+    else if(!editEvent && !addEvent)
     {
-        <h2 class="centered-text" style="color: white;">Events</h2>
-        <h3 style="color: white;">Select a Date to See Events</h3>
-        <input type="date" id="datepicker" @bind="selectedDate" class="date-picker" /><br />
-        <button class="btn btn-primary rounded-button bold-text" @onclick="AddEventForm">Add Event</button>
+        <h2 class="centered-text">Events</h2>
+        <div class="calendar-container">
+            <h3>Select a Date to See Events</h3>
+            <input type="date" id="datepicker" @bind="selectedDate" class="date-picker" />
+            <button class="btn btnx btn-primary" @onclick="ResetEvents">View All</button><br/>
+            <button class="btn btnx btn-primary" @onclick="AddEventForm">Add Event</button>
 
-
-         <div class="calendar">
-        <div class="header">
-            <div class="day">Mon</div>
-            <div class="day">Tue</div>
-            <div class="day">Wed</div>
-            <div class="day">Thu</div>
-            <div class="day">Fri</div>
-            <div class="day">Sat</div>
-            <div class="day">Sun</div>
+            <CustomCalendar OnDateSelected="@(date => OnDateChanged(DateTime.Parse(date.ToString())))" />
         </div>
-        <div class="body">
-            <!-- Calendar Days -->
-            <div class="day" onclick="selectDate(1)">1</div>
-            <div class="day" onclick="selectDate(2)">2</div>
-            <div class="day" onclick="selectDate(3)">3</div>
-            <div class="day" onclick="selectDate(4)">4</div>
-            <div class="day" onclick="selectDate(5)">5</div>
-            <div class="day" onclick="selectDate(6)">6</div>
-            <div class="day" onclick="selectDate(7)">7</div>
-            <div class="day" onclick="selectDate(8)">8</div>
-            <div class="day" onclick="selectDate(9)">9</div>
-            <div class="day" onclick="selectDate(10)">10</div>
-            <div class="day" onclick="selectDate(11)">11</div>
-            <div class="day" onclick="selectDate(12)">12</div>
-            <div class="day" onclick="selectDate(13)">13</div>
-            <div class="day" onclick="selectDate(14)">14</div>
-            <div class="day" onclick="selectDate(15)">15</div>
-            <div class="day" onclick="selectDate(16)">16</div>
-            <div class="day" onclick="selectDate(17)">17</div>
-            <div class="day" onclick="selectDate(18)">18</div>
-            <div class="day" onclick="selectDate(19)">19</div>
-            <div class="day" onclick="selectDate(20)">20</div>
-            <div class="day" onclick="selectDate(21)">21</div>
-            <div class="day" onclick="selectDate(22)">22</div>
-            <div class="day" onclick="selectDate(23)">23</div>
-            <div class="day" onclick="selectDate(24)">24</div>
-            <div class="day" onclick="selectDate(25)">25</div>
-            <div class="day" onclick="selectDate(26)">26</div>
-            <div class="day" onclick="selectDate(27)">27</div>
-            <div class="day" onclick="selectDate(28)">28</div>
-            <div class="day" onclick="selectDate(29)">29</div>
-            <div class="day" onclick="selectDate(30)">30</div>
-            <div class="day" onclick="selectDate(31)">31</div>
-        </div>
-    </div>
-    <script>
-        function selectDate(day) {
-            const datepicker = document.getElementById('datepicker');
-            const today = new Date();
-            const month = today.getMonth() + 1; // Months are 0-based
-            const year = today.getFullYear();
-            datepicker.value = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-        }
-    </script>
 
-
-        <!-- Events List -->
         <div class="events-container">
-            <h3 class="centered-text">Events on @selectedDate.ToShortDateString()</h3>
+            <h3 class="centered-text">@eventString</h3>
             <ul>
                 @foreach (var ev in events)
                 {
@@ -143,7 +77,7 @@
                         <strong>@ev.eventDate</strong>
                         <strong>@ev.eventName</strong>
                         <p>@ev.eventDescription</p>
-                        <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => EditEventForm(ev)">Edit</button>
+                        <button class="btn btnx btn-primary" @onclick="() => EditEventForm(ev)">Edit</button>
                         <button class="btn btn-danger" @onclick="@(() => DeleteEvent(ev.eventId))">Delete</button>
                     </li>
                 }
@@ -154,14 +88,38 @@
 
 
 @code {
-    private DateOnly selectedDate = DateOnly.FromDateTime(DateTime.Now);
+    private DateTime _selectedDate = DateTime.Now;
     private string evName = string.Empty;
     private string evDescription = string.Empty;
     private Event currentEvent = new Event();
     private List<Event> events = new List<Event>();
+    private List<Event> backupEvents = new List<Event>();
     public bool addEvent = false;
     public bool editEvent = false;
     private string? errorMessage = null;
+    private string eventString = "All upcoming events";
+
+
+    /*
+    Code Attribution
+    Title: How can I execute code when value of a variable changes in C#?
+    Author: Mehrdad Afshari
+    Author Link: https://stackoverflow.com/users/33708/mehrdad-afshari
+    Post Link: https://stackoverflow.com/questions/1136613/how-can-i-execute-code-when-value-of-a-variable-changes-in-c
+    Usage: Used to show events on date select
+    */
+    public DateTime selectedDate
+    {
+        get { return _selectedDate; }
+        set
+        {
+            if(_selectedDate != value)
+            {
+                _selectedDate = value;
+                SortEvents();
+            }
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -169,20 +127,34 @@
         await LoadEvents();
     }
 
-    private void OnDateChanged(ChangeEventArgs e)
+    private void OnDateChanged(DateTime date)
     {
-        if (DateTime.TryParse(e.Value.ToString(), out var date))
-        {
-            selectedDate = DateOnly.FromDateTime(date);
-            LoadEvents();
-        }
+        selectedDate = date;
+        SortEvents();
+    }
+    private void OnDateChanged()
+    {
+        SortEvents();
+    }
+
+    private void SortEvents()
+    {
+        events = backupEvents.Where(ev => DateTime.Parse(ev.eventDate).Date == selectedDate.Date).ToList();
+        eventString = "Events on " + selectedDate.Date.ToString("dd/MM/yyyy");
+    }
+
+    private void ResetEvents(MouseEventArgs e)
+    {
+        selectedDate = DateTime.Now;
+        events = backupEvents;
+        eventString = "All upcoming events";
     }
 
     private async Task LoadEvents()
     {
         // Load events based on the selected date (placeholder logic)
         events = await Http.GetFromJsonAsync<List<Event>>("https://spcaapi.azurewebsites.net/api/events/GetEvents");
-
+        backupEvents = events;
     }
 
     public class Event
@@ -197,7 +169,7 @@
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(evName), "eventName");
         content.Add(new StringContent(evDescription), "eventDescription");
-        content.Add(new StringContent(selectedDate.ToString()), "eventDate");
+        content.Add(new StringContent(selectedDate.ToString("dd/MM/yyyy")), "eventDate");
         // Post report to external API
         var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/events/AddEvent", content);
         if (response.IsSuccessStatusCode)
@@ -234,7 +206,7 @@
         currentEvent = ev;
         evName = ev.eventName;
         evDescription = ev.eventDescription;
-        selectedDate = DateOnly.Parse(ev.eventDate);
+        selectedDate = DateTime.Parse(ev.eventDate);
         editEvent = true;
         StateHasChanged();
     }
@@ -270,8 +242,6 @@
 }
 
 <style>
-    
-
     .centered-text {
         text-align: center;
         accent-color: #143963;
@@ -290,8 +260,6 @@
         margin: 10px 0;
         color: #143963;
     }
-
-
 
     .calendar {
         width: 80%;
@@ -350,7 +318,7 @@
     }
 
     .event-item {
-        background-color: #143963 ; /* Light blue background */
+        background-color: #143963; /* Light blue background */
         border: 1px solid #e6f7ff; /* Blue border */
         border-radius: 5px;
         padding: 15px;
