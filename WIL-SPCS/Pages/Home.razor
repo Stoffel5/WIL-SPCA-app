@@ -1,86 +1,99 @@
 ﻿@page "/"
-
-@inject NavigationManager Navigation
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <title>Welcome Page</title>
     <style>
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: #ffffff;
-            background-image: url('images/bg6.png');
-            background-size: cover; 
-            background-position: center;
-            color: #ffffff;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            text-align: center;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            color: #143963;
         }
 
         .container {
-            max-width: 600px;
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px 20px;
             width: 100%;
-            background-color: rgba(20, 60, 99, 0.8); 
-            padding: 20px;
-            border-radius: 10px;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
             .logo img {
-                max-width: 100%;
+                max-width: 150px;
                 height: auto;
             }
 
-        .button {
-            background-color: #8C9096;
-            color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            padding: 15px 30px;
-            font-size: 1em;
-            margin: 10px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        h1 {
+            font-size: 32px;
+            color: #143963;
+            margin-bottom: 15px;
         }
 
-            .button:hover,
-            .button:active {
-                background-color: #ffffff;
-                color: #143963;
-                box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-            }
+        p {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
 
-            .button:active {
-                background-color: #f1f1f1;
-                transform: scale(1.05);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .button {
+            text-decoration: none;
+            background-color: #143963;
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            display: block;
+            text-align: center;
+        }
+
+            .button:hover {
+                background-color: #0f2b52;
             }
     </style>
 </head>
 <body>
+
     <div class="container">
         <div class="logo">
             <img src="images/logo.png" alt="SPCA Logo">
         </div>
-        <a href="/browsing" class="button">Just Browse</a>
-        <a href="/login" class="button">Login</a>
-        <a href="/register" class="button">Register</a>
-        <a href="/desktophome" class="button">Admin</a>
+
+        <h1>Welcome to Our Site</h1>
+        <p>Please choose an option to get started.</p>
+
+        <div class="button-group">
+            <a href="/browsing" class="button">Just Browse</a>
+            <a href="/login" class="button">Login</a>
+            <a href="/register" class="button">Register</a>
+            <a href="/desktophome" class="button">Admin</a>
+        </div>
     </div>
+
 </body>
 </html>
