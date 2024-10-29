@@ -131,8 +131,9 @@
         flex-direction: column;
         gap: 15px;
         padding: 20px;
-        width: 100%;
         box-sizing: border-box;
+        max-width: 800px;
+        margin: 0 auto; 
     }
 
     .card {
@@ -141,6 +142,8 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        background-color: #143963; 
+        color: white;
     }
 
         .card:hover {
@@ -150,60 +153,69 @@
             color: #143963;
         }
 
+            .card:hover h4 {
+                color: #143963; /* Ensure the heading stays visible on hover */
+            }
+
+            .card:hover p {
+                color: #143963; /* Ensure the paragraph stays visible on hover */
+            }
+
     .education-card {
-        background-color: #FBD1CF;
+        background-color: #143963;
         color: #333;
     }
 
     .volunteers-card {
-        background-color: #9EACA4;
+        background-color: #143963;
         color: #333;
     }
 
     .events-card {
-        background-color: #FEC89A;
+        background-color: #143963;
         color: #333;
     }
 
     .pbo-card {
-        background-color: #5FB372;
+        background-color: #143963;
         color: #333;
     }
 
     .pet-boarding-card {
-        background-color: #B290AB;
+        background-color: #143963;
         color: #333;
     }
 
     .adoption-card {
-        background-color: #FFDA77;
+        background-color: #143963;
         color: #333;
     }
 
     .awareness-card {
-        background-color: #E0D4E7; 
+        background-color: #143963;
         color: #333;
     }
 
     .charity-shop-card {
-        background-color: #C6E5F2;
+        background-color: #143963;
         color: #333;
     }
 
     .sponsors-card {
-        background-color: #E3A7B1;
+        background-color: #143963;
         color: #333;
     }
 
     h4 {
         font-size: 20px;
         margin-bottom: 10px;
-        color: inherit;
+        color: white;
     }
 
     p {
         font-size: 16px;
         line-height: 1.6;
+        color: white;
     }
 
     .view-btn {
