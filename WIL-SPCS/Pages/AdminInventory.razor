@@ -43,8 +43,8 @@
                 <InputFile id="image" OnChange="HandleFileSelected" class="form-control rounded-input" />
             </div>
 
-            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button><br />
-            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -83,7 +83,7 @@
             </div>
 
             <button type="submit" @onclick="EditPet" class="btn btn-primary rounded-button bold-text">Edit</button>
-            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -95,7 +95,7 @@
             <p><b>Are you sure you want to delete this pet?</b></p>
 
             <button type="submit" @onclick="DeletePet" class="btn btn-primary rounded-button bold-text">Delete</button>
-            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -367,6 +367,7 @@
     {
         AddPetHtml = false;
         EditPetHtml = false;
+        DeletePetHtml = false;
         StateHasChanged();
     }
     public class Pet

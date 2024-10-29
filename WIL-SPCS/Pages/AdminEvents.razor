@@ -56,6 +56,17 @@
             </div>
         </div>
     }
+    @if (deleteEvent)
+    {
+        <div class="login-container">
+            <div class="login-form">
+                <h3 class="bold-text">Delete Boarding</h3>
+                <p><b>Are you sure you want to delete this Boarding?</b></p>
+                <button type="submit" @onclick="DeleteEvent" class="btn btn-primary btn-submit">Delete</button>
+                <button type="submit" @onclick="Cancel" class="btn btnx btn-danger btn-submit">Cancel</button>
+            </div>
+        </div>
+    }
     else if(!editEvent && !addEvent)
     {
         <h2 class="centered-text">Events</h2>
@@ -78,7 +89,7 @@
                         <strong>@ev.eventName</strong>
                         <p>@ev.eventDescription</p>
                         <button class="btn btnx btn-primary" @onclick="() => EditEventForm(ev)">Edit</button>
-                        <button class="btn btn-danger" @onclick="@(() => DeleteEvent(ev.eventId))">Delete</button>
+                        <button class="btn btn-danger" @onclick="@(() => DeleteEventForm(ev))">Delete</button>
                     </li>
                 }
             </ul>
@@ -96,6 +107,7 @@
     private List<Event> backupEvents = new List<Event>();
     public bool addEvent = false;
     public bool editEvent = false;
+    public bool deleteEvent = false;
     private string? errorMessage = null;
     private string eventString = "All upcoming events";
 
@@ -183,13 +195,18 @@
             errorMessage = "Failed to submit report to API";
         }
     }
+    private void DeleteEventForm(Event ev)
+    {
+        currentEvent = ev;
+        deleteEvent = true;
+    }
     private void AddEventForm(MouseEventArgs e)
     {
         addEvent = true;
     }
-    private async Task DeleteEvent(string eventId)
+    private async Task DeleteEvent()
     {
-        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/events/DeleteEvent/" + eventId);
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/events/DeleteEvent/" + currentEvent.eventId);
 
         if (response.IsSuccessStatusCode)
         {
@@ -237,6 +254,7 @@
     {
         editEvent = false;
         addEvent = false;
+        deleteEvent = false;
         StateHasChanged();
     }
 }
