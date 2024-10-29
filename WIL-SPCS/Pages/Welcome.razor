@@ -1,5 +1,6 @@
 ﻿@page "/welcome"
 @layout MainLayout
+@inject HttpClient Http
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 
@@ -52,24 +53,26 @@
     </div>
 
     <div class="video-grid">
-        <div class="gallery-item">
-            <video controls>
-                <source src="/videos/doggvid1.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="gallery-item">
-            <img src="/dogimages/dog2.jpg" alt="Dog 2">
-        </div>
-        <div class="gallery-item">
-            <video controls>
-                <source src="/videos/doggvid3.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>       
-        <div class="gallery-item">
-            <img src="/dogimages/pup3.jpg" alt="Pup 3">
-        </div>
+        @foreach(var pet in pets)
+        {
+            @if (pet.imageUrl.Contains(".jpg") && imageCount < 3)
+            {
+                <div class="gallery-item">
+                    <img src="@pet.imageUrl" alt="@pet.name">
+                </div>
+                imageCount++;
+            }
+            else if (pet.imageUrl.Contains(".mp4") && videoCount < 3)
+            {
+                <div class="gallery-item">
+                    <video controls>
+                        <source src="@pet.imageUrl" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                videoCount++;
+            }
+        }
     </div>
 
 
@@ -107,6 +110,37 @@
     <a href="/userReport" class="nav-link" aria-label="Navigate to UserReport"> <img src="images/report.png" alt="Report Icon" class="nav-icon"> </a>
 </div>
 
+@code {
+    List<Pet> pets = new List<Pet>();
+    int imageCount = 0;
+    int videoCount = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        await GetPets();
+    }
+    private async Task GetPets()
+    {
+        /*
+        Code Attribution
+        Title: GET Request to API with Blazor/C#
+        Author: ZetBit
+        Link: https://www.youtube.com/watch?v=SjhzOauYC80
+        Usage: Used to make get request in blazer
+        */
+        pets = await Http.GetFromJsonAsync<List<Pet>>("https://spcaapi.azurewebsites.net/api/Animal/GetAnimals");
+    }
+    public class Pet
+    {
+        public string petId { get; set; }
+        public string name { get; set; }
+        public string breed { get; set; }
+        public string health { get; set; }
+        public string weight { get; set; }
+        public string adoptionStatus { get; set; }
+        public string animalType { get; set; }
+        public string imageUrl { get; set; }
+    }
+}
 
 <style>
     html, body {

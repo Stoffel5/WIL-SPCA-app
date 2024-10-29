@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Google.Api;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace WIL_SPCS
 {
