@@ -1,4 +1,5 @@
 ﻿@page "/volunteer"
+@inject NavigationManager NavigationManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
     <style>
         html, body {
             font-family: 'Quicksand', sans-serif;
-            background-color: #E8E8E8;
+            background-color: white;
             color: #333333;
             margin: 0;
             padding: 0;
@@ -18,7 +19,7 @@
         .centered-text {
             text-align: center;
             font-size: 2.5em;
-            color: #9EACA4;
+            color: #143963;
             margin-top: 20px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
@@ -27,7 +28,7 @@
             padding: 20px;
             margin: auto;
             max-width: 1200px;
-            background-color: #F5F5F5;
+            background-color: #143963;
             border-radius: 20px;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
         }
@@ -36,7 +37,7 @@
             text-align: center;
             margin-bottom: 40px;
             font-size: 1.5em;
-            color: #4A4A4A;
+            color: white;
             font-weight: bold;
         }
 
@@ -49,7 +50,7 @@
         }
 
         .volunteer-card {
-            background-color: #9EACA4;
+            background-color: white;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -68,7 +69,15 @@
         .volunteer-card:hover {
             transform: scale(1.05);
             box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
-            background-color: #B1C1B5;
+                background-color: #143963;
+        }
+
+                .volunteer-card:hover h4 {
+                    color: #ffffff; 
+        }
+
+                .volunteer-card:hover p {
+                    color: #ffffff; 
         }
 
         .volunteer-card img {
@@ -82,18 +91,36 @@
         .volunteer-card h4 {
             margin: 10px 0;
             font-size: 1.4em;
-            color: #ffffff;
+                color: #143963;
         }
 
         .volunteer-card p {
             font-size: 1em;
-            color: #F0F0F0;
+                color: #143963;
             margin-top: auto;
         }
 
         .main-content {
             padding: 40px;
         }
+
+        .back-button {
+            background-color: #ffffff;
+            color: #143963;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 20px; 
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            .back-button:hover {
+                background-color: #143963;
+                color: white;
+                transform: scale(1.05);
+            }
 
         .sticker-container {
             position: fixed;
@@ -119,7 +146,13 @@
     <h2 class="centered-text">Join Our Volunteer Team</h2>
 
     <div class="main-content">
+
+
+
         <div class="volunteer-container">
+
+            <button class="back-button" @onclick="NavigateBack">Back to Information</button>
+
             <div class="volunteer-intro">
                 <p>The SPCA welcomes volunteers with open paws! Reach out to them and offer your services today. Let's make tails wag and hearts smile together!</p>
             </div>
@@ -146,5 +179,10 @@
             </div>
         </div>
     </div>
+
+    @code {
+        private void NavigateBack() => NavigationManager.NavigateTo("/information"); 
+}
+
 </body>
 </html>

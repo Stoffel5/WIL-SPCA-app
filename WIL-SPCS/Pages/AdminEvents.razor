@@ -68,13 +68,12 @@
             </div>
         </div>
     }
-    else if(!editEvent && !addEvent)
+    else
     {
-        <h2 class="centered-text">Events</h2>
         <div class="calendar-container">
             <h3>Select a Date to See Events</h3>
             <input type="date" id="datepicker" @bind="selectedDate" class="date-picker" />
-            <button class="btn btnx btn-primary" @onclick="ResetEvents">View All</button><br/>
+            <button class="btn btnx btn-primary" @onclick="ResetEvents">View All</button><br />
             <button class="btn btnx btn-primary" @onclick="AddEventForm">Add Event</button>
 
             <CustomCalendar OnDateSelected="@(date => OnDateChanged(DateTime.Parse(date.ToString())))" />
@@ -90,7 +89,7 @@
                         <strong>@ev.eventName</strong>
                         <p>@ev.eventDescription</p>
                         <button class="btn btnx btn-primary" @onclick="() => EditEventForm(ev)">Edit</button>
-                        <button class="btn btn-danger" @onclick="@(() => DeleteEventForm(ev))">Delete</button>
+                        <button class="btn btn-danger" @onclick="() => DeleteEventForm(ev)">Delete</button>
                     </li>
                 }
             </ul>
@@ -111,8 +110,6 @@
     public bool deleteEvent = false;
     private string? errorMessage = null;
     private string eventString = "All upcoming events";
-
-
     /*
     Code Attribution
     Title: How can I execute code when value of a variable changes in C#?
@@ -126,7 +123,7 @@
         get { return _selectedDate; }
         set
         {
-            if(_selectedDate != value)
+            if (_selectedDate != value)
             {
                 _selectedDate = value;
                 SortEvents();
@@ -143,22 +140,18 @@
     private void OnDateChanged(DateTime date)
     {
         selectedDate = date;
-        SortEvents();
-    }
-    private void OnDateChanged()
-    {
+        Console.WriteLine(selectedDate);
         SortEvents();
     }
 
     private void SortEvents()
     {
-        events = backupEvents.Where(ev => DateTime.Parse(ev.eventDate).Date == selectedDate.Date).ToList();
+        events = backupEvents.Where(ev => ev.eventDate == selectedDate.ToString("dd/MM/yyyy")).ToList();
         eventString = "Events on " + selectedDate.Date.ToString("dd/MM/yyyy");
     }
 
     private void ResetEvents(MouseEventArgs e)
     {
-        selectedDate = DateTime.Now;
         events = backupEvents;
         eventString = "All upcoming events";
     }
@@ -182,7 +175,7 @@
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(evName), "eventName");
         content.Add(new StringContent(evDescription), "eventDescription");
-        content.Add(new StringContent(selectedDate.ToString("dd/MM/yyyy")), "eventDate");
+        content.Add(new StringContent(selectedDate.ToString()), "eventDate");
         // Post report to external API
         var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/events/AddEvent", content);
         if (response.IsSuccessStatusCode)
@@ -196,14 +189,14 @@
             errorMessage = "Failed to submit report to API";
         }
     }
-    private void DeleteEventForm(Event ev)
-    {
-        currentEvent = ev;
-        deleteEvent = true;
-    }
     private void AddEventForm(MouseEventArgs e)
     {
         addEvent = true;
+    }
+    private void DeleteEventForm(Event ev)
+    {
+        deleteEvent = true;
+        currentEvent = ev;
     }
     private async Task DeleteEvent()
     {
@@ -255,7 +248,6 @@
     {
         editEvent = false;
         addEvent = false;
-        deleteEvent = false;
         StateHasChanged();
     }
 }
