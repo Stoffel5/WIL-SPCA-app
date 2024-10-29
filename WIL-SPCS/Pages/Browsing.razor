@@ -1,192 +1,96 @@
 ﻿@page "/browsing"
-<h3>Just  Browsing</h3>
-<PageTitle>Browsing</PageTitle>
-<div class="header">
-    <h3>Information</h3>
-</div>
-<div class="card-container">
-    <div class="card education-card">
-        <h4>Education Program</h4>
-        <p>Meow! Hello, lovely human! I'm here to purr-suade you to check out the SPCA's education program...</p>
-        <button class="view-btn" onclick="window.location.href='/education'">View</button>
-    </div>
-    <div class="card volunteers-card">
-        <h4>Volunteers</h4>
-        <p>The SPCA welcomes volunteers with open paws! They’re always looking for big-hearted humans...</p>
-        <button class="view-btn" onclick="window.location.href='/volunteer'">View</button>
-    </div>
-    <div class="card pbo-card">
-        <h4>We are A PBO</h4>
-        <p>Woof Woof hey there, did you know that the SPCA is a PBO (Public Benefit Organization)?...</p>
-        <button class="view-btn" onclick="window.location.href='/pbo'">View</button>
-    </div>
-    <div class="card pet-boarding-card">
-        <h4>Pet Boarding</h4>
-        <p>🐾 Heyy Heyy! The SPCA offers fantastic pet boarding services. They ensure pets are safe and loved...</p>
-        <button class="view-btn" onclick="window.location.href='/boarding'">View</button>
-    </div>
-    <div class="card adoption-card">
-        <h4>Adoption</h4>
-        <p>Hi there! Woof woof! If you're thinking about adding a furry friend to your family, consider adopting...</p>
-        <button class="view-btn" onclick="window.location.href='/gallery'">View</button>
-    </div>
-    <div class="card charity-shop-card">
-        <h4>Charity Shop</h4>
-        <p>The SPCA's charity store is stocked with pet goodies. Visit to find treats, toys, and more while supporting a cause...</p>
-        <button class="view-btn" onclick="window.location.href='/charityshop'">View</button>
-    </div>
-    <div class="card sponsors-card">
-        <h4>Sponsors and Donations</h4>
-        <p>The SPCA relies on donations to keep our tails wagging and purrs loud! Every bit of support counts...</p>
-        <button class="view-btn" onclick="window.location.href='/donations'">View</button>
-    </div>
-    <div class="card awareness-card">
-        <h4>Animal Welfare Awareness</h4>
-        <p>We strive to raise awareness about animal welfare and the importance of responsible pet ownership...</p>
-        <button class="view-btn" onclick="window.location.href='/awareness'">View</button>
-    </div>
-    <div class="card events-card">
-        <h4>Events</h4>
-        <p>Join us for our upcoming events to support animal welfare and have fun while making a difference...</p>
-        <button class="view-btn" onclick="window.location.href='/events'">View</button>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Just Browsing Page with Side Navigation">
+    <meta name="keywords" content="Dashboard, Gallery, Information">
+    <title>Just Browsing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            height: 100%;
+            overflow-x: hidden;
+        }
 
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-    }
+        .container {
+            padding: 20px;
+            margin-left: 200px;
+        }
+        .side-navbar {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #143963;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
 
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background-color: #143963;
-        color: white;
-    }
+            .side-navbar a {
+                padding: 15px 20px;
+                font-size: 1.1em;
+                color: white;
+                text-decoration: none;
+                transition: background 0.3s ease;
+            }
 
-    h3 {
-        font-size: 24px;
-        font-weight: bold;
-        margin: 0;
-    }
+                .side-navbar a:hover {
+                    background-color: #3e5f8c;
+                }
 
-    .scroll-container {
-        max-height: calc(100vh - 60px);
-        overflow-y: auto;
-    }
+        .nav-header {
+            padding: 15px;
+            font-size: 1.5em;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 1px solid #798DA3;
+            margin-bottom: 10px;
+        }
 
-    .card-container {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        padding: 20px;
-        box-sizing: border-box;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-
-    .card {
-        width: 100%;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-        background-color: #143963;
-        color: white;
-    }
-
-        .card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
-            background-color: #fff;
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
             color: #143963;
         }
 
-            .card:hover h4 {
-                color: #143963; /* Ensure the heading stays visible on hover */
+            .content h1 {
+                font-size: 2em;
+                color: #143963;
+                margin-bottom: 10px;
             }
 
-            .card:hover p {
-                color: #143963; /* Ensure the paragraph stays visible on hover */
+            .content p {
+                font-size: 1.1em;
+                line-height: 1.6;
             }
+    </style>
+</head>
+<body>
+    <div class="side-navbar">
+        <div class="nav-header">Navigation</div>
+        <a href="/bdashboard">Dashboard</a>
+        <a href="/bgallery">Gallery</a>
+        <a href="/Information">Information</a>
+    </div>
+    <div class="container">
+        <div class="content">
+            <h1>Just Browsing</h1>
+            <p>Welcome to the Just Browsing page! Here, you can explore various sections using the side navigation to view the Dashboard, Gallery, and Information pages. Feel free to click through the options on the left to learn more about each section.</p>
+            <p>This page is designed to give you a quick overview of our platform. Use the side navigation bar to navigate through the different sections available on our website.</p>
+        </div>
+    </div>
 
-    .education-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .volunteers-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .events-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .pbo-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .pet-boarding-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .adoption-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .awareness-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .charity-shop-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    .sponsors-card {
-        background-color: #143963;
-        color: #333;
-    }
-
-    h4 {
-        font-size: 20px;
-        margin-bottom: 10px;
-        color: white;
-    }
-
-    p {
-        font-size: 16px;
-        line-height: 1.6;
-        color: white;
-    }
-
-    .view-btn {
-        margin-top: 10px;
-        padding: 8px 15px;
-        background-color: #ffffff;
-        color: #143963;
-        border: none;
-        border-radius: 20px;
-        font-size: 1em;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-    }
-
-        .view-btn:hover {
-            background-color: #828387;
-            color: #ffffff;
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-        }
-
-</style>
+</body>
+</html>
