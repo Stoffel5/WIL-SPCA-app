@@ -40,7 +40,7 @@
 <div>
     <center><h3 style="color: #143963;">Gallery</h3></center>
     <center>
-        <input type="text" placeholder="dog,cat..." class="desktop-search-bar">
+        <input type="text" @oninput="search" placeholder="dog,cat..." class="desktop-search-bar">
         <button class="search-button">Search</button>
     </center>
 </div>
@@ -85,8 +85,9 @@
     <a href="/userReport" class="nav-link" aria-label="Navigate to UserReport"> <img src="images/report.png" alt="Report Icon" class="nav-icon"> </a>
 </div>
 
-    @code {
+@code {
     List<Pet> pets = new List<Pet>();
+    List<Pet> backupPets = new List<Pet>();
     protected override async Task OnInitializedAsync()
     {
         await GetPets();
@@ -101,6 +102,7 @@
         Usage: Used to make get request in blazer
         */
         pets = await Http.GetFromJsonAsync<List<Pet>>("https://spcaapi.azurewebsites.net/api/Animal/GetAnimals");
+        backupPets = pets;
     }
     public class Pet
     {
@@ -111,6 +113,19 @@
         public string weight { get; set; }
         public string adoptionStatus { get; set; }
         public string imageUrl { get; set; }
+    }
+    private void search(ChangeEventArgs e)
+    {
+        var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            pets = backupPets.Where(pet => pet.breed.ToLower().Contains(searchText)).ToList();
+        }
+        else
+        {
+            pets = new List<Pet>(backupPets);
+        }
+        StateHasChanged();
     }
 }
 
