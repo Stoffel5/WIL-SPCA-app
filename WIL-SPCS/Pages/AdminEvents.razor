@@ -51,9 +51,10 @@
                     <label for="eventdescription" class="bold-text">Event Description</label>
                     <input id="eventdescription" @bind="evDescription" class="form-control rounded-input" />
                 </div>
-
+                <div class="button-container">
                 <button type="submit" @onclick="EditEvent" class="btn btn-primary btn-submit">Edit</button>
                 <button type="submit" @onclick="Cancel" class="btn btn-danger btn-submit">Cancel</button>
+                </div>
             </div>
         </div>
     }
@@ -280,6 +281,11 @@
             background-color: #143963;
     }
 
+        .calendar-container button:hover {
+            background-color:white;
+                color: #143963;
+        }
+
     .date-picker {
         padding: 10px;
         border-radius: 5px;
@@ -377,12 +383,21 @@
         
     }
 
+    .event-item .button-container{
+            display: flex; /* Enable Flexbox for button container */
+            justify-content: center; /* Center buttons horizontally */
+            margin-top: 10px; /* Space between text and buttons */
+        
+    }
+
         .event-item button {         
-            background-color: white;
-            color: #143963;
+            background-color: #1A4D7A;
+            color: white;
             border-radius: 10px; /* Optional: Rounded corners */
             width:200px;
-            margin: auto;
+            margin: auto;            
+            flex-direction: row;
+            flex-wrap: wrap;
         }
         .event-item button:hover{
                 transform: scale(1.05);
