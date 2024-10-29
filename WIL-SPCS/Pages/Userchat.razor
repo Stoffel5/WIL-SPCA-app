@@ -1,5 +1,4 @@
-﻿
-@page "/userchat"
+﻿@page "/userchat"
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +14,7 @@
             font-family: 'Quicksand', sans-serif;
             margin: 0;
             padding: 0;
-            background: url('/images/background1.png') no-repeat center center fixed; 
+            background: url('/images/background123.png') no-repeat center center fixed; 
             background-size: cover;
             color: #FFFFFF;
             height: 100%;
@@ -27,15 +26,14 @@
             height: 100vh;
             max-width: 800px;
             margin: auto;
-            /* Gradient background */
-            background: linear-gradient(135deg, #4775A9, #ffffff); 
+            background: linear-gradient(135deg, #143963);
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .chat-header {
-            background: linear-gradient(135deg, #4775A9, #8C9096);
+            background: linear-gradient(135deg, #143963);
             padding: 15px;
             color: #FFFFFF;
             text-align: center;
@@ -72,12 +70,11 @@
             line-height: 1.4;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        /* Gradient for sent messages */
+        
         .message.sent .message-content {
-            background: linear-gradient(135deg, #D38312, #A83279); 
+            background: linear-gradient(135deg, #143963); 
             color: #FFFFFF;
         }
-        /* Gradient for received messages */
         .message.received .message-content {
             background: linear-gradient(135deg, #8e2de2, #4a00e0); 
             color: #FFFFFF;
@@ -303,20 +300,20 @@
 
         .side-navbar {
             height: 100%;
-            width: 60px; /* Default width for icons only */
+            width: 60px;
             position: fixed;
             top: 0;
             left: 0;
             background-color: #143963;
             overflow-x: hidden;
-            transition: width 0.3s ease; /* Smooth expansion */
+            transition: width 0.3s ease; 
             padding-top: 60px;
             z-index: 100;
             border-right: 2px solid #ffffff;
         }
 
             .side-navbar:hover {
-                width: 250px; /* Expanded width */
+                width: 250px; 
             }
 
         .nav-link {
@@ -342,20 +339,20 @@
         }
 
         .side-navbar:hover .nav-icon {
-            margin-right: 10px; /* Adjust spacing when expanded */
+            margin-right: 10px;
         }
 
         .nav-text {
-            display: none; /* Hide text by default */
+            display: none; 
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .side-navbar:hover .nav-text {
-            display: inline; /* Show text on hover */
+            display: inline; 
             opacity: 1;
         }
-        /* Arrow icon styling */
+        
         .arrow-icon {
             font-size: 16px;
             color: #ffffff;
@@ -379,7 +376,7 @@
             height: 60px;
             background-color: #143963;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-            display: none; /* Initially hidden */
+            display: none; 
             justify-content: space-around;
             align-items: center;
             z-index: 1000;
@@ -426,7 +423,6 @@
             Chat with Us
         </div>
         <div class="chat-messages">
-            <!-- dummy messages -->
             <div class="message received">
                 <div class="message-content">
                     Hello! How can we help you today at SPCA?
@@ -463,15 +459,5 @@
             <button>Send</button>
         </div>
     </div>
-
-    <script>
-        function openNav() {
-            document.getElementById("sideNavbar").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("sideNavbar").style.width = "0";
-        }
-    </script>
 </body>
 </html>
