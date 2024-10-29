@@ -9,30 +9,22 @@
 
 <a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
 
-@* <button class="open-nav-btn" onclick="openNav()">☰ </button>
-<!-- Side Navigation Bar -->
-<div id="sideNavbar" class="side-navbar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-    <a href="/adminmessages" class="nav-link">Messages</a>
-    <a href="/adminboardings" class="nav-link">Boardings</a>
-    <a href="/adminvolunteers" class="nav-link">Volunteers</a>
-    <a href="/admininventory" class="nav-link">Inventory</a>
-    <a href="/adminevents" class="nav-link">Events</a>
-</div> *@
-
-
 @if (AddPetHtml)
 {
     <div class="login-container">
         <div class="login-form">
             <h3 class="bold-text">Add Pet</h3>
             <div class="form-group">
-                <label for="breed" class="bold-text">Pet Type</label>
-                <input id="breed" @bind="addBreed" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
                 <label for="name" class="bold-text">Pet Name</label>
                 <input id="name" @bind="addName" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="addAnimalType" class="bold-text">Animal Type</label>
+                <input id="addAnimalType" @bind="addAnimalType" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="breed" class="bold-text">Breed</label>
+                <input id="breed" @bind="addBreed" class="form-control rounded-input" />
             </div>
             <div class="form-group">
                 <label for="health" class="bold-text">Pet Health</label>
@@ -51,8 +43,8 @@
                 <InputFile id="image" OnChange="HandleFileSelected" class="form-control rounded-input" />
             </div>
 
-            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button><br />
-            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -66,7 +58,11 @@
                 <input id="editname" @bind="editName" class="form-control rounded-input" />
             </div>
             <div class="form-group">
-                <label for="editbreed" class="bold-text">Pet Type</label>
+                <label for="editAnimalType" class="bold-text">Animal Type</label>
+                <input id="editAnimalType" @bind="editAnimalType" class="form-control rounded-input" />
+            </div>
+            <div class="form-group">
+                <label for="editbreed" class="bold-text">Breed</label>
                 <input id="editbreed" @bind="editBreed" class="form-control rounded-input" />
             </div>
             <div class="form-group">
@@ -87,7 +83,7 @@
             </div>
 
             <button type="submit" @onclick="EditPet" class="btn btn-primary rounded-button bold-text">Edit</button>
-            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -99,7 +95,7 @@
             <p><b>Are you sure you want to delete this pet?</b></p>
 
             <button type="submit" @onclick="DeletePet" class="btn btn-primary rounded-button bold-text">Delete</button>
-            <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
     </div>
 }
@@ -119,6 +115,7 @@
             <tr>
                 <th>Name</th>
                 <th>Animal Type</th>
+                <th>Breed</th>
                 <th>Health</th>
                 <th>Weight</th>
                 <th>Status</th>
@@ -129,6 +126,7 @@
             {
                 <tr>
                     <td>@pet.name</td>
+                    <td>@pet.AnimalType</td>
                     <td>@pet.breed</td>
                     <td>@pet.health</td>
                     <td>@pet.weight</td>
@@ -156,6 +154,7 @@
     string addHealth = string.Empty;
     string addWeight = string.Empty;
     string addAdoption = string.Empty;
+    string addAnimalType = string.Empty;
     string addImage = string.Empty;
 
     string editName = string.Empty;
@@ -163,6 +162,7 @@
     string editHealth = string.Empty;
     string editWeight = string.Empty;
     string editAdoption = string.Empty;
+    string editAnimalType = string.Empty;
 
     string petId = string.Empty;
     Pet editPet = new Pet();
@@ -220,6 +220,7 @@
         editBreed = pet.breed;
         editHealth = pet.health;
         editWeight = pet.weight;
+        editAnimalType = pet.AnimalType;
         editAdoption = pet.adoptionStatus;
         EditPetHtml = true;
         StateHasChanged();
@@ -259,6 +260,7 @@
             breed = addBreed,
             health = addHealth,
             weight = addWeight,
+            AnimalType = addAnimalType,
             adoptionStatus = addAdoption
         };
 
@@ -267,6 +269,7 @@
         content.Add(new StringContent(pet.name), "name");
         content.Add(new StringContent(pet.breed), "breed");
         content.Add(new StringContent(pet.health), "health");
+        content.Add(new StringContent(pet.AnimalType), "animalType");
         content.Add(new StringContent(pet.weight.ToString()), "weight");
         content.Add(new StringContent(pet.adoptionStatus), "adoptionStatus");
 
@@ -300,6 +303,7 @@
                 breed = editBreed,
                 health = editHealth,
                 weight = editWeight,
+                AnimalType = editAnimalType,
                 adoptionStatus = editAdoption
             };
         // make content for post request
@@ -307,6 +311,7 @@
         content.Add(new StringContent(pet.name), "name");
         content.Add(new StringContent(pet.breed), "breed");
         content.Add(new StringContent(pet.health), "health");
+        content.Add(new StringContent(pet.AnimalType), "animalType");
         content.Add(new StringContent(pet.weight.ToString()), "weight");
         content.Add(new StringContent(pet.adoptionStatus), "adoptionStatus");
 
@@ -362,6 +367,7 @@
     {
         AddPetHtml = false;
         EditPetHtml = false;
+        DeletePetHtml = false;
         StateHasChanged();
     }
     public class Pet
@@ -372,6 +378,7 @@
         public string health { get; set; }
         public string weight { get; set; }
         public string adoptionStatus { get; set; }
+        public string AnimalType { get; set; }
         public string imageUrl { get; set; }
     }
     private void search(ChangeEventArgs e)

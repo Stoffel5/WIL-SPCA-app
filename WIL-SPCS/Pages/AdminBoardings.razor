@@ -38,6 +38,7 @@
                 <input id="OwnerEmail" class="form-control rounded-input" @bind="ownerEmail" />
             </div>
             <button type="submit" @onclick="AddBoarding" class="btn btn-primary rounded-button bold-text">Add</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger btn-submit">Cancel</button>
         </div>
     </div>
 }
@@ -72,6 +73,7 @@
                 <input id="EditOwnerEmail" class="form-control rounded-input" @bind="editOwnerEmail" />
             </div>
             <button type="submit" @onclick="EditBoarding" class="btn btn-primary rounded-button bold-text">Edit</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger btn-submit">Cancel</button>
         </div>
     </div>
 }
@@ -83,6 +85,7 @@
             <h3 class="bold-text">Delete Boarding</h3>
             <p><b>Are you sure you want to delete this Boarding?</b></p>
             <button type="submit" @onclick="DeleteBoarding" class="btn btn-primary rounded-button bold-text">Delete</button>
+            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger btn-submit">Cancel</button>
         </div>
     </div>
 }
@@ -244,6 +247,15 @@
         EditBoardingHtml = false;
         StateHasChanged();
     }
+
+    private void Cancel(MouseEventArgs e)
+    {
+        AddBoardingHtml = false;
+        EditBoardingHtml = false;
+        DeleteBoardingHtml = false;
+        StateHasChanged();
+    }
+
     private async Task DeleteBoarding(MouseEventArgs e)
     {
         var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Boarding/" + currentBoardingRequest.requestId);

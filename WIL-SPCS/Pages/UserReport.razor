@@ -6,14 +6,38 @@
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
 
-<button class="open-btn" onclick="openNav()">☰</button>
 <div id="sideNavbar" class="side-navbar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-    <a href="/information" class="nav-link" aria-label="Navigate to Information">Information</a>
-    <a href="/profile" class="nav-link" aria-label="Navigate to Profile">Profile</a>
-    <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">Gallery</a>
-    <a href="/events" class="nav-link" aria-label="Navigate to Events">Events</a>
-    <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">Chat with Us</a>
+
+    <div id="arrow" class="arrow-icon">►</div>
+
+    <a href="/information" class="nav-link" aria-label="Navigate to Information">
+        <img src="images/communication.png" alt="Information Icon" class="nav-icon">
+        <span class="nav-text">Information</span>
+    </a>
+    <a href="/profile" class="nav-link" aria-label="Navigate to Profile">
+        <img src="images/user.png" alt="Profile Icon" class="nav-icon">
+        <span class="nav-text">Profile</span>
+    </a>
+    <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">
+        <img src="images/gallery.png" alt="Gallery Icon" class="nav-icon">
+        <span class="nav-text">Gallery</span>
+    </a>
+    <a href="/events" class="nav-link" aria-label="Navigate to Events">
+        <img src="images/calendar.png" alt="Events Icon" class="nav-icon">
+        <span class="nav-text">Events</span>
+    </a>
+    <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">
+        <img src="images/message.png" alt="Chat Icon" class="nav-icon">
+        <span class="nav-text">Chat with Us</span>
+    </a>
+    <a href="/Welcome" class="nav-link" aria-label="Navigate to Home">
+        <img src="images/home.png" alt="Home Icon" class="nav-icon">
+        <span class="nav-text">Home</span>
+    </a>
+    <a href="/userReport" class="nav-link" aria-label="Navigate to UserReport">
+        <img src="images/report.png" alt="Report Icon" class="nav-icon">
+        <span class="nav-text">Report</span>
+    </a>
 </div>
 
 <div class="report-container">
@@ -104,6 +128,16 @@
             <p>No reports submitted yet.</p>
         }
     </div>
+</div>
+
+<div class="bottom-nav">
+    <a href="/information" class="nav-item" aria-label="Information"<img src="images/communication.png" alt="Information" class="nav-icon"></a>
+    <a href="/profile" class="nav-item" aria-label="Profile"> <img src="images/user.png" alt="Profile" class="nav-icon"></a>
+    <a href="/gallery" class="nav-item" aria-label="Gallery"<img src="images/gallery.png" alt="Gallery" class="nav-icon"></a>
+    <a href="/events" class="nav-item" aria-label="Events"<img src="images/calendar.png" alt="Events" class="nav-icon"></a>
+    <a href="/userchat" class="nav-item" aria-label="Chat with Us"> <img src="images/message.png" alt="Chat" class="nav-icon"> </a>
+    <a href="/Welcome" class="nav-link" aria-label="Navigate to Home"><img src="images/home.png" alt="Home Icon" class="nav-icon"> </a>
+    <a href="/userReport" class="nav-link" aria-label="Navigate to UserReport"> <img src="images/report.png" alt="Report Icon" class="nav-icon"> </a>
 </div>
 
 @using Google.Cloud.Firestore
@@ -318,61 +352,121 @@
             border-color: #0e2a4c;
         }
 
-    /* Side Navbar */
     .side-navbar {
         height: 100%;
-        width: 0;
+        width: 60px; 
         position: fixed;
         top: 0;
         left: 0;
         background-color: #143963;
         overflow-x: hidden;
-        transition: 0.5s;
+        transition: width 0.3s ease; 
         padding-top: 60px;
         z-index: 100;
         border-right: 2px solid #ffffff;
     }
 
-        .side-navbar .nav-link {
-            padding: 15px 20px;
-            font-size: 1.2em;
-            color: #e0f7fa;
-            display: block;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
+        .side-navbar:hover {
+            width: 250px; 
         }
 
-            .side-navbar .nav-link:hover {
-                background-color: #4775A9;
-                color: #ffffff;
-                box-shadow: 0 0 10px #ffffff;
-            }
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        font-size: 1.2em;
+        color: #e0f7fa;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
 
-        .side-navbar .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            font-size: 30px;
+        .nav-link:hover {
+            background-color: #4775A9;
             color: #ffffff;
         }
 
-    .open-btn {
-        font-size: 24px;
-        cursor: pointer;
-        background-color: #143963;
-        color: #ffffff;
-        border: none;
-        padding: 15px 25px;
-        border-radius: 25px;
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 101;
-        transition: background-color 0.3s ease;
+    .nav-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 15px;
+        transition: margin-right 0.3s ease;
     }
 
-        .open-btn:hover {
-            background-color: #0d2a4a;
+    .side-navbar:hover .nav-icon {
+        margin-right: 10px; 
+    }
+
+    .nav-text {
+        display: none; 
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .side-navbar:hover .nav-text {
+        display: inline; 
+        opacity: 1;
+    }
+    
+    .arrow-icon {
+        font-size: 16px;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 10px;
+        display: block;
+        transform: rotate(0deg);
+        transition: opacity 0.3s ease;
+    }
+
+    .side-navbar:hover .arrow-icon {
+        opacity: 0;
+    }
+
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #143963;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        display: none; 
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .nav-item {
+        flex: 1;
+        text-align: center;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        padding: 5px;
+    }
+
+        .nav-item:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.1);
+            border-radius: 10px;
         }
+    
+    @@media screen and (max-width: 768px) {
+        .side-navbar {
+            display: none; 
+        }
+
+        .main-content {
+            margin-left: 0; 
+        }
+
+        .bottom-nav {
+            display: flex; 
+        }
+    }
+
+    @@media screen and (min-width: 769px) {
+        .bottom-nav {
+            display: none;
+        }
+    }
 
 </style>

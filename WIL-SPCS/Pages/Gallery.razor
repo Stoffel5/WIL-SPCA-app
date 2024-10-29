@@ -7,6 +7,9 @@
 
 
 <div id="sideNavbar" class="side-navbar">
+
+    <div id="arrow" class="arrow-icon">►</div>
+
     <a href="/information" class="nav-link" aria-label="Navigate to Information">
         <img src="images/communication.png" alt="Information Icon" class="nav-icon">
         <span class="nav-text">Information</span>
@@ -112,6 +115,7 @@
         public string health { get; set; }
         public string weight { get; set; }
         public string adoptionStatus { get; set; }
+        public string animalType { get; set; }
         public string imageUrl { get; set; }
     }
     private void search(ChangeEventArgs e)
@@ -119,7 +123,7 @@
         var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
         if (!string.IsNullOrEmpty(searchText))
         {
-            pets = backupPets.Where(pet => pet.breed.ToLower().Contains(searchText)).ToList();
+            pets = backupPets.Where(pet => pet.animalType.ToLower().Contains(searchText)).ToList();
         }
         else
         {
@@ -248,6 +252,21 @@
             background-color: #fff;
             color: #143963;
         }
+
+    /* Arrow icon styling */
+    .arrow-icon {
+        font-size: 16px;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 10px;
+        display: block;
+        transform: rotate(0deg);
+        transition: opacity 0.3s ease;
+    }
+
+    .side-navbar:hover .arrow-icon {
+        opacity: 0;
+    }
 
     .bottom-nav {
         position: fixed;
