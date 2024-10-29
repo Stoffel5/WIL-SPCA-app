@@ -105,7 +105,7 @@
 
     private void SortEvents()
     {
-        events = backupEvents.Where(ev => DateTime.Parse(ev.eventDate).Date == selectedDate.Date).ToList();
+        events = backupEvents.Where(ev => ev.eventDate == selectedDate.ToString("dd/MM/yyyy")).ToList();
         eventString = "Events on " + selectedDate.Date.ToString("dd/MM/yyyy");
     }
 
