@@ -3,6 +3,7 @@
 @inject NavigationManager Navigation
 @using System.ComponentModel.DataAnnotations
 @inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 <PageTitle>Boarding Management</PageTitle>
 
@@ -159,6 +160,7 @@
     DateOnly editStartDate = DateOnly.FromDateTime(DateTime.Today);
     DateOnly editEndDate = DateOnly.FromDateTime(DateTime.Today);
     private string? errorMessage = null;
+    string userType;
 
     private List<BoardingRequest> boardingRequests = new List<BoardingRequest>();
     private List<BoardingRequest> searchRequests = new List<BoardingRequest>();
@@ -166,6 +168,15 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var userType = await LocalStorage.GetItemAsync<string>("userType");
+        if (userType == "User")
+        {
+            Navigation.NavigateTo("/");
+        }
+        else if (userType != "Admin")
+        {
+            Navigation.NavigateTo("/");
+        }
         await LoadEvents();
     }
 
