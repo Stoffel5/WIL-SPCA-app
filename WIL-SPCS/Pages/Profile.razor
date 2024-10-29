@@ -5,12 +5,50 @@
 @using System.ComponentModel.DataAnnotations
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+
+    <div id="sideNavbar" class="side-navbar">
+
+        <div id="arrow" class="arrow-icon">►</div>
+
+        <a href="/information" class="nav-link" aria-label="Navigate to Information">
+            <img src="images/info2.png" alt="Information Icon" class="nav-icon">
+            <span class="nav-text">Information</span>
+        </a>
+        <a href="/profile" class="nav-link" aria-label="Navigate to Profile">
+            <img src="images/profile2.png" alt="Profile Icon" class="nav-icon">
+            <span class="nav-text">Profile</span>
+        </a>
+        <a href="/gallery" class="nav-link" aria-label="Navigate to Gallery">
+            <img src="images/gallery2.png" alt="Gallery Icon" class="nav-icon">
+            <span class="nav-text">Gallery</span>
+        </a>
+        <a href="/events" class="nav-link" aria-label="Navigate to Events">
+            <img src="images/calender2.png" alt="Events Icon" class="nav-icon">
+            <span class="nav-text">Events</span>
+        </a>
+        <a href="/userchat" class="nav-link" aria-label="Navigate to Chat Page">
+            <img src="images/chat2.png" alt="Chat Icon" class="nav-icon">
+            <span class="nav-text">Chat with Us</span>
+        </a>
+        <a href="/Welcome" class="nav-link" aria-label="Navigate to Home">
+            <img src="images/home2.png" alt="Home Icon" class="nav-icon">
+            <span class="nav-text">Home</span>
+        </a>
+        <a href="/userReport" class="nav-link" aria-label="Navigate to UserReport">
+            <img src="images/report2.png" alt="Report Icon" class="nav-icon">
+            <span class="nav-text">Report</span>
+        </a>
+    </div>
+
     <style>
         * {
             margin: 0;
@@ -124,6 +162,124 @@
             background-color: #eaeaea;
             cursor: not-allowed;
         }
+
+        .side-navbar {
+            height: 100%;
+            width: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #143963;
+            overflow-x: hidden;
+            transition: width 0.3s ease;
+            padding-top: 60px;
+            z-index: 100;
+            border-right: 2px solid #ffffff;
+        }
+
+            .side-navbar:hover {
+                width: 250px;
+            }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            color: #e0f7fa;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+            .nav-link:hover {
+                background-color: #4775A9;
+                color: #ffffff;
+            }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            transition: margin-right 0.3s ease;
+        }
+
+        .arrow-icon {
+            font-size: 16px;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 10px;
+            display: block;
+            transform: rotate(0deg);
+            transition: opacity 0.3s ease;
+        }
+
+        .side-navbar:hover .arrow-icon {
+            opacity: 0;
+        }
+
+        .side-navbar:hover .nav-icon {
+            margin-right: 10px;
+        }
+
+        .nav-text {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .side-navbar:hover .nav-text {
+            display: inline;
+            opacity: 1;
+        }
+
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #143963;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            display: none;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            padding: 5px;
+        }
+
+            .nav-item:hover {
+                background-color: #f0f0f0;
+                transform: scale(1.1);
+                border-radius: 10px;
+            }
+
+        @@media screen and (max-width: 768px) {
+            .side-navbar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .bottom-nav {
+                display: flex;
+            }
+        }
+
+        @@media screen and (min-width: 769px) {
+            .bottom-nav {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -178,6 +334,15 @@
         </form>
     </div>
 
+    <div class="bottom-nav">
+        <a href="/information" class="nav-item" aria-label="Information"<img src="images/info2.png" alt="Information" class="nav-icon"></a>
+        <a href="/profile" class="nav-item" aria-label="Profile"> <img src="images/profile2.png" alt="Profile" class="nav-icon"></a>
+        <a href="/gallery" class="nav-item" aria-label="Gallery"<img src="images/gallery2.png" alt="Gallery" class="nav-icon"></a>
+        <a href="/events" class="nav-item" aria-label="Events"<img src="images/calender2.png" alt="Events" class="nav-icon"></a>
+        <a href="/userchat" class="nav-item" aria-label="Chat with Us"> <img src="images/chat2.png" alt="Chat" class="nav-icon"> </a>
+        <a href="/Welcome" class="nav-link" aria-label="Navigate to Home"><img src="images/home2.png" alt="Home Icon" class="nav-icon"> </a>
+        <a href="/userReport" class="nav-link" aria-label="Navigate to UserReport"> <img src="images/report2.png" alt="Report Icon" class="nav-icon"> </a>
+    </div>
 </body>
 @code{
     public class User
