@@ -1,5 +1,8 @@
 ﻿@page "/profile"
 
+@inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
 <h3 class="profile-header">Profile</h3>
 
 <div class="profile-container">
@@ -86,8 +89,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        userName = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userName");
-        userEmail = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userEmail");
+        userEmail = await LocalStorage.GetItemAsync<string>("email");
     }
 
     private void EditProfile()

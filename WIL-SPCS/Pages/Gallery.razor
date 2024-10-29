@@ -52,31 +52,19 @@
 <div class="gallery">
     @foreach(var pet in pets)
     {
-        <div class="gallery-item">
-            <img src="@pet.imageUrl" alt="@pet.name">
-        </div>
+        @if (pet.imageUrl.Contains("jpg"))
+        {
+            <div class="gallery-item">
+                <img src="@pet.imageUrl" alt="@pet.name">
+            </div>
+        }
+        else if (pet.imageUrl.Contains(".mp4"))
+        {
+            <div class="gallery-item">
+                <video src="@pet.imageUrl" controls></video>
+            </div>
+        }
     }
-    <div class="gallery-item">
-        <video src="/videos/catvid1.mp4" controls></video>
-    </div>
-    <div class="gallery-item">
-        <video src="/videos/catvid2.mp4" controls></video>
-    </div>
-    <div class="gallery-item">
-        <video src="/videos/doggvid1.mp4" controls></video>
-    </div>
-    <div class="gallery-item">
-        <video src="/videos/doggvid2.mp4" controls></video>
-    </div>
-    <div class="gallery-item">
-        <video src="/videos/doggvid3.mp4" controls></video>
-    </div>
-    <div class="gallery-item">
-        <video src="/videos/dogvid1.mp4" controls></video>
-    </div>
-    <div class="gallery-item">
-        <video src="/videos/dogvid2.mp4" controls></video>
-    </div>
 </div>
 <div class="bottom-nav">
     <a href="/information" class="nav-item" aria-label="Information"<img src="images/communication.png" alt="Information" class="nav-icon"></a>

@@ -11,81 +11,102 @@
 
 @if (AddPetHtml)
 {
-    <div class="login-container">
-        <div class="login-form">
-            <h3 class="bold-text">Add Pet</h3>
-            <div class="form-group">
-                <label for="name" class="bold-text">Pet Name</label>
-                <input id="name" @bind="addName" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="addAnimalType" class="bold-text">Animal Type</label>
-                <input id="addAnimalType" @bind="addAnimalType" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="breed" class="bold-text">Breed</label>
-                <input id="breed" @bind="addBreed" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="health" class="bold-text">Pet Health</label>
-                <input id="health" @bind="addHealth" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="weight" class="bold-text">Pet Weight</label>
-                <input id="weight" @bind="addWeight" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="status" class="bold-text">Pet Adpotion Status</label>
-                <input id="status" @bind="addAdoption" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="image" class="bold-text">Image</label>
-                <InputFile id="image" OnChange="HandleFileSelected" class="form-control rounded-input" />
-            </div>
+    <EditForm Model="addPet" OnValidSubmit="AddPet">
+        <DataAnnotationsValidator />
 
-            <button type="submit" @onclick="AddPet" class="btn btn-primary rounded-button bold-text">Add</button>
-            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
+        <div class="form-container">
+            <div class="form-card">
+                <h3 class="form-title">Add Pet</h3>
+                <div class="form-group">
+                    <label for="name" class="bold-text">Pet Name</label>
+                    <InputText id="name" @bind-Value="editPet.name" class="form-input" />
+                    <ValidationMessage For="@(() => editPet.name)" />
+                </div>
+                <div class="form-group">
+                    <label for="addAnimalType" class="bold-text">Animal Type</label>
+                    <InputText id="addAnimalType" @bind-Value="editPet.AnimalType" class="form-input" />
+                    <ValidationMessage For="@(() => editPet.AnimalType)" />
+                </div>
+                <div class="form-group">
+                    <label for="breed" class="bold-text">Breed</label>
+                    <InputText id="breed" @bind-Value="editPet.breed" class="form-input" />
+                    <ValidationMessage For="@(() => editPet.breed)" />
+                </div>
+                <div class="form-group">
+                    <label for="health" class="bold-text">Pet Health</label>
+                    <InputText id="health" @bind-Value="editPet.health" class="form-input" />
+                    <ValidationMessage For="@(() => editPet.health)" />
+                </div>
+                <div class="form-group">
+                    <label for="weight" class="bold-text">Pet Weight</label>
+                    <InputText id="weight" @bind-Value="editPet.weight" class="form-input" />
+                    <ValidationMessage For="@(() => editPet.weight)" />
+                </div>
+                <div class="form-group">
+                    <label for="status" class="bold-text">Pet Adoption Status</label>
+                    <InputText id="status" @bind-Value="editPet.adoptionStatus" class="form-input" />
+                    <ValidationMessage For="@(() => editPet.adoptionStatus)" />
+                </div>
+                <div class="form-group">
+                    <label for="image" class="bold-text">Image</label>
+                    <InputFile id="image" OnChange="HandleFileSelected" class="form-input" />
+                    <span style="color: red;">@addError</span>
+                </div>
+                <button type="submit" class="btn btn-primary rounded-button bold-text">Add</button>
+                <button type="button" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
+            </div>
         </div>
-    </div>
+    </EditForm>
 }
+
 @if (EditPetHtml && !AddPetHtml)
 {
-    <div class="login-container">
-        <div class="login-form">
-            <h3 class="bold-text">Edit Pet</h3>
-            <div class="form-group">
-                <label for="editname" class="bold-text">Pet Name</label>
-                <input id="editname" @bind="editName" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editAnimalType" class="bold-text">Animal Type</label>
-                <input id="editAnimalType" @bind="editAnimalType" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editbreed" class="bold-text">Breed</label>
-                <input id="editbreed" @bind="editBreed" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="edithealth" class="bold-text">Pet Health</label>
-                <input id="edithealth" @bind="editHealth" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editweight" class="bold-text">Pet Weight</label>
-                <input id="editweight" @bind="editWeight" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="editstatus" class="bold-text">Pet Adpotion Status</label>
-                <input id="editStatus" @bind="editAdoption" class="form-control rounded-input" />
-            </div>
-            <div class="form-group">
-                <label for="image" class="bold-text">Image</label>
-                <InputFile id="image" OnChange="HandleFileSelected" class="form-control rounded-input" />
-            </div>
+    <EditForm Model="editPet" OnValidSubmit="EditPet">
+        <DataAnnotationsValidator />
+        <div class="form-container">
+            <div class="form-card">
+                <h3 class="form-title">Edit Pet</h3>
+                <div class="form-group">
+                    <label for="editname" class="bold-text">Pet Name</label>
+                    <InputText id="editname" @bind-Value="editPet.name" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.name)" />
+                </div>
+                <div class="form-group">
+                    <label for="editAnimalType" class="bold-text">Animal Type</label>
+                    <InputText id="editAnimalType" @bind-Value="editPet.AnimalType" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.AnimalType)" />
+                </div>
+                <div class="form-group">
+                    <label for="editbreed" class="bold-text">Breed</label>
+                    <InputText id="editbreed" @bind-Value="editPet.breed" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.breed)" />
+                </div>
+                <div class="form-group">
+                    <label for="edithealth" class="bold-text">Pet Health</label>
+                    <InputText id="edithealth" @bind-Value="editPet.health" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.health)" />
+                </div>
+                <div class="form-group">
+                    <label for="editweight" class="bold-text">Pet Weight</label>
+                    <InputText id="editweight" @bind-Value="editPet.weight" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.weight)" />
+                </div>
+                <div class="form-group">
+                    <label for="editstatus" class="bold-text">Pet Adoption Status</label>
+                    <InputText id="editStatus" @bind-Value="editPet.adoptionStatus" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.adoptionStatus)" />
+                </div>
+                <div class="form-group">
+                    <label for="image" class="bold-text">Image</label>
+                    <InputFile id="image" OnChange="HandleFileSelected" class="form-control rounded-input" />
+                    <span style="color: red;">@addError</span>
+                </div>
 
-            <button type="submit" @onclick="EditPet" class="btn btn-primary rounded-button bold-text">Edit</button>
-            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
+                <button type="submit" class="btn btnx btn-primary rounded-button bold-text">Edit</button>
+                <button type="button" @onclick="Cancel" class="btn btn-danger rounded-button bold-text">Cancel</button>
+            </div>
         </div>
-    </div>
+    </EditForm>
 }
 @if (DeletePetHtml && !AddPetHtml)
 {
@@ -145,24 +166,36 @@
 }
 
 @code {
+    public class Pet
+    {
+        public string petId { get; set; }
+
+        [Required(ErrorMessage = "Pet name is required.")]
+        public string name { get; set; }
+
+        [Required(ErrorMessage = "Breed is required.")]
+        public string breed { get; set; }
+
+        [Required(ErrorMessage = "Health information is required.")]
+        public string health { get; set; }
+
+        [Required(ErrorMessage = "Weight is required.")]
+        public string weight { get; set; }
+
+        [Required(ErrorMessage = "Adoption status is required.")]
+        public string adoptionStatus { get; set; }
+
+        [Required(ErrorMessage = "Animal type is required.")]
+        public string AnimalType { get; set; }
+
+        public string imageUrl { get; set; }
+    }
     bool AddPetHtml = false;
     bool EditPetHtml = false;
     bool DeletePetHtml = false;
 
-    string addBreed = string.Empty;
-    string addName = string.Empty;
-    string addHealth = string.Empty;
-    string addWeight = string.Empty;
-    string addAdoption = string.Empty;
-    string addAnimalType = string.Empty;
-    string addImage = string.Empty;
-
-    string editName = string.Empty;
-    string editBreed = string.Empty;
-    string editHealth = string.Empty;
-    string editWeight = string.Empty;
-    string editAdoption = string.Empty;
-    string editAnimalType = string.Empty;
+    string addError = string.Empty;
+    Pet addPet = new Pet();
 
     string petId = string.Empty;
     Pet editPet = new Pet();
@@ -179,12 +212,26 @@
     */
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
-        selectedFile = e.File;
-
-        using (var stream = selectedFile.OpenReadStream(5 * 1024 * 1024)) 
+        if(e.File == null)
         {
-            var buffer = new byte[selectedFile.Size];
-            await stream.ReadAsync(buffer, 0, (int)selectedFile.Size);
+            addError = "Image/Video Required";
+        }
+        else
+        {
+            selectedFile = e.File;
+            if (selectedFile.Size > 5 * 1024 * 1024)
+            {
+                addError = "File to large";
+            }
+            else
+            {
+                addError = string.Empty;
+                using (var stream = selectedFile.OpenReadStream(5 * 1024 * 1024))
+                {
+                    var buffer = new byte[selectedFile.Size];
+                    await stream.ReadAsync(buffer, 0, (int)selectedFile.Size);
+                }
+            }
         }
     }
 
@@ -215,13 +262,6 @@
     private void EditPetForm(Pet pet)
     {
         editPet = pet;
-        editName = pet.name;
-        editWeight = pet.weight;
-        editBreed = pet.breed;
-        editHealth = pet.health;
-        editWeight = pet.weight;
-        editAnimalType = pet.AnimalType;
-        editAdoption = pet.adoptionStatus;
         EditPetHtml = true;
         StateHasChanged();
     }
@@ -236,7 +276,7 @@
     {
         Navigation.NavigateTo("/welcome");
     }
-    private async Task AddPet(MouseEventArgs e)
+    private async Task AddPet()
     {
 
         /*
@@ -253,67 +293,53 @@
         Link: https://brokul.dev/sending-files-and-additional-data-using-httpclient-in-net-core
         Usage: Used to make post request in blazer with files
         */
-        var pet = new Pet
-        {
-            petId = "",
-            name = addName,
-            breed = addBreed,
-            health = addHealth,
-            weight = addWeight,
-            AnimalType = addAnimalType,
-            adoptionStatus = addAdoption
-        };
 
         // make content for post request
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent(pet.name), "name");
-        content.Add(new StringContent(pet.breed), "breed");
-        content.Add(new StringContent(pet.health), "health");
-        content.Add(new StringContent(pet.AnimalType), "animalType");
-        content.Add(new StringContent(pet.weight.ToString()), "weight");
-        content.Add(new StringContent(pet.adoptionStatus), "adoptionStatus");
+        content.Add(new StringContent(addPet.name), "name");
+        content.Add(new StringContent(addPet.breed), "breed");
+        content.Add(new StringContent(addPet.health), "health");
+        content.Add(new StringContent(addPet.AnimalType), "animalType");
+        content.Add(new StringContent(addPet.weight.ToString()), "weight");
+        content.Add(new StringContent(addPet.adoptionStatus), "adoptionStatus");
 
-        // add file to request
-        if (selectedFile != null)
-        {
-            var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
-            content.Add(streamContent, "image", selectedFile.Name);
-        }
 
-        // make request
-        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Animal", content);
+        if (addError == string.Empty)
+        {
+            // add file to request
+            if (selectedFile != null)
+            {
+                var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
+                content.Add(streamContent, "image", selectedFile.Name);// make request
+                var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Animal", content);
 
-        // if/else get reponse
-        if (response.IsSuccessStatusCode)
-        {
-            Navigation.NavigateTo("/AdminInventory", true);
-            StateHasChanged();
-        }
-        else
-        {
-            Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
+                // if/else get reponse
+                if (response.IsSuccessStatusCode)
+                {
+                    Navigation.NavigateTo("/AdminInventory", true);
+                    StateHasChanged();
+                }
+                else
+                {
+                    Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
+                }
+            }
+            else
+            {
+                addError = "Image/Video Required";
+            }
         }
     }
-    private async Task EditPet(MouseEventArgs e)
+    private async Task EditPet()
     {
-        var pet = new Pet
-            {
-                petId = editPet.petId,
-                name = editName,
-                breed = editBreed,
-                health = editHealth,
-                weight = editWeight,
-                AnimalType = editAnimalType,
-                adoptionStatus = editAdoption
-            };
         // make content for post request
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent(pet.name), "name");
-        content.Add(new StringContent(pet.breed), "breed");
-        content.Add(new StringContent(pet.health), "health");
-        content.Add(new StringContent(pet.AnimalType), "animalType");
-        content.Add(new StringContent(pet.weight.ToString()), "weight");
-        content.Add(new StringContent(pet.adoptionStatus), "adoptionStatus");
+        content.Add(new StringContent(editPet.name), "name");
+        content.Add(new StringContent(editPet.breed), "breed");
+        content.Add(new StringContent(editPet.health), "health");
+        content.Add(new StringContent(editPet.AnimalType), "animalType");
+        content.Add(new StringContent(editPet.weight.ToString()), "weight");
+        content.Add(new StringContent(editPet.adoptionStatus), "adoptionStatus");
 
         // add file to request
         if (selectedFile != null)
@@ -370,17 +396,6 @@
         DeletePetHtml = false;
         StateHasChanged();
     }
-    public class Pet
-    {
-        public string petId { get; set; }
-        public string name { get; set; }
-        public string breed { get; set; }
-        public string health { get; set; }
-        public string weight { get; set; }
-        public string adoptionStatus { get; set; }
-        public string AnimalType { get; set; }
-        public string imageUrl { get; set; }
-    }
     private void search(ChangeEventArgs e)
     {
         var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
@@ -422,6 +437,42 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .form-card {
+        background: #ffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+    }
+
+    .form-title {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    .form-label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+    }
     .tbl-pets {
         padding: 0 16px;
     }

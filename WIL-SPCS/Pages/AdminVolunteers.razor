@@ -9,64 +9,80 @@
 
 @if (AddVolunteerHtml)
 {
-    <div class="form-container">
-        <div class="form-card">
-            <h3 class="form-title">Add Volunteer</h3>
-            <div class="form-group">
-                <label for="name" class="form-label">Name</label>
-                <input id="name" @bind="addName" class="form-input" />
+    <EditForm Model="addVolunteer" OnValidSubmit="AddVolunteer">
+        <DataAnnotationsValidator />
+
+        <div class="form-container">
+            <div class="form-card">
+                <h3 class="form-title">Add Volunteer</h3>
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <InputText id="name" @bind-Value="addVolunteer.Name" class="form-input" />
+                    <ValidationMessage For="@(() => addVolunteer.Name)" />
+                </div>
+                <div class="form-group">
+                    <label for="surname" class="form-label">Surname</label>
+                    <InputText id="surname" @bind-Value="addVolunteer.Surname" class="form-input" />
+                    <ValidationMessage For="@(() => addVolunteer.Surname)" />
+                </div>
+                <div class="form-group">
+                    <label for="VolunteerDate" class="form-label">Volunteer Date</label>
+                    <InputDate id="VolunteerDate" @bind-Value="addVolunteer.Date" class="form-input" />
+                    <ValidationMessage For="@(() => addVolunteer.Date)" />
+                </div>
+                <div class="form-group">
+                    <label for="PhoneNumber" class="form-label">Phone Number</label>
+                    <InputText id="PhoneNumber" @bind-Value="addVolunteer.PhoneNumber" class="form-input" />
+                    <ValidationMessage For="@(() => addVolunteer.PhoneNumber)" />
+                </div>
+                <div class="form-group">
+                    <label for="Email" class="form-label">Email</label>
+                    <InputText id="Email" @bind-Value="addVolunteer.Email" type="email" class="form-input" />
+                    <ValidationMessage For="@(() => addVolunteer.Email)" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-submit">Add</button>
+                <button type="button" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
             </div>
-            <div class="form-group">
-                <label for="surname" class="form-label">Surname</label>
-                <input id="surname" @bind="addSurname" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="VolunteerDate" class="form-label">Volunteer Date</label>
-                <input id="VolunteerDate" @bind="addVolunteerDate" type="date" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="PhoneNumber" class="form-label">Phone Number</label>
-                <input id="PhoneNumber" @bind="addPhoneNumber" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="Email" class="form-label">Email</label>
-                <input id="Email" @bind="addEmail" type="email" class="form-input" />
-            </div>
-            <button type="submit" @onclick="AddVolunteer" class="btn btn-primary btn-submit">Add</button>
-            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
-    </div>
+    </EditForm>
 }
 
 @if (EditVolunteerHtml && !AddVolunteerHtml)
 {
-    <div class="form-container">
-        <div class="form-card">
-            <h3 class="form-title">Edit Volunteer</h3>
-            <div class="form-group">
-                <label for="name" class="form-label">Name</label>
-                <input id="name" @bind="editName" class="form-input" />
+    <EditForm Model="editVolunteer" OnValidSubmit="EditVolunteer">
+        <div class="form-container">
+            <div class="form-card">
+                <h3 class="form-title">Edit Volunteer</h3>
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <InputText id="name" @bind-Value="editVolunteer.Name" class="form-input" />
+                    <ValidationMessage For="@(() => editVolunteer.Name)" />
+                </div>
+                <div class="form-group">
+                    <label for="surname" class="form-label">Surname</label>
+                    <InputText id="surname" @bind-Value="editVolunteer.Surname" class="form-input" />
+                    <ValidationMessage For="@(() => editVolunteer.Surname)" />
+                </div>
+                <div class="form-group">
+                    <label for="VolunteerDate" class="form-label">Volunteer Date</label>
+                    <InputDate id="VolunteerDate" @bind-Value="editVolunteer.Date" class="form-input" />
+                    <ValidationMessage For="@(() => editVolunteer.Date)" />
+                </div>
+                <div class="form-group">
+                    <label for="PhoneNumber" class="form-label">Phone Number</label>
+                    <InputText id="PhoneNumber" @bind-Value="editVolunteer.PhoneNumber" class="form-input" />
+                    <ValidationMessage For="@(() => editVolunteer.PhoneNumber)" />
+                </div>
+                <div class="form-group">
+                    <label for="Email" class="form-label">Email</label>
+                    <InputText id="Email" @bind-Value="editVolunteer.Email" type="email" class="form-input" />
+                    <ValidationMessage For="@(() => editVolunteer.Email)" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-submit">Edit</button>
+                <button type="button" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
             </div>
-            <div class="form-group">
-                <label for="surname" class="form-label">Surname</label>
-                <input id="surname" @bind="editSurname" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="VolunteerDate" class="form-label">Volunteer Date</label>
-                <input id="VolunteerDate" @bind="editVolunteerDate" type="date" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="PhoneNumber" class="form-label">Phone Number</label>
-                <input id="PhoneNumber" @bind="editPhoneNumber" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="Email" class="form-label">Email</label>
-                <input id="Email" @bind="editEmail" type="email" class="form-input" />
-            </div>
-            <button type="submit" @onclick="EditVolunteer" class="btn btn-primary btn-submit">Edit</button>
-            <button type="submit" @onclick="Cancel" class="btn btnx btn-danger rounded-button bold-text">Cancel</button>
         </div>
-    </div>
+    </EditForm>
 }
 
 @if (DeleteVolunteerHtml && !AddVolunteerHtml)
@@ -86,7 +102,6 @@
     <div class="top">
         <h3 class="page-title">Volunteers</h3>
         <input type="text" @oninput="search" placeholder="Search..." class="desktop-search-bar">
-        <button class="search-button">Search</button>
         <button class="btn btnx btn-primary rounded-button bold-text" @onclick="AddVolunteerForm">Add Volunteer</button>
     </div>
     <div class="tbl-pets">
@@ -127,10 +142,24 @@
     public class Volunteer
     {
         public string VolunteerId { get; set; }
+
+        [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Surname is required.")]
         public string Surname { get; set; }
+
         public string VolunteerDate { get; set; }
+
+        [Required(ErrorMessage = "Volunteer Date is required.")]
+        public DateOnly Date { get; set; }
+
+        [Required(ErrorMessage = "Phone Number is required.")]
+        [Phone(ErrorMessage = "Invalid phone number.")]
         public string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
 
     }
@@ -138,19 +167,9 @@
     bool EditVolunteerHtml = false;
     bool DeleteVolunteerHtml = false;
 
-    string addName = string.Empty;
-    string addSurname = string.Empty;
-    DateOnly addVolunteerDate = DateOnly.FromDateTime(DateTime.Now);
-    string addPhoneNumber = string.Empty;
-    string addEmail = string.Empty;
-
-    string editName = string.Empty;
-    string editSurname = string.Empty;
-    DateOnly editVolunteerDate = DateOnly.FromDateTime(DateTime.Now);
-    string editPhoneNumber = string.Empty;
-    string editEmail = string.Empty;
     private string? errorMessage = null;
 
+    Volunteer addVolunteer = new Volunteer();
     Volunteer editVolunteer = new Volunteer();
     Volunteer deleteVolunteer = new Volunteer();
     List<Volunteer> volunteers = new List<Volunteer>();
@@ -159,6 +178,7 @@
     private void AddVolunteerForm(MouseEventArgs e)
     {
         AddVolunteerHtml = true;
+        addVolunteer.Date = DateOnly.Parse(DateTime.Now.ToString("yyyy/MM/dd"));
         StateHasChanged();
     }
 
@@ -183,14 +203,14 @@
         StateHasChanged();
     }
 
-    private async Task AddVolunteer(MouseEventArgs e)
+    private async Task AddVolunteer()
     {
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent(addName), "Name");
-        content.Add(new StringContent(addSurname), "Surname");
-        content.Add(new StringContent(addVolunteerDate.ToString()), "VolunteerDate");
-        content.Add(new StringContent(addPhoneNumber), "PhoneNumber");
-        content.Add(new StringContent(addEmail), "Email");
+        content.Add(new StringContent(addVolunteer.Name), "Name");
+        content.Add(new StringContent(addVolunteer.Surname), "Surname");
+        content.Add(new StringContent(addVolunteer.Date.ToString()), "VolunteerDate");
+        content.Add(new StringContent(addVolunteer.PhoneNumber), "PhoneNumber");
+        content.Add(new StringContent(addVolunteer.Email), "Email");
         // Post report to external API
         var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Volunteer/AddVolunteer", content);
         if (response.IsSuccessStatusCode)
@@ -210,11 +230,7 @@
     {
         EditVolunteerHtml = true;
         editVolunteer = vol;
-        editEmail = vol.Email;
-        editName = vol.Name;
-        editPhoneNumber = vol.PhoneNumber;
-        editVolunteerDate = DateOnly.Parse(vol.VolunteerDate);
-        editSurname = vol.Surname;
+        editVolunteer.Date = DateOnly.Parse(editVolunteer.VolunteerDate);
         StateHasChanged();
     }
     private void DeleteVolunteerForm(Volunteer vol)
@@ -229,15 +245,15 @@
         Navigation.NavigateTo("/welcome");
     }
 
-    private async Task EditVolunteer(MouseEventArgs e)
+    private async Task EditVolunteer()
     {
         // make content for post request
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent(editName), "Name");
-        content.Add(new StringContent(editSurname), "Surname");
-        content.Add(new StringContent(editVolunteerDate.ToString()), "VolunteerDate");
-        content.Add(new StringContent(editPhoneNumber), "PhoneNumber");
-        content.Add(new StringContent(editEmail), "Email");
+        content.Add(new StringContent(editVolunteer.Name), "Name");
+        content.Add(new StringContent(editVolunteer.Surname), "Surname");
+        content.Add(new StringContent(editVolunteer.Date.ToString()), "VolunteerDate");
+        content.Add(new StringContent(editVolunteer.PhoneNumber), "PhoneNumber");
+        content.Add(new StringContent(editVolunteer.Email), "Email");
 
         // make request
         var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/Volunteer/UpdateVolunteer/" + editVolunteer.VolunteerId, content);
