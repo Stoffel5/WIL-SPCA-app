@@ -1,5 +1,8 @@
 ﻿@page "/gallery"
 
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
 <button class="open-btn" onclick="openNav()">☰</button>
 
 
@@ -44,21 +47,12 @@
                
 
 <div class="gallery">
-    <div class="gallery-item">
-        <img src="/dogimages/dog1.jpg" alt="Dog 1">
-    </div>
-    <div class="gallery-item">
-        <img src="/dogimages/dog2.jpg" alt="Dog 2">
-    </div>
-    <div class="gallery-item">
-        <img src="/dogimages/pup3.jpg" alt="Pup 3">
-    </div>
-    <div class="gallery-item">
-        <img src="/dogimages/puppy.jpg" alt="Puppy">
-    </div>
-    <div class="gallery-item">
-        <img src="/dogimages/puppy1.jpg" alt="Puppy 1">
-    </div>
+    @foreach(var pet in pets)
+    {
+        <div class="gallery-item">
+            <img src="@pet.imageUrl" alt="@pet.name">
+        </div>
+    }
     <div class="gallery-item">
         <video src="/videos/catvid1.mp4" controls></video>
     </div>
@@ -91,6 +85,34 @@
     <a href="/userReport" class="nav-link" aria-label="Navigate to UserReport"> <img src="images/report.png" alt="Report Icon" class="nav-icon"> </a>
 </div>
 
+    @code {
+    List<Pet> pets = new List<Pet>();
+    protected override async Task OnInitializedAsync()
+    {
+        await GetPets();
+    }
+    private async Task GetPets()
+    {
+        /*
+        Code Attribution
+        Title: GET Request to API with Blazor/C#
+        Author: ZetBit
+        Link: https://www.youtube.com/watch?v=SjhzOauYC80
+        Usage: Used to make get request in blazer
+        */
+        pets = await Http.GetFromJsonAsync<List<Pet>>("https://spcaapi.azurewebsites.net/api/Animal/GetAnimals");
+    }
+    public class Pet
+    {
+        public string petId { get; set; }
+        public string name { get; set; }
+        public string breed { get; set; }
+        public string health { get; set; }
+        public string weight { get; set; }
+        public string adoptionStatus { get; set; }
+        public string imageUrl { get; set; }
+    }
+}
 
 <style>
     .gallery {
