@@ -1,85 +1,201 @@
 ﻿@page "/register"
 
-@inject NavigationManager Navigation
-@inject HttpClient Http
-@using System.ComponentModel.DataAnnotations
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
 
-<PageTitle>Register</PageTitle>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f7fa;
+            background: url('/images/background123.png') no-repeat center center;
+            background-size: cover;
+        }
 
-<div class="registration-container">
-    <div class="registration-form">
-        <h3 class="bold-text">Register</h3>
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
 
-        <EditForm Model="@registrationModel" OnValidSubmit="HandleValidSubmit">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+        h1 {
+            font-size: 28px;
+            color: #143963;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
 
-            <div class="form-group">
-                <label for="username" class="bold-text">Username or Email</label>
-                <InputText id="username" class="form-control rounded-input" @bind-Value="registrationModel.Email" />
-            </div>
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-            <div class="form-group">
-                <label for="password" class="bold-text">Password</label>
-                <InputText id="password" type="password" class="form-control rounded-input" @bind-Value="registrationModel.Password" />
-            </div>
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
 
-            <div class="form-group">
-                <label for="confirmPassword" class="bold-text">Re-enter Password</label>
-                <InputText id="confirmPassword" type="password" class="form-control rounded-input" @bind-Value="registrationModel.ConfirmPassword" />
-            </div>
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
 
-            <button type="submit" class="btn btn-primary rounded-button bold-text">Next</button>
-            @if(message != null)
-            {
-                <p>@message</p>
+            input:focus {
+                border-color: #143963;
+                outline: none;
             }
-        </EditForm>
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #143963;
+            color: #ffffff;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+            .button:last-child {
+                margin-right: 0;
+            }
+
+            .button:hover {
+                background-color: #ffffff;
+                color: #143963;
+                border: 2px solid #143963;
+            }
+
+        .cancel {
+            background-color: #f44336;
+        }
+
+            .cancel:hover {
+                background-color: #ffffff;
+                color: #f44336;
+                border: 2px solid #f44336;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Create an Account</h1>
+        <form id="registrationForm" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required>
+                <div id="nameError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname</label>
+                <input type="text" id="surname" required>
+                <div id="surnameError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+                <div id="emailError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+                <div id="passwordError" class="error"></div>
+            </div>
+            <div class="form-group">
+                <label for="repassword">Confirm Password</label>
+                <input type="password" id="repassword" required>
+                <div id="repasswordError" class="error"></div>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="button">Register</button>
+                <button type="button" class="button cancel" onclick="cancelRegistration()">Cancel</button>
+            </div>
+        </form>
     </div>
-</div>
 
-@code {
-    private RegistrationModel registrationModel = new RegistrationModel();
-    string message = "";
+    <script>
+        function validateForm() {
+            let valid = true;
+            document.getElementById('nameError').innerText = '';
+            document.getElementById('surnameError').innerText = '';
+            document.getElementById('emailError').innerText = '';
+            document.getElementById('passwordError').innerText = '';
+            document.getElementById('repasswordError').innerText = '';
 
-    private async Task HandleValidSubmit()
-    {
-        var content = new MultipartFormDataContent();
-        content.Add(new StringContent(registrationModel.Email), "email");
-        content.Add(new StringContent(registrationModel.Password), "password");
+            const name = document.getElementById('name').value.trim();
+            const surname = document.getElementById('surname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const repassword = document.getElementById('repassword').value;
 
-        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/User/Register", content);
+            if (!name) {
+                document.getElementById('nameError').innerText = 'Name is required';
+                valid = false;
+            }
+            if (!surname) {
+                document.getElementById('surnameError').innerText = 'Surname is required';
+                valid = false;
+            }
+            if (!email) {
+                document.getElementById('emailError').innerText = 'Email is required';
+                valid = false;
+            }
+            if (!password) {
+                document.getElementById('passwordError').innerText = 'Password is required';
+                valid = false;
+            }
+            if (password !== repassword) {
+                document.getElementById('repasswordError').innerText = 'Passwords do not match';
+                valid = false;
+            }
 
-        if (response.IsSuccessStatusCode)
-        {
-            message = "Account created";
-            StateHasChanged();
+            if (valid) {
+                window.location.href = '/login';
+            }
+            return false;
         }
-        else
-        {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorModel>();
-            message = errorResponse.message;
+
+        function cancelRegistration() {
+            window.location.href = '/';
         }
-    }
-    public class ErrorModel
-    {
-        public string message { get; set; }
-    }
+    </script>
 
-    private class RegistrationModel
-    {
-        [Required(ErrorMessage = "Username or Email is required.")]
-        public string Email { get; set; }
-
-        [Required(ErrorMessage = "Password is required.")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        [Required(ErrorMessage = "Confirmation Password is required.")]
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Passwords do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        public string UserType { get; set; }
-    }
-}
+</body>
+</html>
