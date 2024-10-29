@@ -1,4 +1,10 @@
 ﻿@page "/profile"
+
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,7 +134,7 @@
         </div>
 
         <div class="profile-picture">
-            <img src="wwwroot/icons/cam.png" alt="Profile Picture" id="profilePic">
+            <img src="@user.imageUrl" alt="Profile Picture" id="profilePic">
         </div>
         <label class="change-photo" for="profilePicInput">Change Profile Picture</label>
         <input type="file" id="profilePicInput" accept="image/*" style="display:none;" onchange="previewProfilePic(event)">
@@ -137,33 +143,33 @@
             <div class="form-group">
                 <div class="form-group-half">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" disabled>
+                    <input type="text" id="firstName" placeholder="@user.FirstName" disabled>
                 </div>
                 <div class="form-group-half">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" disabled>
+                    <input type="text" id="lastName" placeholder="@user.LastName" disabled>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="form-group-half">
                     <label for="email">Email</label>
-                    <input type="email" id="email" disabled>
+                    <input type="email" id="email" placeholder="@user.Email" disabled>
                 </div>
                 <div class="form-group-half">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" disabled>
+                    <input type="tel" id="phone" placeholder="@user.PhoneNumber" disabled>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="form-group-half">
                     <label for="address">Address</label>
-                    <input type="text" id="address" disabled>
+                    <input type="text" id="address" placeholder="@user.Address" disabled>
                 </div>
                 <div class="form-group-half">
                     <label for="city">City</label>
-                    <input type="text" id="city" disabled>
+                    <input type="text" id="city" placeholder="@user.City" disabled>
                 </div>
             </div>
 
@@ -173,7 +179,6 @@
             </div>
         </form>
     </div>
-
     <script>
         function previewProfilePic(event) {
             const profilePic = document.getElementById('profilePic');
@@ -196,4 +201,72 @@
     </script>
 
 </body>
+@code{
+    public class User
+    {
+        public string Email { get; set; }
+        public string usertype { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
+        public string imageUrl { get; set; }
+    }
+    private IBrowserFile selectedFile;
+    private User user = new User();
+
+    protected override async Task OnInitializedAsync()
+    {
+        user.Email = await LocalStorage.GetItemAsync<string>("email");
+        await GetUsers();
+    }
+    private async Task GetUsers()
+    {
+        /*
+        Code Attribution
+        Title: GET Request to API with Blazor/C#
+        Author: ZetBit
+        Link: https://www.youtube.com/watch?v=SjhzOauYC80
+        Usage: Used to make get request in blazer
+        */
+        user = await Http.GetFromJsonAsync<User>("https://spcaapi.azurewebsites.net/api/User/GetInfo/" + user.Email);
+    }
+    private async Task EditUser()
+    {
+        // make content for post request
+        var content = new MultipartFormDataContent();
+        content.Add(new StringContent(user.Email), "Email");
+        content.Add(new StringContent(user.FirstName), "Firstname");
+        content.Add(new StringContent(user.LastName), "Lastname");
+        content.Add(new StringContent(user.PhoneNumber), "PhoneNumber");
+        content.Add(new StringContent(user.City), "City");
+        content.Add(new StringContent(user.Address), "Address");
+
+        // add file to request
+        if (selectedFile != null)
+        {
+            var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
+            content.Add(streamContent, "image", selectedFile.Name);
+        }
+        else
+        {
+            content.Add(new StringContent(""), "image");
+        }
+
+        // make request
+        var response = await Http.PatchAsync($"https://spcaapi.azurewebsites.net/api/User", content);
+
+        // if/else get reponse
+        if (response.IsSuccessStatusCode)
+        {
+            Navigation.NavigateTo("/profile", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("Error editing user: " + response.ReasonPhrase);
+        }
+    }
+}
 </html>
