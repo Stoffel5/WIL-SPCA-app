@@ -136,18 +136,17 @@
         <div class="profile-picture">
             <img src="@user.imageUrl" alt="Profile Picture" id="profilePic">
         </div>
-        <label class="change-photo" for="profilePicInput">Change Profile Picture</label>
-        <input type="file" id="profilePicInput" accept="image/*" style="display:none;" onchange="previewProfilePic(event)">
+        <InputFile id="image" OnChange="HandleFileSelected" class="form-input" />
 
         <form class="profile-form" id="profileForm">
             <div class="form-group">
                 <div class="form-group-half">
                     <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" placeholder="@user.FirstName" disabled>
+                    <input type="text" id="firstName" @bind="firstname" placeholder="@user.FirstName">
                 </div>
                 <div class="form-group-half">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" placeholder="@user.LastName" disabled>
+                    <input type="text" id="lastName" @bind="lastname" placeholder="@user.LastName">
                 </div>
             </div>
 
@@ -158,47 +157,26 @@
                 </div>
                 <div class="form-group-half">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="@user.PhoneNumber" disabled>
+                    <input type="tel" id="phone" @bind="phonenumber" placeholder="@user.PhoneNumber">
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="form-group-half">
                     <label for="address">Address</label>
-                    <input type="text" id="address" placeholder="@user.Address" disabled>
+                    <input type="text" id="address" @bind="address" placeholder="@user.Address">
                 </div>
                 <div class="form-group-half">
                     <label for="city">City</label>
-                    <input type="text" id="city" placeholder="@user.City" disabled>
+                    <input type="text" id="city" @bind="city" placeholder="@user.City">
                 </div>
             </div>
-
+            <span style="color: red">@addError</span>
             <div class="form-actions">
-                <button type="button" onclick="toggleEditMode()">Edit Profile</button>
-                <button type="button" onclick="saveChanges()" style="display: none;">Save Changes</button>
+                <button type="button" @onclick="EditUser">Save Changes</button>
             </div>
         </form>
     </div>
-    <script>
-        function previewProfilePic(event) {
-            const profilePic = document.getElementById('profilePic');
-            profilePic.src = URL.createObjectURL(event.target.files[0]);
-        }
-
-        function toggleEditMode() {
-            const inputs = document.querySelectorAll('#profileForm input');
-            inputs.forEach(input => input.disabled = !input.disabled);
-            document.querySelector('.form-actions button[onclick="toggleEditMode()"]').style.display = 'none';
-            document.querySelector('.form-actions button[onclick="saveChanges()"]').style.display = 'inline-block';
-        }
-
-        function saveChanges() {
-            const inputs = document.querySelectorAll('#profileForm input');
-            inputs.forEach(input => input.disabled = true);
-            document.querySelector('.form-actions button[onclick="toggleEditMode()"]').style.display = 'inline-block';
-            document.querySelector('.form-actions button[onclick="saveChanges()"]').style.display = 'none';
-        }
-    </script>
 
 </body>
 @code{
@@ -215,6 +193,13 @@
     }
     private IBrowserFile selectedFile;
     private User user = new User();
+    public string email = string.Empty;
+    public string firstname = string.Empty;
+    public string lastname = string.Empty;
+    public string phonenumber = string.Empty;
+    public string city = string.Empty;
+    public string address = string.Empty;
+    string addError = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -232,16 +217,45 @@
         */
         user = await Http.GetFromJsonAsync<User>("https://spcaapi.azurewebsites.net/api/User/GetInfo/" + user.Email);
     }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        if (e.File == null)
+        {
+            addError = "Image/Video Required";
+        }
+        else
+        {
+            selectedFile = e.File;
+            if (selectedFile.Size > 5 * 1024 * 1024)
+            {
+                addError = "File to large";
+            }
+            else
+            {
+                addError = string.Empty;
+                using (var stream = selectedFile.OpenReadStream(5 * 1024 * 1024))
+                {
+                    var buffer = new byte[selectedFile.Size];
+                    await stream.ReadAsync(buffer, 0, (int)selectedFile.Size);
+                }
+            }
+        }
+    }
+
     private async Task EditUser()
     {
+        var encodedEmail = Uri.EscapeDataString(user.Email);
         // make content for post request
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(user.Email), "Email");
-        content.Add(new StringContent(user.FirstName), "Firstname");
-        content.Add(new StringContent(user.LastName), "Lastname");
-        content.Add(new StringContent(user.PhoneNumber), "PhoneNumber");
-        content.Add(new StringContent(user.City), "City");
-        content.Add(new StringContent(user.Address), "Address");
+        content.Add(new StringContent(firstname), "Firstname");
+        content.Add(new StringContent(lastname), "Lastname");
+        content.Add(new StringContent(phonenumber), "PhoneNumber");
+        content.Add(new StringContent(city), "City");
+        content.Add(new StringContent(address), "Address");
+
+        Console.WriteLine();
 
         // add file to request
         if (selectedFile != null)
@@ -255,7 +269,7 @@
         }
 
         // make request
-        var response = await Http.PatchAsync($"https://spcaapi.azurewebsites.net/api/User", content);
+        var response = await Http.PatchAsync($"https://spcaapi.azurewebsites.net/api/User/Update/" + encodedEmail, content);
 
         // if/else get reponse
         if (response.IsSuccessStatusCode)

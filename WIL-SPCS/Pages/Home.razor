@@ -1,4 +1,7 @@
 ﻿@page "/"
+
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager Navigation
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,4 +104,19 @@
     </div>
 
 </body>
+@code{
+    public string userType;
+    protected override async Task OnInitializedAsync()
+    {
+        userType = await LocalStorage.GetItemAsync<string>("userType");
+        if(userType == "User")
+        {
+            Navigation.NavigateTo("/welcome");
+        }
+        else if(userType == "Admin")
+        {
+            Navigation.NavigateTo("/desktophome");
+        }
+    }
+}
 </html>

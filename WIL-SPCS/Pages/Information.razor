@@ -127,22 +127,21 @@
     }
 
     .card-container {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 15px;
         padding: 20px;
         box-sizing: border-box;
-        max-width: 800px;
-        margin: 0 auto; 
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .card {
-        width: 100%;
         padding: 15px;
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-        background-color: #143963; 
+        background-color: #143963;
         color: white;
     }
 
@@ -154,11 +153,11 @@
         }
 
             .card:hover h4 {
-                color: #143963; /* Ensure the heading stays visible on hover */
+                color: #143963; 
             }
 
             .card:hover p {
-                color: #143963; /* Ensure the paragraph stays visible on hover */
+                color: #143963; 
             }
 
     .education-card {
@@ -232,27 +231,27 @@
     }
 
         .view-btn:hover {
-            background-color: #828387;
+            background-color: #143963;
             color: #ffffff;
             box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
         }
 
     .side-navbar {
         height: 100%;
-        width: 60px; /* Default width for icons only */
+        width: 60px; 
         position: fixed;
         top: 0;
         left: 0;
         background-color: #143963;
         overflow-x: hidden;
-        transition: width 0.3s ease; /* Smooth expansion */
+        transition: width 0.3s ease; 
         padding-top: 60px;
         z-index: 100;
         border-right: 2px solid #ffffff;
     }
 
         .side-navbar:hover {
-            width: 250px; /* Expanded width */
+            width: 250px; 
         }
 
     .nav-link {
