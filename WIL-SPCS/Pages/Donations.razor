@@ -1,4 +1,5 @@
 ﻿@page "/donations"
+@inject NavigationManager NavigationManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
     <style>
         body {
             font-family: 'Quicksand', sans-serif;
-            background-color: #F5E4D7; 
+            background-color: white;
             margin: 0;
             padding: 0;
         }
@@ -21,27 +22,29 @@
             flex-direction: column;
             min-height: 100vh;
             padding: 20px;
+           
         }
 
         .donations-container {
             padding: 20px;
             text-align: center;
-            background-color: #C1586B; 
+            background-color: #143963;
             border-radius: 20px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
             max-width: 1200px;
             margin: auto;
+            position: relative;
         }
 
         .centered-heading {
             font-size: 2.5em;
-            color: #FFFFFF; 
+            color: #ffffff;
             margin-bottom: 20px;
         }
 
         .intro-paragraph {
             font-size: 1.2em;
-            color: #FFFFFF; 
+            color: #ffffff;
             margin-bottom: 20px;
         }
 
@@ -54,7 +57,7 @@
         }
 
         .gallery-item {
-            background-color: #B55A67; 
+            background-color: white;
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
@@ -67,8 +70,12 @@
             .gallery-item:hover {
                 transform: scale(1.05);
                 box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.5);
-                background-color: #FFFFFF; 
+                background-color: #143963;
             }
+
+                .gallery-item:hover p {
+            color: #ffffff;
+        }
 
         .gallery-image {
             max-width: 100%;
@@ -81,19 +88,43 @@
         .gallery-item p {
             margin: 10px 0;
             font-size: 1em;
-            color: #333; 
+            color: #333;
         }
 
         .footer {
             margin-top: 30px;
             font-size: 1em;
-            color: #333;
+            color: #ffffff;
         }
+
+        .back-button {
+            background-color: #ffffff;
+            color: #143963;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            position: absolute;
+            top: 20px; 
+            left: 20px;
+        }
+
+            .back-button:hover {
+                background-color: #143963;
+                color: white;
+                transform: scale(1.05);
+            }
     </style>
 </head>
 <body>
     <div class="main-content">
+       
         <div class="donations-container">
+
+            <button class="back-button" @onclick="NavigateBack">Back </button>
+
             <h1 class="centered-heading">Support Our SPCA</h1>
             <p class="intro-paragraph">
                 The SPCA is always in need of supplies to care for the animals. Currently, we are in urgent need of the following items:
@@ -129,5 +160,9 @@
     <div class="footer">
         <p>Thank you for supporting the Uitenhage SPCA!</p>
     </div>
+
+    @code {
+        private void NavigateBack() => NavigationManager.NavigateTo("/information");
+    }
 </body>
 </html>
