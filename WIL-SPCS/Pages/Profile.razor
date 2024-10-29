@@ -1,14 +1,40 @@
 ﻿@page "/profile"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-<h3 class="profile-header">Profile</h3>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            color: #143963;
+        }
 
-<div class="profile-container">
-    <div class="profile-sidebar">
-        <img src="img/profile-pic.jpg" alt="User Profile Picture" class="profile-pic" />
-        <h4>@userName</h4>
-       
-        <button class="edit-button" @onclick="EditProfile">Edit Profile</button>
-    </div>
+        .profile-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
     <div class="profile-details">
         <h4>Personal Information</h4>
@@ -90,231 +116,161 @@
         userEmail = await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userEmail");
     }
 
-    private void EditProfile()
-    {
-        // Handle profile editing
-    }
-
-    private void SaveChanges()
-    {
-        // Save user profile changes
-    }
-
-    private void ToggleNotifications(ChangeEventArgs e)
-    {
-        notificationsEnabled = (bool)e.Value;
-    }
-
-    private void ToggleDarkMode(ChangeEventArgs e)
-    {
-        darkModeEnabled = (bool)e.Value;
-    }
-}
-
-<style>
-    .profile-header {
-        font-size: 2rem;
-        margin-bottom: 20px;
-        color: #333;
-        text-align: center;
-    }
-
-    .profile-container {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        gap: 30px;
-        padding: 20px;
-        background-color: #f4f4f9;
-        border-radius: 10px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .profile-sidebar {
-        text-align: center;
-        max-width: 250px;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .profile-pic {
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-        margin-bottom: 15px;
-    }
-
-    .profile-bio {
-        font-style: italic;
-        margin: 10px 0;
-        color: #555;
-    }
-
-    .edit-button {
-        margin-top: 10px;
-        padding: 8px 16px;
-        background-color: #ff9f1a;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-        .edit-button:hover {
-            background-color: #e68a00;
+        .profile-picture {
+            position: relative;
+            margin: 0 auto 20px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #143963;
         }
 
-    .profile-details {
-        flex: 1;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    }
+            .profile-picture img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
-    .profile-info-list {
-        list-style: none;
-        padding: 0;
-    }
-
-        .profile-info-list li {
-            margin: 10px 0;
+        .change-photo {
+            display: block;
+            text-align: center;
+            color: #143963;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
         }
 
-    .preferences-container {
-        margin: 20px 0;
-    }
+        .profile-form label {
+            font-weight: bold;
+            color: #143963;
+            display: block;
+            margin-bottom: 5px;
+        }
 
-    .save-button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        .profile-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #143963;
+            margin-bottom: 15px;
+            background-color: #f0f2f5;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .form-group-half {
+            flex: 1;
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .form-actions button {
+                background-color: #143963;
+                color: #ffffff;
+                padding: 12px 24px;
+                border: none;
+                border-radius: 4px;
+                font-size: 16px;
+                cursor: pointer;
+                margin: 0 10px;
+            }
+
+                .form-actions button:hover {
+                    background-color: #0f2b52;
+                }
+
+        .profile-form input[disabled] {
+            background-color: #eaeaea;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h2>Your Profile</h2>
+        </div>
+
+        <div class="profile-picture">
+            <img src="wwwroot/icons/cam.png" alt="Profile Picture" id="profilePic">
+        </div>
+        <label class="change-photo" for="profilePicInput">Change Profile Picture</label>
+        <input type="file" id="profilePicInput" accept="image/*" style="display:none;" onchange="previewProfilePic(event)">
+
+        <form class="profile-form" id="profileForm">
+            <div class="form-group">
+                <div class="form-group-half">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" disabled>
+                </div>
+                <div class="form-group-half">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group-half">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" disabled>
+                </div>
+                <div class="form-group-half">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" disabled>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-group-half">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" disabled>
+                </div>
+                <div class="form-group-half">
+                    <label for="city">City</label>
+                    <input type="text" id="city" disabled>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" onclick="toggleEditMode()">Edit Profile</button>
+                <button type="button" onclick="saveChanges()" style="display: none;">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function previewProfilePic(event) {
+            const profilePic = document.getElementById('profilePic');
+            profilePic.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        function toggleEditMode() {
+            const inputs = document.querySelectorAll('#profileForm input');
+            inputs.forEach(input => input.disabled = !input.disabled);
+            document.querySelector('.form-actions button[onclick="toggleEditMode()"]').style.display = 'none';
+            document.querySelector('.form-actions button[onclick="saveChanges()"]').style.display = 'inline-block';
+        }
+
+        function saveChanges() {
+            const inputs = document.querySelectorAll('#profileForm input');
+            inputs.forEach(input => input.disabled = true);
+            document.querySelector('.form-actions button[onclick="toggleEditMode()"]').style.display = 'inline-block';
+            document.querySelector('.form-actions button[onclick="saveChanges()"]').style.display = 'none';
+        }
+    </script>
 
         .save-button:hover {
             background-color: #0056b3;
         }
-
-    .side-navbar {
-        height: 100%;
-        width: 60px; /* Default width for icons only */
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #143963;
-        overflow-x: hidden;
-        transition: width 0.3s ease; /* Smooth expansion */
-        padding-top: 60px;
-        z-index: 100;
-        border-right: 2px solid #ffffff;
-    }
-
-        .side-navbar:hover {
-            width: 250px; /* Expanded width */
-        }
-
-    .nav-link {
-        display: flex;
-        align-items: center;
-        padding: 15px 20px;
-        font-size: 1.2em;
-        color: #e0f7fa;
-        transition: background-color 0.3s ease;
-        text-decoration: none;
-    }
-
-        .nav-link:hover {
-            background-color: #4775A9;
-            color: #ffffff;
-        }
-
-    .nav-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 15px;
-        transition: margin-right 0.3s ease;
-    }
-
-    .side-navbar:hover .nav-icon {
-        margin-right: 10px; 
-    }
-
-    .nav-text {
-        display: none; 
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .side-navbar:hover .nav-text {
-        display: inline;
-        opacity: 1;
-    }
-    
-    .arrow-icon {
-        font-size: 16px;
-        color: #ffffff;
-        text-align: center;
-        margin-bottom: 10px;
-        display: block;
-        transform: rotate(0deg);
-        transition: opacity 0.3s ease;
-    }
-
-    .side-navbar:hover .arrow-icon {
-        opacity: 0;
-    }
-
-    .bottom-nav {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 60px;
-        background-color: #143963;
-        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-        display: none; 
-        justify-content: space-around;
-        align-items: center;
-        z-index: 1000;
-    }
-
-    .nav-item {
-        flex: 1;
-        text-align: center;
-        transition: transform 0.3s ease, background-color 0.3s ease;
-        padding: 5px;
-    }
-
-        .nav-item:hover {
-            background-color: #f0f0f0;
-            transform: scale(1.1);
-            border-radius: 10px;
-        }
-    /* Responsive styles */
-    @@media screen and (max-width: 768px) {
-        .side-navbar {
-            display: none; 
-        }
-
-        .main-content {
-            margin-left: 0; 
-        }
-
-        .bottom-nav {
-            display: flex;
-        }
-    }
-
-    @@media screen and (min-width: 769px) {
-        .bottom-nav {
-            display: none;
-        }
-    }
-
 </style>
