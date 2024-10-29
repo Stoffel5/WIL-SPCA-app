@@ -28,7 +28,8 @@
                     <input id="eventdescription" @bind="evDescription" class="form-control rounded-input" />
                 </div>
 
-                <button type="submit" @onclick="AddEvent" class="btn btn-primary rounded-button bold-text">Add</button>
+                <button type="submit" @onclick="AddEvent" class="btn btn-primary btn-submit">Add</button>
+                <button type="submit" @onclick="Cancel" class="btn btnx btn-danger btn-submit">Cancel</button>
             </div>
         </div>
     }
@@ -51,8 +52,8 @@
                     <input id="eventdescription" @bind="evDescription" class="form-control rounded-input" />
                 </div>
 
-                <button type="submit" @onclick="EditEvent" class="btn btn-primary rounded-button bold-text">Edit</button>
-                <button type="submit" @onclick="Cancel" class="btn btn-primary rounded-button bold-text">Cancel</button>
+                <button type="submit" @onclick="EditEvent" class="btn btn-primary btn-submit">Edit</button>
+                <button type="submit" @onclick="Cancel" class="btn btn-danger btn-submit">Cancel</button>
             </div>
         </div>
     }
