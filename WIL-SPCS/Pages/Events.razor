@@ -47,8 +47,9 @@
     <CustomCalendar OnDateSelected="@(date => OnDateChanged(DateTime.Parse(date.ToString())))" />
 </div>
 
+<h3 class="centered-text">@eventString</h3>
 <div class="events-container">
-    <h3 class="centered-text">@eventString</h3>
+   
     <ul>
         @foreach (var ev in events)
         {
@@ -209,31 +210,53 @@
 
 
     .events-container {
-        padding: 20px;
-        color: #143963;
+        display: flex; 
+        flex-wrap: wrap; 
+        align-content: center;
+        /* flex-direction: row;  */
+       width:100%;
+        margin-top: 20px; /* Space from the previous section */
+       
     }
+
+        .events-container ul {
+            list-style-type: none; /* Remove bullet points from the list */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
+            width: 100%;           
+            align-content: center;
+            text-align: center;         
+            justify-content: center;
+            display: flex;
+            row-gap: 5px;
+            flex-wrap: wrap;
+            
+        }
 
     .event-item {
-        background-color: #143963;
-         border: 1px solid #e6f7ff;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 15px;
-        text-align: center;
-        color: #e6f7ff;
-        
+        background-color: #143963; /* Background color for event items */
+        color: white;
+        border: 1px solid #dee2e6; /* Optional: Border around event items */
+        border-radius: 5px; /* Optional: Rounded corners */
+        padding: 15px; /* Padding inside each event item */
+        margin: 10px; /* Space between event items */             
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Shadow effect */
+        transition: transform 0.2s; /* Optional: Smooth transition for hover effects */
+        display: flex; /* Optional: Enable Flexbox for inner content */
+        flex-direction: column; /* puts the info in the item underneath each other */
+        width: calc(33.33% - 20px);
     }
 
-        .event-item strong {
-            display: block;
-            font-size: 1 em;
-            margin-bottom: 10px;
+        .event-item:hover {
+            transform: scale(1.05); /* Optional: Slightly enlarge the item on hover */
         }
 
-        .event-item p {
-            margin: 0;
-            font-size: 0.8 em;
-        }
+    .centered-text {
+        text-align: center; /* Center the heading text */
+    }
+
+
+
 
     .side-navbar {
         height: 100%;
