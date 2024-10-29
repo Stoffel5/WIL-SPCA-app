@@ -1,0 +1,152 @@
+﻿@page "/charityshop"
+@inject NavigationManager NavigationManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPCA Pet Boarding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: white;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .boarding-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #143963;
+            border-radius: 20px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .heading {
+            text-align: center;
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #143963;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            color: #143963;
+        }
+
+            .card:hover {
+                transform: scale(1.05);
+                box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+                /*  background-color: #143963;
+                        color: white; */
+            }
+
+            .card h2 {
+                font-size: 1.8em;
+                color: #143963;
+                margin-top: 0;
+            }
+
+
+
+        .content p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #333333;
+        }
+
+        .rates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            .rates-table th, .rates-table td {
+                padding: 10px;
+                text-align: left;
+                border-bottom: 1px solid #143963;
+            }
+
+            .rates-table th {
+                font-weight: bold;
+                color: #143963;
+            }
+
+            .rates-table td {
+                color: #333333;
+            }
+
+        .card:hover .rates-table th,
+        .card:hover .rates-table td {
+            /*  color: white; */
+            /* border-bottom: 1px solid white; */
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #143963;
+        }
+
+        .back-button {
+            background-color: #ffffff;
+            color: #143963;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+            .back-button:hover {
+                /* background-color: #143963;
+                        color: white; */
+                transform: scale(1.05);
+            }
+
+    </style>
+</head>
+<body>
+    <div class="boarding-container">
+
+        <button class="back-button" @onclick="NavigateBack">Back </button>
+
+        <h1 class="heading">SPCA Education programs</h1>
+
+        <div class="card">
+            <h2>Charity shop</h2>
+            <p> By buying at our charity shop, you directly support the SPCA! The money made at the charity shop goes to helping out the animals and paying for their supplies!</p>
+        </div>
+
+        <div class="card">
+            <h2>What does the shop sell?</h2>
+            <p>The charity shop sells just about everything! We sell apparell and accessories, homeware, entertainment, pre loved pet stuff and more so come and take a look for yourself!</p>           
+        </div>
+
+        <div class="card">
+            <h2>Shop information</h2>
+            <p class="highlight">Address: 4 Baird Street, in the historical Blenheim House building- on the ground floor (next to McDonalds).</p>
+            <p class="highlight"> Open from Mon - Fri: 10:00am - 2:00pm</p>
+            <p class="highlight">           Saturdays: 10:00am - 2:00pm</p>
+            <p class="highlight">           Closed on Sundays</p>
+            
+        </div>
+    </div>
+
+    @code {
+        private void NavigateBack() => NavigationManager.NavigateTo("/information");
+    }
+
+</body>
+</html>

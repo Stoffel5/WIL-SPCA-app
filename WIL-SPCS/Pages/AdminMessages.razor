@@ -1,348 +1,207 @@
 ﻿@page "/AdminMessages"
 
-@inject NavigationManager Navigation
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Desktop Style Chat UI</title>
+    <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-<PageTitle>Messages</PageTitle>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling */
+            display: flex;
+            background-color: #e5ddd5;
+        }
 
-<a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home </a>
+        /* Main container */
+        .chat-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
 
-@* <button class="open-nav-btn" onclick="openNav()">☰ </button>
-<!-- Side Navigation Bar -->
-<div id="sideNavbar" class="side-navbar">
-    <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">×</a>
-    <a href="/adminmessages" class="nav-link">Messages</a>
-    <a href="/adminboardings" class="nav-link">Boardings</a>
-    <a href="/adminvolunteers" class="nav-link">Volunteers</a>
-    <a href="/admininventory" class="nav-link">Inventory</a>
-    <a href="/adminevents" class="nav-link">Events</a>
-    <!-- Add more links here as needed -->
-</div> *@
+        /* Inbox Panel */
+        .inbox-panel {
+            width: 30%;
+            background-color: #f8f9fa;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
 
-<div class="messages-page">
-    <div class="messages-inbox">
-        <h2 class="message-title"><center><b>Inbox</b></center></h2>
-        <div class="messages-users">
-            @foreach (User users in users)
-            {
-                <div class="message" @onclick="() => changeChat(users.Username)">
-                    <div class="message-header">
-                        <img class="message-avatar" src="@users.UserImage" alt="Avatar" />
-                        <div class="message-info">
-                            <h4 class="message-sender">@users.Username</h4>
-                        </div>
-                    </div>
-                </div>
+        .inbox-header {
+            padding: 20px;
+            background-color: #ededed;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .conversation-list {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+        .conversation {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+
+            .conversation:hover {
+                background-color: #f1f1f1;
             }
-        </div>
-    </div>
-    <div class="messages-chat">
-        <h2 class="message-title"><center><b>@currentUserChat</b></center></h2>
-        <div class="chat-window">
-            <div class="messages" id="messages">
-                @foreach (UserMessage message in UserMessages)
-                {
-                    <div class="message">
-                        <div class="message-header">
-                            <img class="message-avatar" src="@message.User.UserImage" alt="Avatar" />
-                            <div class="message-info">
-                                <h4 class="message-sender">@message.User.Username</h4>
-                                <span class="message-timestamp">@message.Time</span>
-                            </div>
-                        </div>
-                        <p class="message-content">@message.Message</p>
-                    </div>
-                }
-            </div>
-            <div class="input-container">
-                <input id="messageInput" @bind="txtMessage" placeholder="Type a message..."/>
-                <button class="btn-send" @onclick="SendMessage" id="sendButton">Send</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-@code {
-
-    private List<UserMessage> messages = new List<UserMessage>();
-    private List<User> users = new List<User>();
-    private List<UserMessage> UserMessages = new List<UserMessage>();
-    private string currentUserChat;
-    private string txtMessage = string.Empty;
-
-    private void NavigateToRegister()
-    {
-        Navigation.NavigateTo("/register");
-    }
-
-    private void NavigateToLogin()
-    {
-        Navigation.NavigateTo("/login");
-    }
-    private List<UserMessage> getUserMessages()
-    {
-        // Placeholder logic for event fetching
-        // Replace with actual data fetching from database or API
-        return new List<UserMessage>
-        {
-            new UserMessage { User = users[0], Message = "Description of Sample Message 1", Time = "12:00" },
-            new UserMessage { User = users[1], Message = "Description of Sample Message 2", Time = "12:00"  }
-        };
-    }
-
-    public class UserMessage
-    {
-        public User User { get; set; }
-        public string Message { get; set; }
-        public string Time { get; set; }
-    }
-    private List<User> getUsers()
-    {
-        // Placeholder logic for event fetching
-        // Replace with actual data fetching from database or API
-        return new List<User>
-        {
-            new User { Username = "Kimberly", UserImage = "./css/SPCALOGO.jpg" },
-            new User { Username = "SPCA", UserImage = "./css/SPCALOGO.jpg" },
-            new User { Username = "Jada", UserImage = "./css/SPCALOGO.jpg" }
-        };
-    }
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        /*
-        var userType = await LocalStorage.GetItemAsync<string>("userType");
-        if (userType == "User")
-        {
-            Navigation.NavigateTo("/");
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #bbb;
+            margin-right: 15px;
         }
-        else if (userType != "Admin")
-        {
-            Navigation.NavigateTo("/");
+
+        .conversation-details {
+            flex: 1;
         }
-        */
-        LoadUsers();
-    }
 
-    private void LoadUsers()
-    {
-        users = getUsers();
-        messages = getUserMessages();
-        UserMessages.Clear();
-        changeChat(users[0].Username);
-        currentUserChat = users[0].Username;
-    }
-
-    public class User
-    {
-        public string Username { get; set; }
-        public string UserImage { get; set; }
-    }
-    private void changeChat(string username)
-    {
-        UserMessages.Clear();
-        currentUserChat = username;
-        foreach (UserMessage message in messages)
-        {
-            if(message.User.Username == username)
-            {
-                UserMessages.Add(message);
-            }
+        .conversation-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
         }
-    }
-    private void SendMessage(MouseEventArgs e)
-    {
-        if(txtMessage != string.Empty)
-        {
-            UserMessage message = new UserMessage { User = users[1], Message = txtMessage, Time = DateTime.Now.ToString("HH:mm") };
-            UserMessages.Add(message);
+
+        .conversation-preview {
+            color: #666;
+            font-size: 0.9em;
         }
-    }
-}
-<style>
-    body{
-        color: black;
-    }
-    .messages-page{
-        position: absolute;
-        width: 97vw;
-        height: 90vh;
-        display: flex;
-        background-color: white;
-    }
 
-    .messages-users {
-        flex: 1;
-        height: 90%;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        overflow-y: auto;
-    }
-    .message {
-        width: 100%;
-    }
-    .messages-chat{
-        width: 60%;
-        border: 1px solid #143963;
-        ;
-    }
+        /* Chat Panel */
+        .chat-panel {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #efeae2;
+        }
 
-    .messages-inbox {
-        width: 40%;
-        border: 1px solid black;
-        color: #143963;
-    }
-    .messages-table{
-        width: 100%;
-        color: #143963;
-    }
+        .chat-header {
+            padding: 15px 20px;
+            background-color: #ededed;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .messages-inbox-items{
-        width: 40%;
-        border-bottom: 1px solid black;
-        color: #143963;
-    }
+        .chat-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+        }
 
-    .messages-chat-heading{
-        border-bottom: 1px solid #143963;
-        color: #143963;
-        
-    }
+        .chat-history {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #e5ddd5;
+        }
 
-    .chat-window {
-        display: flex;
-        height: 92%;
-        padding: 10px;
-        flex-direction: column;
-    }
-
-    .message-title{
-        padding:5px;
-        border-bottom: 1px solid black;
-        color: #143963;
-    }
-    .messages {
-        flex: 1;
-        height: 90%;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        overflow-y: auto;
-        border: 1px solid black;
-        color: #143963;
-    }
-
-    input {
-        width: 80%;
-        height: 30px;
-        margin: 10px;
-    }
-
-    .btn-send {
-        margin: 10px;
-        width: 15%;
-    }
-
-    .input-container {
-        display: flex;
-        align-items: center;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .message {
-        border-bottom: 1px solid #ddd;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .message-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-
-    .message-avatar {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .message-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .message-sender {
-        margin: 0;
-        font-weight: bold;
-    }
-
-    .message-timestamp {
-        font-size: 0.8em;
-        color: #A1A1A1;
-    }
-
-    .message-content {
-        margin: 0;
-    }
-
-    .open-nav-btn {
-        margin-bottom: 10px;
-    }
-    /* Side Navbar Styles */
-    .side-navbar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        top: 0;
-        left: -250px; /* Initially hidden */
-        background-color: #143963;
-         /* Blue background for navbar */
-        color: #143963;
-        overflow-x: hidden;
-        transition: 0.3s; /* Smooth transition for opening and closing */
-        padding-top: 60px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-        z-index: 100;
-       
-    }
-
-        .side-navbar .nav-link {
+        .message {
             padding: 10px 15px;
-            text-decoration: none;
-            font-size: 1.2em;
-            color: white;
-            display: block;
-            transition: 0.3s;
+            border-radius: 8px;
+            margin: 8px 0;
+            max-width: 60%;
+            font-size: 0.9em;
         }
 
-            .side-navbar .nav-link:hover {
-                background-color: #143963; /* Darker blue for hover effect */
+            .message.sent {
+                align-self: flex-end;
+                background-color: #dcf8c6;
             }
 
-        .side-navbar .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
+            .message.received {
+                align-self: flex-start;
+                background-color: #ffffff;
+            }
+
+        /* Chat Input */
+        .chat-input {
+            display: flex;
+            padding: 10px 20px;
+            border-top: 1px solid #ddd;
+            background-color: #f0f0f0;
         }
 
-        /* Show the side navbar when it is active */
-        .side-navbar.active {
-            left: 0;
-        }
-</style>
+            .chat-input input[type="text"] {
+                flex: 1;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 20px;
+                margin-right: 10px;
+                outline: none;
+            }
 
-<script>
-    function openNav() {
-        document.getElementById("sideNavbar").classList.add("active");
-    }
+            .chat-input button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 50%;
+                background-color: #25d366;
+                color: #ffffff;
+                cursor: pointer;
+                font-size: 1.2em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
 
-    function closeNav() {
-        document.getElementById("sideNavbar").classList.remove("active");
-    }
-</script>
+                .chat-input button:hover {
+                    background-color: #1ebc59;
+                }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Inbox Panel -->
+        <div class="inbox-panel">
+            <div class="inbox-header">Chats</div>
+            <div class="conversation-list">
+                <!-- Conversation items go here -->
+            </div>
+        </div>
+
+        <!-- Chat Panel -->
+        <div class="chat-panel">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="chat-title">Chat Name</div>
+            </div>
+
+            <!-- Chat History -->
+            <div class="chat-history">
+                <!-- Message items go here -->
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input">
+                <input type="text" placeholder="Type a message...">
+                <button type="button">➤</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
