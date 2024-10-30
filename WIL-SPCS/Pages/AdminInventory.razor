@@ -19,33 +19,33 @@
                 <h3 class="form-title">Add Pet</h3>
                 <div class="form-group">
                     <label for="name" class="bold-text">Pet Name</label>
-                    <InputText id="name" @bind-Value="editPet.name" class="form-input" />
-                    <ValidationMessage For="@(() => editPet.name)" />
+                    <InputText id="name" @bind-Value="addPet.name" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.name)" />
                 </div>
                 <div class="form-group">
                     <label for="addAnimalType" class="bold-text">Animal Type</label>
-                    <InputText id="addAnimalType" @bind-Value="editPet.AnimalType" class="form-input" />
-                    <ValidationMessage For="@(() => editPet.AnimalType)" />
+                    <InputText id="addAnimalType" @bind-Value="addPet.AnimalType" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.AnimalType)" />
                 </div>
                 <div class="form-group">
                     <label for="breed" class="bold-text">Breed</label>
-                    <InputText id="breed" @bind-Value="editPet.breed" class="form-input" />
-                    <ValidationMessage For="@(() => editPet.breed)" />
+                    <InputText id="breed" @bind-Value="addPet.breed" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.breed)" />
                 </div>
                 <div class="form-group">
                     <label for="health" class="bold-text">Pet Health</label>
-                    <InputText id="health" @bind-Value="editPet.health" class="form-input" />
-                    <ValidationMessage For="@(() => editPet.health)" />
+                    <InputText id="health" @bind-Value="addPet.health" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.health)" />
                 </div>
                 <div class="form-group">
                     <label for="weight" class="bold-text">Pet Weight</label>
-                    <InputText id="weight" @bind-Value="editPet.weight" class="form-input" />
-                    <ValidationMessage For="@(() => editPet.weight)" />
+                    <InputText id="weight" @bind-Value="addPet.weight" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.weight)" />
                 </div>
                 <div class="form-group">
                     <label for="status" class="bold-text">Pet Adoption Status</label>
-                    <InputText id="status" @bind-Value="editPet.adoptionStatus" class="form-input" />
-                    <ValidationMessage For="@(() => editPet.adoptionStatus)" />
+                    <InputText id="status" @bind-Value="addPet.adoptionStatus" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.adoptionStatus)" />
                 </div>
                 <div class="form-group">
                     <label for="image" class="bold-text">Image</label>
@@ -102,7 +102,7 @@
                     <span style="color: red;">@addError</span>
                 </div>
 
-                <button type="submit" class="btn btnx btn-primary rounded-button bold-text">Edit</button>
+                <button type="submit" @onclick="EditPet" class="btn btnx btn-primary rounded-button bold-text">Edit</button>
                 <button type="button" @onclick="Cancel" class="btn btn-danger rounded-button bold-text">Cancel</button>
             </div>
         </div>
@@ -212,12 +212,15 @@
     */
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
+        Console.WriteLine("test1");
         if(e.File == null)
         {
+            Console.WriteLine("test2");
             addError = "Image/Video Required";
         }
         else
         {
+            Console.WriteLine("test3");
             selectedFile = e.File;
             if (selectedFile.Size > 5 * 1024 * 1024)
             {
@@ -237,7 +240,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        /*
         var userType = await LocalStorage.GetItemAsync<string>("userType");
         if (userType == "User")
         {
@@ -247,7 +249,6 @@
         {
             Navigation.NavigateTo("/");
         }
-        */
         await GetPets();
     }
 
@@ -289,6 +290,7 @@
     private async Task AddPet()
     {
 
+        Console.WriteLine("test4");
         /*
         Code Attribution
         Title: How To Make API Requests In Blazor WASM
@@ -316,9 +318,12 @@
 
         if (addError == string.Empty)
         {
+
+            Console.WriteLine("test5");
             // add file to request
             if (selectedFile != null)
             {
+                Console.WriteLine("test6");
                 var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
                 content.Add(streamContent, "image", selectedFile.Name);// make request
                 var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Animal", content);

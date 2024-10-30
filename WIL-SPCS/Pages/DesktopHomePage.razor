@@ -122,7 +122,6 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        /*
         var userType = await LocalStorage.GetItemAsync<string>("userType");
         if (userType == "User")
         {
@@ -132,7 +131,6 @@
         {
             Navigation.NavigateTo("/");
         }
-        */
     }
     private void NavigateToBoardings() => Navigation.NavigateTo("/AdminBoardings");
     private void NavigateToEvents() => Navigation.NavigateTo("/AdminEvents");

@@ -3,6 +3,7 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
+@using System.Globalization
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 <PageTitle>Events</PageTitle>
 
@@ -40,7 +41,7 @@
                 <h3 class="bold-text">Edit Event</h3>
                 <div class="form-group">
                     <label for="date" class="bold-text">Date</label>
-                    <input type="date" @bind="selectedDate" class="date-picker form-control rounded-input" />
+                    <input type="date" @bind="editDate" class="date-picker form-control rounded-input" />
                 </div>
 
                 <div class="form-group">
@@ -69,7 +70,7 @@
             </div>
         </div>
     }
-    else
+    @if(!addEvent && !editEvent && !deleteEvent)
     {
         <div class="calendar-container">
             <h3>Select a Date to See Events</h3>
@@ -103,6 +104,7 @@
 
 @code {
     private DateTime _selectedDate = DateTime.Now;
+    private DateTime editDate = DateTime.Now;
     private string evName = string.Empty;
     private string evDescription = string.Empty;
     private Event currentEvent = new Event();
@@ -136,17 +138,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        /*
         var userType = await LocalStorage.GetItemAsync<string>("userType");
         if (userType == "User")
-        {
+            {
             Navigation.NavigateTo("/");
         }
         else if (userType != "Admin")
-        {
+            {
             Navigation.NavigateTo("/");
         }
-        */
         await LoadEvents();
     }
 
@@ -188,7 +188,7 @@
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(evName), "eventName");
         content.Add(new StringContent(evDescription), "eventDescription");
-        content.Add(new StringContent(selectedDate.ToString()), "eventDate");
+        content.Add(new StringContent(selectedDate.ToString("dd/MM/yyyy")), "eventDate");
         // Post report to external API
         var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/events/AddEvent", content);
         if (response.IsSuccessStatusCode)
@@ -230,7 +230,7 @@
         currentEvent = ev;
         evName = ev.eventName;
         evDescription = ev.eventDescription;
-        selectedDate = DateTime.Parse(ev.eventDate);
+        editDate = DateTime.ParseExact("15/05/2024", "dd/MM/yyyy", CultureInfo.InvariantCulture);
         editEvent = true;
         StateHasChanged();
     }
@@ -240,7 +240,7 @@
         var content = new MultipartFormDataContent();
         content.Add(new StringContent(evName), "eventName");
         content.Add(new StringContent(evDescription), "eventDescription");
-        content.Add(new StringContent(selectedDate.ToString()), "eventDate");
+        content.Add(new StringContent(selectedDate.ToString("dd/MM/yyyy")), "eventDate");
 
         // make request
         var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/events/UpdateEvent/" + currentEvent.eventId, content);
@@ -261,6 +261,7 @@
     {
         editEvent = false;
         addEvent = false;
+        deleteEvent = false;
         StateHasChanged();
     }
 }
