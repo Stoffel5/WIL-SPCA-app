@@ -367,19 +367,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var userType = await LocalStorage.GetItemAsync<string>("userType");
-        if (userType == "")
-        {
-            Navigation.NavigateTo("/");
-        }
-        else if (userType != "Admin")
-        {
-            Navigation.NavigateTo("/");
-        }
-        else if(userType == "User")
-        {
-            await GetUsers();
-        }
+        
+        await GetUsers();
     }
     private async Task GetUsers()
     {
