@@ -1,4 +1,8 @@
 ﻿@page "/userReport"
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
 
 <h3 class="report-title">Report</h3>
 
@@ -149,9 +153,17 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var userType = await LocalStorage.GetItemAsync<string>("userType");
+        if (userType != "User")
+        {
+            Navigation.NavigateTo("/");
+        }
+        else if (userType != "Admin")
+        {
+            Navigation.NavigateTo("/");
+        }
         await GetReports();
     }
-
     private async Task HandleValidSubmit()
     {
         var content = new MultipartFormDataContent();

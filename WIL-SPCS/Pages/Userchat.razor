@@ -1,5 +1,10 @@
 ﻿@page "/userchat"
 
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject NavigationManager Navigation
+@inject HttpClient Http
+@using System.ComponentModel.DataAnnotations
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -460,4 +465,18 @@
         </div>
     </div>
 </body>
+@code{
+    protected override async Task OnInitializedAsync()
+    {
+        var userType = await LocalStorage.GetItemAsync<string>("userType");
+        if (userType != "User")
+        {
+            Navigation.NavigateTo("/");
+        }
+        else if (userType != "Admin")
+        {
+            Navigation.NavigateTo("/");
+        }
+    }
+}
 </html>

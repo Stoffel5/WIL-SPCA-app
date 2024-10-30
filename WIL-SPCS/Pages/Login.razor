@@ -125,6 +125,7 @@
             <input type="password" @bind="password" id="password" required>
             <div id="passwordError" class="error"></div>
         </div>
+        <span style="color: red;">@errorMessage</span>
         <button type="submit" @onclick="HandleValidSubmit" class="button">Login</button>
         <div class="forgot-password">
             <a href="/forgot-password">Forgot Password?</a>
