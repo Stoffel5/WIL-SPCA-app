@@ -125,6 +125,7 @@
             <input type="password" @bind="password" id="password" required>
             <div id="passwordError" class="error"></div>
         </div>
+        <span style="color: red;">@errorMessage</span>
         <button type="submit" @onclick="HandleValidSubmit" class="button">Login</button>
         <div class="forgot-password">
             <a href="/forgot-password">Forgot Password?</a>
@@ -140,7 +141,7 @@
         errorMessage = "";
         var encodedEmail = Uri.EscapeDataString(email);
         var encodedPassword = Uri.EscapeDataString(password);
-        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/Login?email=garthdp4%40gmail.com&password=password");
+        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/Login?email={encodedEmail}&password={encodedPassword}");
         if (response.IsSuccessStatusCode)
         {
             var loginData = await response.Content.ReadFromJsonAsync<LoginModel>();
