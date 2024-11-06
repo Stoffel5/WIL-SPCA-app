@@ -44,47 +44,55 @@
     <div class="card education-card">
         <h4>Education Program</h4>
         <p>Meow! Hello, lovely human! I'm here to purr-suade you to check out the SPCA's education program...</p>
-        <button class="view-btn" onclick="window.location.href='/education'">View</button>
+        <button class="view-btn" onclick="openPopup('SPCA Education Programs', 'At the SPCA, we provide a platform for kids to learn. Keep an eye on the events tab to see when we open our doors to the public to give your young ones a chance to learn something new about animal care! Getting involved with the SPCA through volunteerwork can build up experience for teenagers. Helping out with odd jobs around the premises will prove to be a good educational experience for whoever is willing to lend a hand.Please note: Volunteers must be 15 years or older The schedule at the SPCA is subject to change very often so if you are interested in becoming more involved with activities taking place, be sure to contact us!')">View</button>
     </div>
     <div class="card volunteers-card">
         <h4>Volunteers</h4>
         <p>The SPCA welcomes volunteers with open paws! They’re always looking for big-hearted humans...</p>
-        <button class="view-btn" onclick="window.location.href='/volunteer'">View</button> 
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
     </div>
     <div class="card pbo-card">
         <h4>We are A PBO</h4>
         <p>Woof Woof hey there, did you know that the SPCA is a PBO (Public Benefit Organization)?...</p>
-        <button class="view-btn" onclick="window.location.href='/pbo'">View</button> 
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
     </div>
     <div class="card pet-boarding-card">
         <h4>Pet Boarding</h4>
         <p>🐾 Heyy Heyy! The SPCA offers fantastic pet boarding services. They ensure pets are safe and loved...</p>
-        <button class="view-btn" onclick="window.location.href='/boarding'">View</button> 
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
     </div>
     <div class="card adoption-card">
         <h4>Adoption</h4>
         <p>Hi there! Woof woof! If you're thinking about adding a furry friend to your family, consider adopting...</p>
-        <button class="view-btn" onclick="window.location.href='/gallery'">View</button> 
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
     </div>
     <div class="card charity-shop-card">
         <h4>Charity Shop</h4>
         <p>The SPCA's charity store is stocked with pet goodies. Visit to find treats, toys, and more while supporting a cause...</p>
-        <button class="view-btn" onclick="window.location.href='/charityshop'">View</button>
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
     </div>
     <div class="card sponsors-card">
         <h4>Sponsors and Donations</h4>
         <p>The SPCA relies on donations to keep our tails wagging and purrs loud! Every bit of support counts...</p>
-        <button class="view-btn" onclick="window.location.href='/donations'">View</button>
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
     </div>
     <div class="card awareness-card">
         <h4>Animal Welfare Awareness</h4>
         <p>We strive to raise awareness about animal welfare and the importance of responsible pet ownership...</p>
-        <button class="view-btn" onclick="window.location.href='/awareness'">View</button>
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
     </div>
     <div class="card events-card">
         <h4>Events</h4>
         <p>Join us for our upcoming events to support animal welfare and have fun while making a difference...</p>
-        <button class="view-btn" onclick="window.location.href='/events'">View</button> 
+        <button class="view-btn" onclick="openPopup('Education Program', 'Meow! Hello, lovely human! Check out the SPCA education program...')">View</button>
+    </div>
+</div>
+
+<div id="popupModal" class="popup-modal" onclick="closePopupOutside(event)">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h4 id="popupTitle">Title</h4>
+        <p id="popupText">Content</p>
     </div>
 </div>
 
@@ -220,7 +228,7 @@
     .view-btn {
         margin-top: 10px;
         padding: 8px 15px;
-        background-color: #ffffff;
+        background-color: grey;
         color: #143963;
         border: none;
         border-radius: 20px;
@@ -233,7 +241,6 @@
         .view-btn:hover {
             background-color: #143963;
             color: #ffffff;
-            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
         }
 
     .side-navbar {
@@ -334,6 +341,81 @@
             border-radius: 10px;
         }
 
+    .popup-modal {
+        display: none; 
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7); 
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; 
+    }
+
+    .popupTitle {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .popup-content {
+        background-color: #143963;
+        border-radius: 8px;
+        padding: 30px;
+        width: 80%;
+        max-width: 600px; 
+        text-align: left;
+        color: #fff; 
+        font-family: Arial, sans-serif;
+        font-size: 16px; 
+        line-height: 1.6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    }
+
+        .popup-content h4 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff; 
+        }
+
+        .popup-content p {
+            font-size: 16px; 
+            margin-bottom: 20px;
+            color: #e0e0e0; 
+        }
+
+        .popup-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+            color: #e0e0e0; 
+        }
+
+            .popup-content ul li {
+                margin-bottom: 10px;
+            }
+
+        .popup-content .close-btn {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+            .popup-content .close-btn:hover {
+                color: #f1f1f1; 
+            }
+
+
+
+
     @@media screen and (max-width: 768px) {
         .side-navbar {
             display: none; 
@@ -354,3 +436,21 @@
         }
     }
 </style>
+<script>
+   function openPopup(title, content) {
+    document.getElementById('popupTitle').innerText = title;
+    document.getElementById('popupText').innerText = content;
+    document.getElementById('popupModal').style.display = 'flex'; 
+}
+
+function closePopup() {
+    document.getElementById('popupModal').style.display = 'none'; 
+}
+
+function closePopupOutside(event) {
+    if (event.target === document.getElementById('popupModal')) {
+        closePopup();
+    }
+}
+
+</script>
