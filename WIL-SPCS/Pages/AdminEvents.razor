@@ -259,6 +259,18 @@
 }
 
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background: url('/images/background123.png') no-repeat center center;
+        background-size: cover;
+    }
+
+
+    .top {
+        margin: 30px;
+        text-align: center;
+    }
     .centered-text {
         text-align: center;
         accent-color: #143963;
@@ -397,25 +409,25 @@
         }
 
         .event-item:hover {
-            transform: scale(1.05); /* Optional: Slightly enlarge the item on hover */
+            transform: scale(1.05); 
         }
 
     .centered-text {
-        text-align: center; /* Center the heading text */
+        text-align: center; 
     }
 
 
-    /* Side Navbar Styles */
+    
     .side-navbar {
         height: 100%;
         width: 250px;
         position: fixed;
         top: 0;
-        left: -250px; /* Initially hidden */
-        background-color: #143963; /* Blue background for navbar */
+        left: -250px; 
+        background-color: #143963; 
         color: white;
         overflow-x: hidden;
-        transition: 0.3s; /* Smooth transition for opening and closing */
+        transition: 0.3s; 
         padding-top: 60px;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     }
@@ -430,7 +442,7 @@
         }
 
             .side-navbar .nav-link:hover {
-                background-color: #143963; /* Darker blue for hover effect */
+                background-color: #143963; 
             }
 
         .side-navbar .close-btn {
@@ -440,8 +452,6 @@
             font-size: 36px;
             margin-left: 50px;
         }
-
-        /* Show the side navbar when it is active */
         .side-navbar.active {
             left: 0;
         }
