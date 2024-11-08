@@ -122,13 +122,15 @@
                     <button class="btn btn-danger" @onclick="@(() => DeleteReport(report.ReportId))">Delete</button>
                 </div>
             }
-        </div>
-    }
+        
+        }
     else
     {
         <p>No reports submitted yet.</p>
     }
+    </div>
 </div>
+
 
 <div class="bottom-nav">
     <a href="/information" class="nav-item" aria-label="Information"<img src="images/info2.png" alt="Information" class="nav-icon"></a>
