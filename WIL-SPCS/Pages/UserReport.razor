@@ -107,9 +107,9 @@
             <div class="alert alert-success">@successMessage</div> <!-- Display success message -->
         }
     }
-
+    <h4 style="font-weight: bold;">Submitted Reports</h4>
     <div class="reports-list">
-        <h4 style="font-weight: bold;">Submitted Reports</h4>
+        
         @if (reports.Any())
         {
             foreach (var report in reports)
@@ -287,34 +287,57 @@
 
 
     .reports-list {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-        max-height: 400px; 
-        overflow-y: auto; 
+        list-style-type: none; /* Remove bullet points from the list */
+        padding: 0; /* Remove default padding */
+        margin: 0; /* Remove default margin */
         width: 100%;
+        align-content: center;
+        text-align: center;
+        justify-content: center;
+        display: flex;
+        row-gap: 5px;
+        flex-wrap: wrap;
     }
+
 
     .report-card {
-        background-color: #ffffff;
-        padding: 10px;
-        margin: 10px auto;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 500px;
-        transition: background-color 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        background-color: white; /* Background color for event items */
+        
+        border: 1px solid #dee2e6; /* Optional: Border around event items */
+        border-radius: 5px; /* Optional: Rounded corners */
+        padding: 15px; /* Padding inside each event item */
+        margin: 10px; /* Space between event items */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Shadow effect */
+        transition: transform 0.2s; /* Optional: Smooth transition for hover effects */
+        display: flex; /* Optional: Enable Flexbox for inner content */
+        flex-direction: column; /* puts the info in the item underneath each other */
+        width: calc(33.33% - 20px);
     }
 
-        .report-card h5 {
-            color: #143963;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+    .report-card .button-container {
+        display: flex; /* Enable Flexbox for button container */
+        justify-content: center; /* Center buttons horizontally */
+        margin-top: 10px; /* Space between text and buttons */
+    }
+
+    .report-card button {
+        background-color: #1A4D7A;
+        color: white;
+        border-radius: 10px; /* Optional: Rounded corners */
+        width: 70%;
+        margin: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .event-card button:hover {
+        transform: scale(1.05);
+    }
+
+    .event-card:hover {
+        transform: scale(1.05); /* Optional: Slightly enlarge the item on hover */
+    }
+       
 
         .report-card p {
             margin: 5px 0;
