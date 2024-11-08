@@ -8,7 +8,64 @@
 @using System.ComponentModel.DataAnnotations
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
+
 <h4>Submitted Reports</h4>
+<div class="reports-list">
+    @if (reports.Any())
+    {
+        foreach (var report in reports)
+        {
+            <div class="report-item">
+                <strong>Location:</strong> @report.location <br />
+                <strong>Description:</strong> @report.Description <br />
+                <strong>Contact Info:</strong> @report.ContactInfo <br />
+                <strong>Status:</strong>
+                <span style="color:@GetStatusColor(report.Status)">
+                    @report.Status
+                </span> <br />
+                <button class="view-btn" onclick="openPopup('@report.location', '@report.Description', '@report.ContactInfo', '@report.Status')">View</button>
+                <button class="btn btn-danger" @onclick="@(() => DeleteReport(report.ReportId))">Delete</button>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No reports submitted yet.</p>
+    }
+</div>
+
+<div id="popupModal" class="popup-modal" onclick="closePopupOutside(event)">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h4 id="popupTitle">Title</h4>
+        <p id="popupText">Content</p>
+    </div>
+</div>
+
+<script>
+    function openPopup(location, description, contactInfo, status) {
+        document.getElementById('popupTitle').innerText = 'Report Details';
+        document.getElementById('popupText').innerHTML = `
+            <strong>Location:</strong> ${location}<br />
+            <strong>Description:</strong> ${description}<br />
+            <strong>Contact Info:</strong> ${contactInfo}<br />
+            <strong>Status:</strong> <span style="color: ${GetStatusColor(status)}">${status}</span>
+        `;
+        document.getElementById('popupModal').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popupModal').style.display = 'none';
+    }
+
+    function closePopupOutside(event) {
+        if (event.target == document.getElementById('popupModal')) {
+            closePopup();
+        }
+    }
+</script>
+
+@* <h4>Submitted Reports</h4>
     <div class="reports-list">
         
         @if (reports.Any())
@@ -23,6 +80,7 @@
                     <span style="color:@GetStatusColor(report.Status)">
                         @report.Status
                     </span> <br />
+                <button class="view-btn" onclick="openPopup('Report', <strong>Location:</strong> @report.location <br /> 'At the SPCA, we provide a platform for ktact us!')">View</button>
                     <button class="btn btn-danger" @onclick="@(() => DeleteReport(report.ReportId))">Delete</button>
                 </div>
             }
@@ -32,6 +90,14 @@
             <p>No reports submitted yet.</p>
         }
     </div>
+
+<div id="popupModal" class="popup-modal" onclick="closePopupOutside(event)">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h4 id="popupTitle">Title</h4>
+        <p id="popupText">Content</p>
+    </div>
+</div> *@
 
 
 @using Google.Cloud.Firestore
@@ -100,11 +166,30 @@
         public string ContactInfo { get; set; }
         public string Status { get; set; }
     }
+
+    //pop up functions
+    
 }
 
+
 <style>
+    .desktop-container {
+        background: url('/images/background123.png') no-repeat center center;
+        background-size: cover;
+        padding: 20px;
+        /* max-width: 1200px; */
+        width: 100%;
+        margin: auto;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
     body {
         font-family: Arial, sans-serif;
+        height: 100%;
+        width: 100%;
         color: #333;
         background: url('/images/background123.png') no-repeat center center;
         background-size: cover;
@@ -210,5 +295,77 @@
         height: 40px;
         animation: spin 1s linear infinite;
     }
+
+    .popup-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .popupTitle {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .popup-content {
+        background-color: #143963;
+        border-radius: 8px;
+        padding: 30px;
+        width: 80%;
+        max-width: 600px;
+        text-align: left;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+        .popup-content h4 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .popup-content p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .popup-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+            .popup-content ul li {
+                margin-bottom: 10px;
+            }
+
+        .popup-content .close-btn {
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+            .popup-content .close-btn:hover {
+                color: #f1f1f1;
+            }
 
 </style>
