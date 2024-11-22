@@ -7,7 +7,9 @@
 
 <PageTitle>Boarding Management</PageTitle>
 
-<a href="/desktophome" class="open-nav-btn" onclick="openNav()">Home</a>
+<a href="/desktophome" class="home-btn">
+    <img src="images/adminhome.png" alt="Home" class="home-icon" />
+</a>
 
 @if (AddBoardingHtml)
 {
@@ -313,6 +315,32 @@
     .top {
         margin: 30px;
         text-align: center;
+    }
+
+    .home-btn {
+        display: inline-block;
+        text-decoration: none;
+        margin: 10px;
+        width: 80px;
+        height: 80px;
+        background-color: #143963;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 80px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .home-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+        }
+
+    .home-icon {
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        display: inline-block;
     }
 
     .page-title {
