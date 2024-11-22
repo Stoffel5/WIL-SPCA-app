@@ -51,7 +51,7 @@
     <div class="gallery">
         @foreach (var pet in pets)
         {
-            <div class="gallery-item">
+            <div class="gallery-item" @onclick="() => OpenMedia(pet.imageUrl)">
                 @if (pet.imageUrl.Contains("jpg"))
                 {
                     <img src="@pet.imageUrl" alt="@pet.name">
@@ -71,6 +71,25 @@
     </div>
 </div>
 
+@if (IsModalOpen)
+{
+    <div class="modal" @onclick="HandleModalClick">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <span class="close" @onclick="CloseModal">&times;</span>
+            @if (ModalContent.Contains("jpg"))
+            {
+                <img src="@ModalContent" alt="Media">
+            }
+            else if (ModalContent.Contains(".mp4"))
+            {
+                <video src="@ModalContent" controls></video>
+            }
+        </div>
+    </div>
+}
+
+
+
 <div class="bottom-nav">
     <a href="/information" class="nav-item" aria-label="Information"<img src="images/info2.png" alt="Information" class="nav-icon"></a>
     <a href="/profile" class="nav-item" aria-label="Profile"> <img src="images/profile2.png" alt="Profile" class="nav-icon"></a>
@@ -82,6 +101,29 @@
 </div>
 
 @code {
+
+    private bool IsModalOpen = false;
+    private string ModalContent = string.Empty;
+
+    private void OpenMedia(string content)
+    {
+        ModalContent = content;
+        IsModalOpen = true;
+    }
+
+    private void CloseModal()
+    {
+        IsModalOpen = false;
+        ModalContent = string.Empty;
+    }
+
+    private void HandleModalClick()
+    {
+        CloseModal();
+    }
+
+    
+
     List<Pet> pets = new List<Pet>();
     List<Pet> backupPets = new List<Pet>();
     protected override async Task OnInitializedAsync()
@@ -143,6 +185,51 @@
         justify-content: center; 
         padding: 20px;
     }
+
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        position: relative;
+        max-width: 90%; 
+        max-height: 90%; 
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        overflow: hidden; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .modal-content img,
+        .modal-content video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+            border-radius: 8px;
+        }
+
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+    }
+
 
     .gallery {
         display: grid;
