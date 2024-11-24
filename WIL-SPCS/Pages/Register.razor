@@ -1,4 +1,5 @@
 ﻿@page "/register"
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @inject NavigationManager Navigation
 @inject HttpClient Http
 
@@ -206,6 +207,7 @@
     private string passwordCheck = string.Empty;
 
     string message = "";
+
     private async Task HandleValidSubmit()
     {
         message = "";

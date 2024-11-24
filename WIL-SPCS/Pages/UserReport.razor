@@ -59,7 +59,7 @@
             <div class="form-group">
                 <div class="input-container">
                     <label for="location">Location:</label>
-                    <InputText id="location" @bind-Value="animalReport.location" class="form-control" required />
+                    <InputText id="location" @bind-Value="animalReport.Location" class="form-control" required />
                 </div>
             </div>
 
@@ -67,13 +67,6 @@
                 <div class="input-container">
                     <label for="description">Description:</label>
                     <InputTextArea id="description" @bind-Value="animalReport.Description" class="form-control" required />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="input-container">
-                    <label for="contact">Contact Info:</label>
-                    <InputText id="contact" @bind-Value="animalReport.ContactInfo" class="form-control" required />
                 </div>
             </div>
 
@@ -115,7 +108,7 @@
             foreach (var report in reports)
             {
                 <div class="report-card">
-                    <h5>Location: @report.location</h5>
+                    <h5>Location: @report.Location</h5>
                     <p><strong>Description:</strong> @report.Description</p>
                     <p><strong>Contact Info:</strong> @report.ContactInfo</p>
                     <p><strong>Status:</strong> <span class="status" style="color:@GetStatusColor(report.Status)">@report.Status</span></p>
@@ -147,53 +140,77 @@
 @code {
     Report animalReport = new Report();
     List<Report> reports = new List<Report>();
-    private bool isEditing = false; // Flag to differentiate between new submission and editing
-    private string? errorMessage = null; // For displaying error messages
-    private string? successMessage = null; // For displaying success messages
-    private bool loading = false; // Flag for loading state
+    private bool isEditing = false; 
+    private string? errorMessage = null; 
+    private string? successMessage = null; 
+    private bool loading = false; 
 
     protected override async Task OnInitializedAsync()
     {
         await CheckAccess();
+        await GetReports();
+    }
+    private string GetUserEmailFromToken(string token)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        var emailClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserEmail");
+        return emailClaim?.Value ?? string.Empty;
     }
     private async Task CheckAccess()
     {
-        var email = await LocalStorage.GetItemAsync<string>("email");
-
-        if (string.IsNullOrWhiteSpace(email))
+        try
         {
-            Navigation.NavigateTo("/login", true);
-            return;
+            var token = await LocalStorage.GetItemAsync<string>("authToken");
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                Navigation.NavigateTo("/login", true);
+                return;
+            }
+
+            var userType = GetUserTypeFromToken(token);
+            Console.WriteLine(userType);
+
+            if (userType != "User")
+            {
+                Navigation.NavigateTo("/login", true);
+                return;
+            }
         }
-
-        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/CheckUserAccess/{email}");
-
-        if (response.IsSuccessStatusCode)
+        catch (Exception)
         {
-            // Proceed to fetch user details
-            await GetReports();
-        }
-        else
-        {
-            // Navigate to login page if unauthorized
             Navigation.NavigateTo("/login", true);
         }
     }
+    private string GetUserTypeFromToken(string token)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        var userTypeClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role" || c.Type == "UserType");
+        return userTypeClaim?.Value ?? string.Empty;
+    }
     private async Task HandleValidSubmit()
     {
+        var token = await LocalStorage.GetItemAsync<string>("authToken");
+
         var content = new MultipartFormDataContent();
+        animalReport.ContactInfo = GetUserEmailFromToken(token);
+        animalReport.ReportId = 0;
+
         content.Add(new StringContent(animalReport.Status), "Status");
         content.Add(new StringContent(animalReport.ContactInfo), "ContactInfo");
-        content.Add(new StringContent(animalReport.location), "Location");
+        content.Add(new StringContent(animalReport.Location), "Location");
         content.Add(new StringContent(animalReport.Description), "Description");
-        // Post report to external API
+
         var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Report", content);
         if (!response.IsSuccessStatusCode)
         {
             errorMessage = "Failed to submit report to API";
         }
 
-        // Reset the form and state after submission
         animalReport = new Report();
         isEditing = false;
         await GetReports();
@@ -201,10 +218,13 @@
 
     private async Task GetReports()
     {
-        reports = await Http.GetFromJsonAsync<List<Report>>("https://spcaapi.azurewebsites.net/api/Report/GetReports");
+        var token = await LocalStorage.GetItemAsync<string>("authToken");
+
+        var email = GetUserEmailFromToken(token);
+        reports = await Http.GetFromJsonAsync<List<Report>>("https://spcaapi.azurewebsites.net/api/Report/UserReports/" + email);
         foreach (var rep in reports)
         {
-            Console.WriteLine(rep.location);
+            Console.WriteLine(rep.Location);
         }
     }
 
@@ -217,7 +237,7 @@
         StateHasChanged();
     }
 
-    private async Task DeleteReport(string reportId)
+    private async Task DeleteReport(int reportId)
     {
         var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Report?id=" + reportId);
 
@@ -246,8 +266,8 @@
 
     public class Report
     {
-        public string ReportId { get; set; }
-        public string location { get; set; }
+        public int ReportId { get; set; }
+        public string Location { get; set; }
         public string Description { get; set; }
         public string ContactInfo { get; set; }
         public string Status { get; set; }

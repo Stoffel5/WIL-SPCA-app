@@ -23,11 +23,11 @@
     <div class="video-grid">
         @foreach (var pet in pets)
         {
-            if (videoCount < 2 && pet.imageUrl.Contains(".mp4"))
+            if (videoCount < 2 && pet.ImageUrl.Contains(".mp4"))
             {
                 <div class="gallery-item">
                     <video controls>
-                        <source src="@pet.imageUrl" type="video/mp4">
+                        <source src="@pet.ImageUrl" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -87,14 +87,21 @@
 
     public class Pet
     {
-        public string petId { get; set; }
-        public string name { get; set; }
-        public string breed { get; set; }
-        public string health { get; set; }
-        public string weight { get; set; }
-        public string adoptionStatus { get; set; }
-        public string animalType { get; set; }
-        public string imageUrl { get; set; }
+        public int AnimalId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Breed { get; set; }
+
+        public string Health { get; set; }
+
+        public int Weight { get; set; }
+
+        public string AdoptionStatus { get; set; }
+
+        public string AnimalType { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }
 

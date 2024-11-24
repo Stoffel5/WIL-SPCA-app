@@ -3,6 +3,8 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
+@using System.Security.Claims
+@using Microsoft.IdentityModel.JsonWebTokens
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 
@@ -372,35 +374,52 @@
     public string city = string.Empty;
     public string address = string.Empty;
     string addError = string.Empty;
-    bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
         await CheckAccess();
-        isLoading = false;
+        await GetUsers();
     }
     private async Task CheckAccess()
     {
-        email = await LocalStorage.GetItemAsync<string>("email");
+        try
+        {
+            var token = await LocalStorage.GetItemAsync<string>("authToken");
 
-        if (string.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                Navigation.NavigateTo("/login", true);
+                return;
+            }
+
+            var userType = GetUserTypeFromToken(token);
+
+            if (userType != "User")
+            {
+                Navigation.NavigateTo("/login", true);
+                return;
+            }
+        }
+        catch (Exception)
         {
             Navigation.NavigateTo("/login", true);
-            return;
         }
+    }
+    private string GetUserTypeFromToken(string token)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
 
-        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/CheckUserAccess/{email}");
+        var userTypeClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role" || c.Type == "UserType");
+        return userTypeClaim?.Value ?? string.Empty;
+    }
+    private string GetUserEmailFromToken(string token)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
 
-        if (response.IsSuccessStatusCode)
-        {
-            // Proceed to fetch user details
-            await GetUsers();
-        }
-        else
-        {
-            // Navigate to login page if unauthorized
-            Navigation.NavigateTo("/login", true);
-        }
+        var emailClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "UserEmail");
+        return emailClaim?.Value ?? string.Empty;
     }
     private async Task GetUsers()
     {
@@ -411,7 +430,8 @@
         Link: https://www.youtube.com/watch?v=SjhzOauYC80
         Usage: Used to make get request in blazer
         */
-        email = await LocalStorage.GetItemAsync<string>("email");
+        var token = await LocalStorage.GetItemAsync<string>("authToken");
+        email = GetUserEmailFromToken(token);
         user = await Http.GetFromJsonAsync<User>("https://spcaapi.azurewebsites.net/api/User/GetInfo/" + email);
     }
 
@@ -488,8 +508,7 @@
     }
     private async Task SignOut(MouseEventArgs e)
     {
-        await LocalStorage.SetItemAsync("email", "");
-        await LocalStorage.SetItemAsync("userType", "");
+        await LocalStorage.SetItemAsync("authToken", "");
         Navigation.NavigateTo("/", true);
     }
 }
