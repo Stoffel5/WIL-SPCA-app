@@ -155,8 +155,7 @@
             if (response.IsSuccessStatusCode)
             {
                 var loginData = await response.Content.ReadFromJsonAsync<LoginModel>();
-                await LocalStorage.SetItemAsync("email", loginData.Email);
-                await LocalStorage.SetItemAsync("userType", loginData.UserType);
+                await LocalStorage.SetItemAsync("email", loginModel.Email);
 
                 Navigation.NavigateTo(loginData.UserType == "Admin" ? "/desktophome" : "/welcome");
             }
@@ -181,7 +180,6 @@
     {
         public string Email { get; set; }
         public string Password { get; set; }
-
         public string UserType { get; set; }
     }
 }
