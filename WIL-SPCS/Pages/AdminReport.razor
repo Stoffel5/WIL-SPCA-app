@@ -132,6 +132,7 @@
                 Navigation.NavigateTo("/login", true);
                 return;
             }
+            await GetReports();
         }
         catch (Exception)
         {
@@ -188,6 +189,7 @@
             _ => "black"
         };
     }
+
 
     public class Report
     {

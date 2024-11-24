@@ -159,7 +159,7 @@
         {
             var encodedEmail = Uri.EscapeDataString(loginModel.Email);
             var encodedPassword = Uri.EscapeDataString(loginModel.Password);
-            var response = await Http.GetAsync($"https://localhost:7181/api/User/Login?email={encodedEmail}&password={encodedPassword}");
+            var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/Login?email={encodedEmail}&password={encodedPassword}");
 
             if (response.IsSuccessStatusCode)
             {

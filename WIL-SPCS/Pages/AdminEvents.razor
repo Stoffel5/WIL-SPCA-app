@@ -162,6 +162,7 @@
                 Navigation.NavigateTo("/login", true);
                 return;
             }
+            await LoadEvents();
         }
         catch (Exception)
         {

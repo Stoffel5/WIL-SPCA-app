@@ -205,6 +205,45 @@
     List<Pet> backupPets = new List<Pet>();
     private IBrowserFile selectedFile;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckAccess();
+    }
+    private async Task CheckAccess()
+    {
+        try
+        {
+            var token = await LocalStorage.GetItemAsync<string>("authToken");
+
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                Navigation.NavigateTo("/login", true);
+                return;
+            }
+
+            var userType = GetUserTypeFromToken(token);
+            Console.WriteLine(userType);
+
+            if (userType != "Admin")
+            {
+                Navigation.NavigateTo("/login", true);
+                return;
+            }
+            await GetPets();
+        }
+        catch (Exception)
+        {
+            Navigation.NavigateTo("/login", true);
+        }
+    }
+    private string GetUserTypeFromToken(string token)
+    {
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        var userTypeClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role" || c.Type == "UserType");
+        return userTypeClaim?.Value ?? string.Empty;
+    }
     /*
     Code Attribution
     Title: Uploading Files to Blazor - The Blazor File Upload Mini Course
@@ -235,45 +274,6 @@
                 }
             }
         }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await CheckAccess();
-    }
-    private async Task CheckAccess()
-    {
-        try
-        {
-            var token = await LocalStorage.GetItemAsync<string>("authToken");
-
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                Navigation.NavigateTo("/login", true);
-                return;
-            }
-
-            var userType = GetUserTypeFromToken(token);
-            Console.WriteLine(userType);
-
-            if (userType != "Admin")
-            {
-                Navigation.NavigateTo("/login", true);
-                return;
-            }
-        }
-        catch (Exception)
-        {
-            Navigation.NavigateTo("/login", true);
-        }
-    }
-    private string GetUserTypeFromToken(string token)
-    {
-        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-        var jwtToken = handler.ReadJwtToken(token);
-
-        var userTypeClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "role" || c.Type == "UserType");
-        return userTypeClaim?.Value ?? string.Empty;
     }
 
     private async Task GetPets()

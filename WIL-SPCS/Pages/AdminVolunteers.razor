@@ -208,6 +208,7 @@
                 Navigation.NavigateTo("/login", true);
                 return;
             }
+            await LoadVolunteers();
         }
         catch (Exception)
         {
