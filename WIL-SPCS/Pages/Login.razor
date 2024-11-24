@@ -66,10 +66,10 @@
             transition: border 0.3s;
         }
 
-            input:focus {
-                border-color: #143963;
-                outline: none;
-            }
+        input:focus {
+            border-color: #143963;
+            outline: none;
+        }
 
         .error {
             color: red;
@@ -89,88 +89,100 @@
             width: 100%;
         }
 
-            .button:hover {
-                background-color: #ffffff;
-                color: #143963;
-                border: 2px solid #143963;
-            }
+        .button:hover {
+            background-color: #ffffff;
+            color: #143963;
+            border: 2px solid #143963;
+        }
 
         .forgot-password {
             text-align: center;
             margin-top: 15px;
         }
 
-            .forgot-password a {
-                color: #143963;
-                text-decoration: underline;
-                transition: color 0.3s;
-            }
+        .forgot-password a {
+            color: #143963;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
 
-                .forgot-password a:hover {
-                    color: #f44336;
-                }
+        .forgot-password a:hover {
+            color: #f44336;
+        }
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>Login</h1>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" @bind="email" id="email" required>
-            <div id="emailError" class="error"></div>
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" @bind="password" id="password" required>
-            <div id="passwordError" class="error"></div>
-        </div>
-        <span style="color: red;">@errorMessage</span>
-        <button type="submit" @onclick="HandleValidSubmit" class="button">Login</button>
+        <EditForm Model="loginModel" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <InputText id="email" @bind-Value="loginModel.Email" class="input" />
+                <ValidationMessage For="@(() => loginModel.Email)" class="error" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText id="password" @bind-Value="loginModel.Password" type="password" class="input" />
+                <ValidationMessage For="@(() => loginModel.Password)" class="error" />
+            </div>
+
+            <span style="color: red;">@errorMessage</span>
+            <button type="submit" class="button">Login</button>
+        </EditForm>
+
         <div class="forgot-password">
             <a href="/forgot-password">Forgot Password?</a>
         </div>
     </div>
 </body>
 @code {
-    public string email = string.Empty;
-    public string password = string.Empty;
+    private LoginModel loginModel = new LoginModel();
     public string errorMessage = string.Empty;
+
     private async Task HandleValidSubmit()
     {
         errorMessage = "";
-        var encodedEmail = Uri.EscapeDataString(email);
-        var encodedPassword = Uri.EscapeDataString(password);
-        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/Login?email={encodedEmail}&password={encodedPassword}");
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var loginData = await response.Content.ReadFromJsonAsync<LoginModel>();
-            await LocalStorage.SetItemAsync("email", loginData.UserEmail);
-            if (loginData.UserType == "Admin")
+            var encodedEmail = Uri.EscapeDataString(loginModel.Email);
+            var encodedPassword = Uri.EscapeDataString(loginModel.Password);
+            var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/Login?email={encodedEmail}&password={encodedPassword}");
+
+            if (response.IsSuccessStatusCode)
             {
-                Navigation.NavigateTo("/desktophome");
+                var loginData = await response.Content.ReadFromJsonAsync<LoginModel>();
+                await LocalStorage.SetItemAsync("email", loginData.Email);
+                await LocalStorage.SetItemAsync("userType", loginData.UserType);
+
+                Navigation.NavigateTo(loginData.UserType == "Admin" ? "/desktophome" : "/welcome");
             }
             else
             {
-                Navigation.NavigateTo("/welcome");
+                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorModel>();
+                errorMessage = errorResponse.message;
             }
         }
-        else
+        catch (Exception ex)
         {
-            var errorResponse = await response.Content.ReadFromJsonAsync<ErrorModel>();
-            errorMessage = errorResponse.message;
+            errorMessage = "An error occurred during login. Please try again.";
         }
     }
+
     public class ErrorModel
     {
         public string message { get; set; }
     }
+
     private class LoginModel
     {
-        public string UserEmail { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
+
         public string UserType { get; set; }
     }
 }
 </html>
-
