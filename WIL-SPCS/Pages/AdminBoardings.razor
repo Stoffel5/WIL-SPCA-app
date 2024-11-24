@@ -170,11 +170,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
-        await LoadEvents();
+        await LoadBoarding();
     }
 
-    private async Task LoadEvents()
+    private async Task LoadBoarding()
     {
         // Load events based on the selected date (placeholder logic)
         boardingRequests = await Http.GetFromJsonAsync<List<BoardingRequest>>("https://spcaapi.azurewebsites.net/api/Boarding/GetBoardingRequests");
@@ -187,6 +186,7 @@
     }
     private void EditBoardingForm(BoardingRequest request)
     {
+        currentBoardingRequest = request;
         EditBoardingHtml = true;
         StateHasChanged();
     }
@@ -234,9 +234,9 @@
         content.Add(new StringContent(editOwnerEmail), "OwnerEmail");
         content.Add(new StringContent(editStartDate.ToString()), "StartDate");
         content.Add(new StringContent(editEndDate.ToString()), "EndDate");
-
+        Console.WriteLine(currentBoardingRequest.BoardingId.ToString());
         // make request
-        var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/events/UpdateEvent/" + currentBoardingRequest.requestId, content);
+        var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/Boarding/UpdateBoarding/" + currentBoardingRequest.BoardingId, content);
 
         // if/else get reponse
         if (response.IsSuccessStatusCode)
@@ -263,7 +263,7 @@
 
     private async Task DeleteBoarding(MouseEventArgs e)
     {
-        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Boarding/" + currentBoardingRequest.requestId);
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Boarding/" + currentBoardingRequest.BoardingId);
 
         if (response.IsSuccessStatusCode)
         {
@@ -285,7 +285,7 @@
         public string EndDate { get; set; }
         public string OwnerName { get; set; }
         public string OwnerEmail { get; set; }
-        public string requestId { get; set; }
+        public int BoardingId { get; set; }
     }
     private void search(ChangeEventArgs e)
     {

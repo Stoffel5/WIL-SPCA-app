@@ -212,10 +212,15 @@
         if(password == passwordCheck)
         {
             var content = new MultipartFormDataContent();
-            content.Add(new StringContent(email), "Email");
+            content.Add(new StringContent(email), "UserEmail");
             content.Add(new StringContent(name), "FirstName");
             content.Add(new StringContent(surname), "LastName");
             content.Add(new StringContent(password), "Password");
+            content.Add(new StringContent(""), "Address");
+            content.Add(new StringContent(""), "City");
+            content.Add(new StringContent(""), "PhoneNumber");
+            content.Add(new StringContent(""), "UserType");
+            content.Add(new StringContent(""), "ProfilePicture");
 
             var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/User/Register", content);
             if (response.IsSuccessStatusCode)

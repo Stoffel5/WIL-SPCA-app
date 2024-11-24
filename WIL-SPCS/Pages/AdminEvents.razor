@@ -91,9 +91,9 @@
                 @foreach (var ev in events)
                 {
                     <li class="event-item">
-                        <strong>@ev.eventDate</strong>
-                        <strong>@ev.eventName</strong>
-                        <p>@ev.eventDescription</p>
+                        <strong>@ev.EventDate</strong>
+                        <strong>@ev.EventName</strong>
+                        <p>@ev.EventDescription</p>
                         <button class="btn btnx btn-primary" @onclick="() => EditEventForm(ev)">Edit</button>
                         <button class="btn btn-danger" @onclick="() => DeleteEventForm(ev)">Delete</button>
                     </li>
@@ -153,7 +153,7 @@
 
     private void SortEvents()
     {
-        events = backupEvents.Where(ev => ev.eventDate == selectedDate.ToString("dd/MM/yyyy")).ToList();
+        events = backupEvents.Where(ev => ev.EventDate == selectedDate.ToString("dd/MM/yyyy")).ToList();
         eventString = "Events on " + selectedDate.Date.ToString("dd/MM/yyyy");
     }
 
@@ -172,10 +172,10 @@
 
     public class Event
     {
-        public string eventName { get; set; }
-        public string eventDescription { get; set; }
-        public string eventId { get; set; }
-        public string eventDate { get; set; }
+        public string EventName { get; set; }
+        public string EventDescription { get; set; }
+        public int EventId { get; set; }
+        public string EventDate { get; set; }
     }
     private async Task AddEvent(MouseEventArgs e)
     {
@@ -207,7 +207,7 @@
     }
     private async Task DeleteEvent()
     {
-        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/events/DeleteEvent/" + currentEvent.eventId);
+        var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/events/DeleteEvent/" + currentEvent.EventId);
 
         if (response.IsSuccessStatusCode)
         {
@@ -222,8 +222,8 @@
     private void EditEventForm(Event ev)
     {
         currentEvent = ev;
-        evName = ev.eventName;
-        evDescription = ev.eventDescription;
+        evName = ev.EventName;
+        evDescription = ev.EventDescription;
         editDate = DateTime.ParseExact("15/05/2024", "dd/MM/yyyy", CultureInfo.InvariantCulture);
         editEvent = true;
         StateHasChanged();
@@ -237,7 +237,7 @@
         content.Add(new StringContent(selectedDate.ToString("dd/MM/yyyy")), "eventDate");
 
         // make request
-        var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/events/UpdateEvent/" + currentEvent.eventId, content);
+        var response = await Http.PutAsync($"https://spcaapi.azurewebsites.net/api/events/UpdateEvent/" + currentEvent.EventId, content);
 
         // if/else get reponse
         if (response.IsSuccessStatusCode)

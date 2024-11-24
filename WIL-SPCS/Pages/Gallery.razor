@@ -51,19 +51,19 @@
     <div class="gallery">
         @foreach (var pet in pets)
         {
-            <div class="gallery-item" @onclick="() => OpenMedia(pet.imageUrl)">
-                @if (pet.imageUrl.Contains("jpg"))
+            <div class="gallery-item" @onclick="() => OpenMedia(pet.ImageUrl)">
+                @if (pet.ImageUrl.Contains("jpg"))
                 {
-                    <img src="@pet.imageUrl" alt="@pet.name">
+                    <img src="@pet.ImageUrl" alt="@pet.Name">
                 }
-                else if (pet.imageUrl.Contains(".mp4"))
+                else if (pet.ImageUrl.Contains(".mp4"))
                 {
-                    <video src="@pet.imageUrl" controls></video>
+                    <video src="@pet.ImageUrl" controls></video>
                 }
                 <div class="overlay">
                     <div class="info">
-                        <h4>@pet.name</h4>
-                        <p>Breed: @pet.breed</p>
+                        <h4>@pet.Name</h4>
+                        <p>Breed: @pet.Breed</p>
                     </div>
                 </div>
             </div>
@@ -144,21 +144,28 @@
     }
     public class Pet
     {
-        public string petId { get; set; }
-        public string name { get; set; }
-        public string breed { get; set; }
-        public string health { get; set; }
-        public string weight { get; set; }
-        public string adoptionStatus { get; set; }
-        public string animalType { get; set; }
-        public string imageUrl { get; set; }
+        public int AnimalId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Breed { get; set; }
+
+        public string Health { get; set; }
+
+        public int Weight { get; set; }
+
+        public string AdoptionStatus { get; set; }
+
+        public string AnimalType { get; set; }
+
+        public string ImageUrl { get; set; }
     }
     private void search(ChangeEventArgs e)
     {
         var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
         if (!string.IsNullOrEmpty(searchText))
         {
-            pets = backupPets.Where(pet => pet.animalType.ToLower().Contains(searchText)).ToList();
+            pets = backupPets.Where(pet => pet.AnimalType.ToLower().Contains(searchText)).ToList();
         }
         else
         {

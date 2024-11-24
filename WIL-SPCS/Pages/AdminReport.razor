@@ -10,7 +10,6 @@
 @using System.ComponentModel.DataAnnotations
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
-
 <h4>Submitted Reports</h4>
 <div class="reports-list">
     @if (reports.Any())
@@ -18,14 +17,14 @@
         foreach (var report in reports)
         {
             <div class="report-item">
-                <strong>Location:</strong> @report.location <br />
+                <strong>Location:</strong> @report.Location <br />
                 <strong>Description:</strong> @report.Description <br />
                 <strong>Contact Info:</strong> @report.ContactInfo <br />
                 <strong>Status:</strong>
                 <span style="color:@GetStatusColor(report.Status)">
                     @report.Status
                 </span> <br />
-                <button class="view-btn" onclick="openPopup('@report.location', '@report.Description', '@report.ContactInfo', '@report.Status')">View</button>
+                <button class="view-btn" onclick="openPopup('@report.Location', '@report.Description', '@report.ContactInfo', '@report.Status')">View</button>
                 <button class="btn btn-danger" @onclick="@(() => DeleteReport(report.ReportId))">Delete</button>
             </div>
         }
@@ -101,16 +100,13 @@
     </div>
 </div> *@
 
-
-@using Google.Cloud.Firestore
-
 @code {
     Report animalReport = new Report();
     List<Report> reports = new List<Report>();
-    private bool isEditing = false; // Flag to differentiate between new submission and editing
-    private string? errorMessage = null; // For displaying error messages
-    private string? successMessage = null; // For displaying success messages
-    private bool loading = false; // Flag for loading state
+    private bool isEditing = false;
+    private string? errorMessage = null;
+    private string? successMessage = null;
+    private bool loading = false; 
 
     protected override async Task OnInitializedAsync()
     {
@@ -129,11 +125,11 @@
         reports = await Http.GetFromJsonAsync<List<Report>>("https://spcaapi.azurewebsites.net/api/Report/GetReports");
         foreach (var rep in reports)
         {
-            Console.WriteLine(rep.location);
+            Console.WriteLine(rep.Location);
         }
     }
 
-    private async Task DeleteReport(string reportId)
+    private async Task DeleteReport(int reportId)
     {
         var response = await Http.DeleteAsync("https://spcaapi.azurewebsites.net/api/Report?id=" + reportId);
 
@@ -162,15 +158,12 @@
 
     public class Report
     {
-        public string ReportId { get; set; }
-        public string location { get; set; }
+        public int ReportId { get; set; }
+        public string Location { get; set; }
         public string Description { get; set; }
         public string ContactInfo { get; set; }
         public string Status { get; set; }
     }
-
-    //pop up functions
-    
 }
 
 

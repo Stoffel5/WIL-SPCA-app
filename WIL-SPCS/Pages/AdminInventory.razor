@@ -21,8 +21,8 @@
                 <h3 class="form-title">Add Pet</h3>
                 <div class="form-group">
                     <label for="name" class="bold-text">Pet Name</label>
-                    <InputText id="name" @bind-Value="addPet.name" class="form-input" />
-                    <ValidationMessage For="@(() => addPet.name)" />
+                    <InputText id="name" @bind-Value="addPet.Name" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.Name)" />
                 </div>
                 <div class="form-group">
                     <label for="addAnimalType" class="bold-text">Animal Type</label>
@@ -31,23 +31,23 @@
                 </div>
                 <div class="form-group">
                     <label for="breed" class="bold-text">Breed</label>
-                    <InputText id="breed" @bind-Value="addPet.breed" class="form-input" />
-                    <ValidationMessage For="@(() => addPet.breed)" />
+                    <InputText id="breed" @bind-Value="addPet.Breed" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.Breed)" />
                 </div>
                 <div class="form-group">
                     <label for="health" class="bold-text">Pet Health</label>
-                    <InputText id="health" @bind-Value="addPet.health" class="form-input" />
-                    <ValidationMessage For="@(() => addPet.health)" />
+                    <InputText id="health" @bind-Value="addPet.Health" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.Health)" />
                 </div>
                 <div class="form-group">
                     <label for="weight" class="bold-text">Pet Weight</label>
-                    <InputText id="weight" @bind-Value="addPet.weight" class="form-input" />
-                    <ValidationMessage For="@(() => addPet.weight)" />
+                    <InputNumber id="weight" @bind-Value="addPet.Weight" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.Weight)" />
                 </div>
                 <div class="form-group">
                     <label for="status" class="bold-text">Pet Adoption Status</label>
-                    <InputText id="status" @bind-Value="addPet.adoptionStatus" class="form-input" />
-                    <ValidationMessage For="@(() => addPet.adoptionStatus)" />
+                    <InputText id="status" @bind-Value="addPet.AdoptionStatus" class="form-input" />
+                    <ValidationMessage For="@(() => addPet.AdoptionStatus)" />
                 </div>
                 <div class="form-group">
                     <label for="image" class="bold-text">Image</label>
@@ -70,8 +70,8 @@
                 <h3 class="form-title">Edit Pet</h3>
                 <div class="form-group">
                     <label for="editname" class="bold-text">Pet Name</label>
-                    <InputText id="editname" @bind-Value="editPet.name" class="form-control rounded-input" />
-                    <ValidationMessage For="@(() => editPet.name)" />
+                    <InputText id="editname" @bind-Value="editPet.Name" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.Name)" />
                 </div>
                 <div class="form-group">
                     <label for="editAnimalType" class="bold-text">Animal Type</label>
@@ -80,23 +80,23 @@
                 </div>
                 <div class="form-group">
                     <label for="editbreed" class="bold-text">Breed</label>
-                    <InputText id="editbreed" @bind-Value="editPet.breed" class="form-control rounded-input" />
-                    <ValidationMessage For="@(() => editPet.breed)" />
+                    <InputText id="editbreed" @bind-Value="editPet.Breed" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.Breed)" />
                 </div>
                 <div class="form-group">
                     <label for="edithealth" class="bold-text">Pet Health</label>
-                    <InputText id="edithealth" @bind-Value="editPet.health" class="form-control rounded-input" />
-                    <ValidationMessage For="@(() => editPet.health)" />
+                    <InputText id="edithealth" @bind-Value="editPet.Health" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.Health)" />
                 </div>
                 <div class="form-group">
                     <label for="editweight" class="bold-text">Pet Weight</label>
-                    <InputText id="editweight" @bind-Value="editPet.weight" class="form-control rounded-input" />
-                    <ValidationMessage For="@(() => editPet.weight)" />
+                    <InputNumber id="editweight" @bind-Value="editPet.Weight" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.Weight)" />
                 </div>
                 <div class="form-group">
                     <label for="editstatus" class="bold-text">Pet Adoption Status</label>
-                    <InputText id="editStatus" @bind-Value="editPet.adoptionStatus" class="form-control rounded-input" />
-                    <ValidationMessage For="@(() => editPet.adoptionStatus)" />
+                    <InputText id="editStatus" @bind-Value="editPet.AdoptionStatus" class="form-control rounded-input" />
+                    <ValidationMessage For="@(() => editPet.AdoptionStatus)" />
                 </div>
                 <div class="form-group">
                     <label for="image" class="bold-text">Image</label>
@@ -148,17 +148,17 @@
             @foreach(var pet in pets)
             {
                 <tr>
-                    <td>@pet.name</td>
+                    <td>@pet.Name</td>
                     <td>@pet.AnimalType</td>
-                    <td>@pet.breed</td>
-                    <td>@pet.health</td>
-                    <td>@pet.weight</td>
-                    <td>@pet.adoptionStatus</td>
-                    <td><a href="@pet.imageUrl" target="_blank">View Image</a></td>
+                    <td>@pet.Breed</td>
+                    <td>@pet.Health</td>
+                    <td>@pet.Weight.ToString() kg</td>
+                    <td>@pet.AdoptionStatus</td>
+                    <td><a href="@pet.ImageUrl" target="_blank">View Image</a></td>
                     <td>
                         <center>
                             <button class="btn btnx btn-primary rounded-button bold-text" @onclick="() => EditPetForm(pet)">Edit</button>
-                            <button class="btn btnx btn-danger rounded-button bold-text" @onclick="() => DeletePetForm(pet.petId)">Delete</button>
+                            <button class="btn btnx btn-danger rounded-button bold-text" @onclick="() => DeletePetForm(pet.AnimalId)">Delete</button>
                         </center>
                     </td>
                 </tr>
@@ -170,27 +170,27 @@
 @code {
     public class Pet
     {
-        public string petId { get; set; }
+        public int AnimalId { get; set; }
 
         [Required(ErrorMessage = "Pet name is required.")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Breed is required.")]
-        public string breed { get; set; }
+        public string Breed { get; set; }
 
         [Required(ErrorMessage = "Health information is required.")]
-        public string health { get; set; }
+        public string Health { get; set; }
 
         [Required(ErrorMessage = "Weight is required.")]
-        public string weight { get; set; }
+        public int Weight { get; set; }
 
         [Required(ErrorMessage = "Adoption status is required.")]
-        public string adoptionStatus { get; set; }
+        public string AdoptionStatus { get; set; }
 
         [Required(ErrorMessage = "Animal type is required.")]
         public string AnimalType { get; set; }
 
-        public string imageUrl { get; set; }
+        public string ImageUrl { get; set; }
     }
     bool AddPetHtml = false;
     bool EditPetHtml = false;
@@ -199,7 +199,7 @@
     string addError = string.Empty;
     Pet addPet = new Pet();
 
-    string petId = string.Empty;
+    int petId = 0;
     Pet editPet = new Pet();
     List<Pet> pets = new List<Pet>();
     List<Pet> backupPets = new List<Pet>();
@@ -270,7 +270,7 @@
         EditPetHtml = true;
         StateHasChanged();
     }
-    private void DeletePetForm(string petId)
+    private void DeletePetForm(int petId)
     {
         this.petId = petId;
         DeletePetHtml = true;
@@ -284,7 +284,6 @@
     private async Task AddPet()
     {
 
-        Console.WriteLine("test4");
         /*
         Code Attribution
         Title: How To Make API Requests In Blazor WASM
@@ -299,70 +298,74 @@
         Link: https://brokul.dev/sending-files-and-additional-data-using-httpclient-in-net-core
         Usage: Used to make post request in blazer with files
         */
+        /*
+        Code Attribution
+        Title: File Mime Type Checking
+        Author: ffffff01
+        Link: https://stackoverflow.com/questions/12233711/file-mime-type-checking
+        Usage: Used to make user only uploads images or videos.
+        */
+
+        if (selectedFile != null)
+        {
+            var allowedFileTypes = new List<string> { "image/jpeg", "image/png", "image/gif", "video/mp4", "video/avi", "video/mkv" };
+            if (!allowedFileTypes.Contains(selectedFile.ContentType))
+            {
+                addError = "Only images (JPEG, PNG, GIF) and videos (MP4, AVI, MKV) are allowed.";
+                return;
+            }
+        }
 
         // make content for post request
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent(addPet.name), "name");
-        content.Add(new StringContent(addPet.breed), "breed");
-        content.Add(new StringContent(addPet.health), "health");
-        content.Add(new StringContent(addPet.AnimalType), "animalType");
-        content.Add(new StringContent(addPet.weight.ToString()), "weight");
-        content.Add(new StringContent(addPet.adoptionStatus), "adoptionStatus");
+        content.Add(new StringContent(addPet.Name), "Name");
+        content.Add(new StringContent(addPet.Breed), "Breed");
+        content.Add(new StringContent(addPet.Health), "Health");
+        content.Add(new StringContent(addPet.AnimalType), "AnimalType");
+        content.Add(new StringContent(addPet.Weight.ToString()), "Weight");
+        content.Add(new StringContent(addPet.AdoptionStatus), "AdoptionStatus");
 
+        var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
+        streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+        content.Add(streamContent, "file", selectedFile.Name);// make request
+        var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Animal", content);
 
-        if (addError == string.Empty)
+        // if/else get reponse
+        if (response.IsSuccessStatusCode)
         {
-
-            Console.WriteLine("test5");
-            // add file to request
-            if (selectedFile != null)
-            {
-                Console.WriteLine("test6");
-                var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
-                content.Add(streamContent, "image", selectedFile.Name);// make request
-                var response = await Http.PostAsync("https://spcaapi.azurewebsites.net/api/Animal", content);
-
-                // if/else get reponse
-                if (response.IsSuccessStatusCode)
-                {
-                    Navigation.NavigateTo("/AdminInventory", true);
-                    StateHasChanged();
-                }
-                else
-                {
-                    Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
-                }
-            }
-            else
-            {
-                addError = "Image/Video Required";
-            }
+            Navigation.NavigateTo("/AdminInventory", true);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("Error adding pet: " + response.ReasonPhrase);
         }
     }
     private async Task EditPet()
     {
         // make content for post request
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent(editPet.name), "name");
-        content.Add(new StringContent(editPet.breed), "breed");
-        content.Add(new StringContent(editPet.health), "health");
-        content.Add(new StringContent(editPet.AnimalType), "animalType");
-        content.Add(new StringContent(editPet.weight.ToString()), "weight");
-        content.Add(new StringContent(editPet.adoptionStatus), "adoptionStatus");
+        content.Add(new StringContent(editPet.Name), "Name");
+        content.Add(new StringContent(editPet.Breed), "Breed");
+        content.Add(new StringContent(editPet.Health), "Health");
+        content.Add(new StringContent(editPet.AnimalType), "AnimalType");
+        content.Add(new StringContent(editPet.Weight.ToString()), "Weight");
+        content.Add(new StringContent(editPet.AdoptionStatus), "AdoptionStatus");
 
         // add file to request
         if (selectedFile != null)
         {
             var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
-            content.Add(streamContent, "image", selectedFile.Name);
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+            content.Add(streamContent, "file", selectedFile.Name);
         }
         else
         {
-            content.Add(new StringContent(""), "image");
+            content.Add(new StringContent(""), "file");
         }
 
         // make request
-        var response = await Http.PatchAsync($"https://spcaapi.azurewebsites.net/api/Animal?id=" + editPet.petId, content);
+        var response = await Http.PatchAsync($"https://spcaapi.azurewebsites.net/api/Animal?id=" + editPet.AnimalId, content);
 
         // if/else get reponse
         if (response.IsSuccessStatusCode)
@@ -410,7 +413,7 @@
         var searchText = e.Value.ToString()?.Trim().ToLower() ?? string.Empty;
         if (!string.IsNullOrEmpty(searchText))
         {
-            pets = backupPets.Where(pet => pet.name.ToLower().Contains(searchText)).ToList();
+            pets = backupPets.Where(pet => pet.Name.ToLower().Contains(searchText)).ToList();
         }
         else
         {
