@@ -214,15 +214,12 @@
     */
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
-        Console.WriteLine("test1");
         if(e.File == null)
         {
-            Console.WriteLine("test2");
             addError = "Image/Video Required";
         }
         else
         {
-            Console.WriteLine("test3");
             selectedFile = e.File;
             if (selectedFile.Size > 5 * 1024 * 1024)
             {
@@ -242,8 +239,30 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
-        await GetPets();
+        await CheckAccess();
+    }
+    private async Task CheckAccess()
+    {
+        var email = await LocalStorage.GetItemAsync<string>("email");
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            Navigation.NavigateTo("/login", true);
+            return;
+        }
+
+        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/CheckAdminAccess/{email}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Proceed to fetch user details
+            await GetPets();
+        }
+        else
+        {
+            // Navigate to login page if unauthorized
+            Navigation.NavigateTo("/login", true);
+        }
     }
 
     private async Task GetPets()
@@ -355,6 +374,12 @@
         // add file to request
         if (selectedFile != null)
         {
+            var allowedFileTypes = new List<string> { "image/jpeg", "image/png", "image/gif", "video/mp4", "video/avi", "video/mkv" };
+            if (!allowedFileTypes.Contains(selectedFile.ContentType))
+            {
+                addError = "Only images (JPEG, PNG, GIF) and videos (MP4, AVI, MKV) are allowed.";
+                return;
+            }
             var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
             streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
             content.Add(streamContent, "file", selectedFile.Name);

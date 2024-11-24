@@ -475,10 +475,28 @@
 @code{
     protected override async Task OnInitializedAsync()
     {
-        var userType = await LocalStorage.GetItemAsync<string>("userType");
-        if (userType != "User")
+        await CheckAccess();
+    }
+    private async Task CheckAccess()
+    {
+        var email = await LocalStorage.GetItemAsync<string>("email");
+
+        if (string.IsNullOrWhiteSpace(email))
         {
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/login", true);
+            return;
+        }
+
+        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/CheckUserAccess/{email}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Proceed to fetch user details
+        }
+        else
+        {
+            // Navigate to login page if unauthorized
+            Navigation.NavigateTo("/login", true);
         }
     }
 }

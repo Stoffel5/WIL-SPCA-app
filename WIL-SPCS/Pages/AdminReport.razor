@@ -110,8 +110,30 @@
 
     protected override async Task OnInitializedAsync()
     {
-        
-        await GetReports();
+        await CheckAccess();
+    }
+    private async Task CheckAccess()
+    {
+        var email = await LocalStorage.GetItemAsync<string>("email");
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            Navigation.NavigateTo("/login", true);
+            return;
+        }
+
+        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/CheckAdminAccess/{email}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Proceed to fetch user details
+            await GetReports();
+        }
+        else
+        {
+            // Navigate to login page if unauthorized
+            Navigation.NavigateTo("/login", true);
+        }
     }
 
     private async Task HandleValidSubmit()

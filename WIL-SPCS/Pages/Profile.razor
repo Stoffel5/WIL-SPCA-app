@@ -283,16 +283,22 @@
     </style>
 </head>
 <body>
-
     <div class="profile-container">
         <div class="profile-header">
-            <h2>User Profile</h2>
+            <h2>@user.FirstName @user.LastName's Profile</h2>
         </div>
 
         <div class="profile-picture">
-            <img src="@user.ProfilePicture" alt="Profile Picture" id="profilePic">
+            @if (user.ProfilePicture == null)
+            {
+                <img src="images/logo.png" alt="Profile Picture" id="profilePic">
+            }
+            @if (user.ProfilePicture != null)
+            {
+                <img src="@user.ProfilePicture" alt="Profile Picture" id="profilePic">
+            }
         </div>
-        <InputFile id="image" OnChange="HandleFileSelected" class="form-input" />
+        <InputFile id="image" OnChange="HandleFileSelected" class="form-input"></InputFile>
 
         <form class="profile-form" id="profileForm">
             <div class="form-group">
@@ -366,11 +372,35 @@
     public string city = string.Empty;
     public string address = string.Empty;
     string addError = string.Empty;
+    bool isLoading = true;
 
     protected override async Task OnInitializedAsync()
     {
-        
-        await GetUsers();
+        await CheckAccess();
+        isLoading = false;
+    }
+    private async Task CheckAccess()
+    {
+        email = await LocalStorage.GetItemAsync<string>("email");
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            Navigation.NavigateTo("/login", true);
+            return;
+        }
+
+        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/CheckUserAccess/{email}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // Proceed to fetch user details
+            await GetUsers();
+        }
+        else
+        {
+            // Navigate to login page if unauthorized
+            Navigation.NavigateTo("/login", true);
+        }
     }
     private async Task GetUsers()
     {
@@ -381,7 +411,8 @@
         Link: https://www.youtube.com/watch?v=SjhzOauYC80
         Usage: Used to make get request in blazer
         */
-        user = await Http.GetFromJsonAsync<User>("https://spcaapi.azurewebsites.net/api/User/GetInfo/" + user.UserEmail);
+        email = await LocalStorage.GetItemAsync<string>("email");
+        user = await Http.GetFromJsonAsync<User>("https://spcaapi.azurewebsites.net/api/User/GetInfo/" + email);
     }
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
@@ -414,7 +445,7 @@
         var encodedEmail = Uri.EscapeDataString(user.UserEmail);
         // make content for post request
         var content = new MultipartFormDataContent();
-        content.Add(new StringContent(user.UserEmail), "Email");
+        content.Add(new StringContent(email), "UserEmail");
         content.Add(new StringContent(firstname), "Firstname");
         content.Add(new StringContent(lastname), "Lastname");
         content.Add(new StringContent(phonenumber), "PhoneNumber");
@@ -426,12 +457,19 @@
         // add file to request
         if (selectedFile != null)
         {
+            var allowedFileTypes = new List<string> { "image/jpeg", "image/png", "image/gif", "video/mp4", "video/avi", "video/mkv" };
+            if (!allowedFileTypes.Contains(selectedFile.ContentType))
+            {
+                addError = "Only images (JPEG, PNG, GIF) and videos (MP4, AVI, MKV) are allowed.";
+                return;
+            }
             var streamContent = new StreamContent(selectedFile.OpenReadStream(5 * 1024 * 1024));
-            content.Add(streamContent, "image", selectedFile.Name);
+            streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(selectedFile.ContentType);
+            content.Add(streamContent, "file", selectedFile.Name);
         }
         else
         {
-            content.Add(new StringContent(""), "image");
+            content.Add(new StringContent(""), "file");
         }
 
         // make request

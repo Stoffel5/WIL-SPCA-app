@@ -2,6 +2,7 @@
 
 @inject NavigationManager Navigation
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@inject HttpClient Http
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -121,6 +122,28 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
+        await CheckAccess();
+    }
+    private async Task CheckAccess()
+    {
+        var email = await LocalStorage.GetItemAsync<string>("email");
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            Navigation.NavigateTo("/login", true);
+            return;
+        }
+
+        var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/CheckAdminAccess/{email}");
+
+        if (response.IsSuccessStatusCode)
+        {
+        }
+        else
+        {
+            // Navigate to login page if unauthorized
+            Navigation.NavigateTo("/login", true);
+        }
     }
     private void NavigateToBoardings() => Navigation.NavigateTo("/AdminBoardings");
     private void NavigateToEvents() => Navigation.NavigateTo("/AdminEvents");

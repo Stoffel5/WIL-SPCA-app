@@ -54,9 +54,9 @@
         @foreach (var ev in events)
         {
             <li class="event-item">
-                <strong>@ev.eventDate</strong>
-                <strong>@ev.eventName</strong>
-                <p>@ev.eventDescription</p>
+                <strong>@ev.EventDate</strong>
+                <strong>@ev.EventName</strong>
+                <p>@ev.EventDescription</p>
             </li>
         }
     </ul>
@@ -105,7 +105,7 @@
 
     private void SortEvents()
     {
-        events = backupEvents.Where(ev => ev.eventDate == selectedDate.ToString("dd/MM/yyyy")).ToList();
+        events = backupEvents.Where(ev => ev.EventDate == selectedDate.ToString("dd/MM/yyyy")).ToList();
         eventString = "Events on " + selectedDate.Date.ToString("dd/MM/yyyy");
     }
 
@@ -118,10 +118,10 @@
 
     public class Event
     {
-        public string eventName { get; set; }
-        public string eventDescription { get; set; }
-        public string eventId { get; set; }
-        public string eventDate { get; set; }
+        public string EventName { get; set; }
+        public string EventDescription { get; set; }
+        public int EventId { get; set; }
+        public string EventDate { get; set; }
     }
     private void ResetEvents(MouseEventArgs e)
     {
