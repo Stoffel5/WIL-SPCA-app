@@ -509,7 +509,7 @@
     private async Task SignOut(MouseEventArgs e)
     {
         await LocalStorage.SetItemAsync("authToken", "");
-        Navigation.NavigateTo("/", true);
+        Navigation.NavigateTo("/login", true);
     }
 }
 </html>

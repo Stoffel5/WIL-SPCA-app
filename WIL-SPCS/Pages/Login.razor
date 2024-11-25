@@ -4,116 +4,17 @@
 @inject HttpClient Http
 @using System.ComponentModel.DataAnnotations
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+<div class="container">
+    <h1>Login</h1>
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f7fa;
-            background: url('/images/background123.png') no-repeat center center;
-            background-size: cover;
-        }
-
-        .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            border-radius: 10px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        h1 {
-            font-size: 28px;
-            color: #143963;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 600;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
-
-        input:focus {
-            border-color: #143963;
-            outline: none;
-        }
-
-        .error {
-            color: red;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        .button {
-            background-color: #143963;
-            color: #ffffff;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 18px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-        }
-
-        .button:hover {
-            background-color: #ffffff;
-            color: #143963;
-            border: 2px solid #143963;
-        }
-
-        .forgot-password {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .forgot-password a {
-            color: #143963;
-            text-decoration: underline;
-            transition: color 0.3s;
-        }
-
-        .forgot-password a:hover {
-            color: #f44336;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Login</h1>
+    @if (isLockedOut)
+    {
+        <div style="color: red; text-align: center; margin-top: 10px;">
+            Your account is locked. Please try again in @lockoutSecondsRemaining seconds.
+        </div>
+    }
+    else
+    {
         <EditForm Model="loginModel" OnValidSubmit="HandleValidSubmit">
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -131,17 +32,187 @@
             </div>
 
             <span style="color: red;">@errorMessage</span>
-            <button type="submit" class="button">Login</button>
+            <button type="submit" class="button" disabled="@isLockedOut">Login</button>
         </EditForm>
+    }
 
-        <div class="forgot-password">
-            <a href="/forgot-password">Forgot Password?</a>
-        </div>
-    </div>
-</body>
+  
+
+</div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f4f7fa;
+        background: url('/images/background123.png') no-repeat center center;
+        background-size: cover;
+    }
+
+    .container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 10px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    h1 {
+        font-size: 28px;
+        color: #143963;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+        font-weight: 600;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border 0.3s;
+    }
+
+        input:focus {
+            border-color: #143963;
+            outline: none;
+        }
+
+    .error {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .button {
+        background-color: #143963;
+        color: #ffffff;
+        padding: 14px;
+        border-radius: 8px;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+    }
+
+        .button:hover {
+            background-color: #ffffff;
+            color: #143963;
+            border: 2px solid #143963;
+        }
+
+    .forgot-password {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+        .forgot-password a {
+            color: #143963;
+            text-decoration: underline;
+            transition: color 0.3s;
+        }
+
+            .forgot-password a:hover {
+                color: #f44336;
+            }
+</style>
+
 @code {
     private LoginModel loginModel = new LoginModel();
     public string errorMessage = string.Empty;
+    private bool isLockedOut = false;
+    private int lockoutSecondsRemaining = 0;
+    private int failedAttempts = 0;
+    private const int MaxFailedAttempts = 3;
+    private const int LockoutDurationSeconds = 180;
+
+    private async Task HandleValidSubmit()
+    {
+        if (isLockedOut)
+        {
+            errorMessage = "Your account is locked. Please wait for the timer to expire.";
+            return;
+        }
+
+        errorMessage = "";
+        try
+        {
+            var encodedEmail = Uri.EscapeDataString(loginModel.Email);
+            var encodedPassword = Uri.EscapeDataString(loginModel.Password);
+            var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/Login?email={encodedEmail}&password={encodedPassword}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                failedAttempts = 0; // Reset failed attempts on successful login
+                var data = await response.Content.ReadFromJsonAsync<TokenResponse>();
+                await LocalStorage.SetItemAsync("authToken", data.Token);
+
+                var userType = GetUserTypeFromToken(data.Token);
+                Navigation.NavigateTo(userType == "Admin" ? "/desktophome" : "/welcome");
+            }
+            else
+            {
+                failedAttempts++;
+                if (failedAttempts >= MaxFailedAttempts)
+                {
+                    LockAccount();
+                }
+                else
+                {
+                    errorMessage = "Invalid login credentials. Please try again.";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred during login. Please try again.";
+        }
+    }
+
+    private void LockAccount()
+    {
+        isLockedOut = true;
+        lockoutSecondsRemaining = LockoutDurationSeconds;
+        StartLockoutTimer();
+    }
+
+    private async void StartLockoutTimer()
+    {
+        while (lockoutSecondsRemaining > 0)
+        {
+            await Task.Delay(1000); // Wait 1 second
+            lockoutSecondsRemaining--;
+            InvokeAsync(StateHasChanged);
+        }
+
+        isLockedOut = false;
+        failedAttempts = 0; // Reset failed attempts after lockout
+        InvokeAsync(StateHasChanged);
+    }
 
     private string GetUserTypeFromToken(string token)
     {
@@ -152,40 +223,6 @@
         return userTypeClaim?.Value ?? string.Empty;
     }
 
-    private async Task HandleValidSubmit()
-    {
-        errorMessage = "";
-        try
-        {
-            var encodedEmail = Uri.EscapeDataString(loginModel.Email);
-            var encodedPassword = Uri.EscapeDataString(loginModel.Password);
-            var response = await Http.GetAsync($"https://spcaapi.azurewebsites.net/api/User/Login?email={encodedEmail}&password={encodedPassword}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var data = await response.Content.ReadFromJsonAsync<TokenResponse>();
-                await LocalStorage.SetItemAsync("authToken", data.Token);
-
-                var userType = GetUserTypeFromToken(data.Token);
-                Navigation.NavigateTo(userType == "Admin" ? "/desktophome" : "/welcome");
-            }
-            else
-            {
-                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorModel>();
-                errorMessage = errorResponse.message;
-            }
-        }
-        catch (Exception ex)
-        {
-            errorMessage = "An error occurred during login. Please try again.";
-        }
-    }
-
-    public class ErrorModel
-    {
-        public string message { get; set; }
-    }
-
     public class TokenResponse
     {
         public string Token { get; set; }
@@ -193,9 +230,10 @@
 
     private class LoginModel
     {
+        [Required]
         public string Email { get; set; }
+
+        [Required]
         public string Password { get; set; }
-        public string UserType { get; set; }
     }
 }
-</html>
